@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sam.d_food.Check">
+
+    <TextView android:text="Check" android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:textColor="#FFFFFFFF"
+        android:background="#ff000000"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:smoothScrollbar="true"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
+        android:layout_below="@+id/textView"
+        android:layout_above="@+id/editText2" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:id="@+id/editText2"
+        android:textColor="#FFFFFFFF"
+        android:minHeight="40dp"
+        android:background="@drawable/border"
+        android:text="Phone: 412 736-9689\nDelivery man: 412 555-9999"
+        android:editable="false"
+        android:layout_above="@+id/editText" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:id="@+id/editText"
+        android:textColor="#FFFFFFFF"
+        android:minHeight="40dp"
+        android:background="@drawable/border"
+        android:text="Namesdfffffffffffffffffffffff"
+        android:editable="false"
+        android:layout_above="@+id/button" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Out"
+        android:textSize="40dp"
+        android:textColor="#FFFFFFFF"
+        android:background="@drawable/border"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
