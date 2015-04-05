@@ -5,8 +5,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,15 +14,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
-
-/**
- * Created by Weiwei on 4/4/2015.
- */
 public class TrackDeliveryMan extends Activity {
     private TextView numText;
     private GoogleMap map;
-    private Location location;
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
     private Marker deliveryMarker;

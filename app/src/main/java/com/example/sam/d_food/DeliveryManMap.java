@@ -17,9 +17,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by Weiwei on 4/4/2015.
- */
 public class DeliveryManMap extends Activity {
     private GoogleMap map;
     private LocationListener mLocationListener;
