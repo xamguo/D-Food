@@ -6,21 +6,29 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
-public class Check extends Activity {
+public class DeliveryHomePageActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check);
+        setContentView(R.layout.activity_delivery_home_page);
+
+        String[] itemsArray = {"Pizza, Arlington Ave", "Cake1, CMU", "Cake2, Downtown", "Cake3, S Aiken, Hurry"};
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_listview, itemsArray);
+        ListView listView = (ListView) findViewById(R.id.deliveryList);
+        listView.setAdapter(adapter);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_check, menu);
+        getMenuInflater().inflate(R.menu.menu_delivery_home_page, menu);
         return true;
     }
 
@@ -38,8 +46,10 @@ public class Check extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void usermap(View view) {
-        Intent intent = new Intent(this, TrackDeliveryMan.class);
+
+    public void deliverymap(View view) {
+        Intent intent = new Intent(this, DeliveryManMap.class);
         startActivity(intent);
     }
+
 }

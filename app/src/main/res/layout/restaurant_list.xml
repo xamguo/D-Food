@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff000000"
+    android:background="@color/my_background"
     android:minHeight="80dp">
 
 
@@ -19,12 +19,12 @@
         <TextView android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
+            style="@style/my_font"
             android:textSize="36px" />
         <TextView android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
+            style="@style/my_font"
             android:textSize="26px" />
 
     </LinearLayout>

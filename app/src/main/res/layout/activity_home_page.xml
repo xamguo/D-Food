@@ -3,25 +3,37 @@
         android:id="@+id/TableLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/my_background"
         android:padding="10dp" >
 
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/imageView"
+          android:layout_centerHorizontal="true"
+          android:src="@drawable/logo"
+          android:layout_marginTop="50dp"
+          android:layout_alignParentTop="true"/>
+
         <EditText
-          android:layout_width="450"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/editText3"
-            android:textSize="70dp"
+            android:layout_marginTop="50dp"
+            android:textSize="60dp"
             android:text="Your Location"
-           android:background="@drawable/border"
-          android:layout_alignParentTop="true"
+           android:background="@drawable/border_white"
+          android:layout_below="@id/imageView"
+            android:selectAllOnFocus="true"
           android:layout_centerHorizontal="true" />
 
         <include
             android:id="@+id/tableRow1_ref"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             layout="@layout/description"
-            android:layout_below="@id/editText3"
-            android:layout_marginTop="13dp" />
+            android:layout_below="@id/editText3" />
 
         <SeekBar
             android:id="@+id/seekBar1"
@@ -31,11 +43,13 @@
             android:layout_alignParentEnd="true" />
 
       <Button
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="New Button"
+          android:layout_width="fill_parent"
+          android:layout_height="60dp"
+          android:text="Search Restaurant"
           android:id="@+id/button2"
-          android:layout_below="@+id/seekBar1"
-          android:layout_centerHorizontal="true" />
+          android:layout_alignParentBottom="true"
+          android:layout_centerHorizontal="true"
+          android:onClick="searchbutton"
+          android:background="@color/my_green"/>
 
   </RelativeLayout>

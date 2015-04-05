@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/trackMap"
+        android:layout_width="match_parent"
+        android:layout_height="498dp"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_weight="0.36" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.62"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/deliverymanNum"
+            android:id="@+id/deliverymanNumTextView"
+            android:layout_weight="0.74"
+            android:textColor="#ff000000"
+            android:textSize="40sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Call"
+            android:id="@+id/customCallButton"
+            android:layout_weight="0.27"
+            android:textSize="40sp"
+            android:textColor="#ff000000" />
+    </LinearLayout>
+
+</LinearLayout>

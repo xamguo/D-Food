@@ -8,19 +8,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class Check extends Activity {
+public class RegisterPageActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check);
+        setContentView(R.layout.activity_register_page);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_check, menu);
+        getMenuInflater().inflate(R.menu.menu_register_page, menu);
         return true;
     }
 
@@ -38,8 +38,9 @@ public class Check extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void usermap(View view) {
-        Intent intent = new Intent(this, TrackDeliveryMan.class);
+
+    public void userhome(View view){
+        Intent intent = new Intent(this, UserHomePageActivity.class);
         startActivity(intent);
     }
 }

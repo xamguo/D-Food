@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Resaurant_Result extends ListActivity {
+public class Restaurant_Result extends ListActivity {
 
     private List<Map<String, Object>> mData;
     View justview;
@@ -134,14 +134,14 @@ public class Resaurant_Result extends ListActivity {
     @Override
     protected void onResume() {
        if(justview != null)
-            justview.setBackgroundColor(Color.GRAY);
+            justview.setBackgroundColor(Color.WHITE);
         super.onResume();
     }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         justview = v;
-        v.setBackgroundColor(Color.BLUE);
+        v.setBackgroundColor(Color.GRAY);
         Intent intent = new Intent(this,Dish_Result.class);
         startActivity(intent);
     }

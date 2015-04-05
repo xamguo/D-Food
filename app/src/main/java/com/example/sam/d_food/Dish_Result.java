@@ -3,6 +3,8 @@ package com.example.sam.d_food;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.Map;
 
 public class Dish_Result extends ListActivity {
 
+    View justview;
     private List<Map<String, Object>> mData;
 
     @Override
@@ -32,6 +36,11 @@ public class Dish_Result extends ListActivity {
         mData = getData();
         MyAdapter adapter = new MyAdapter(this);
         setListAdapter(adapter);
+    }
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        Intent intent = new Intent(this,DishInfo.class);
+        startActivity(intent);
     }
 
     private List<Map<String, Object>> getData() {
