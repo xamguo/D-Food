@@ -46,7 +46,7 @@
         android:background="@drawable/border"
         android:text="Namesdfffffffffffffffffffffff"
         android:editable="false"
-        android:layout_above="@+id/button" />
+        android:layout_above="@+id/startDeliverybutton" />
 
     <Button
         android:layout_width="fill_parent"
@@ -55,7 +55,7 @@
         android:textSize="40dp"
         android:textColor="#FFFFFFFF"
         android:background="@drawable/border"
-        android:id="@+id/button"
+        android:id="@+id/startDeliverybutton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="usermap"/>
