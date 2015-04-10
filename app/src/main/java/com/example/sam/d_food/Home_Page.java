@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 public class Home_Page extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.activity_home_page);
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar1);
