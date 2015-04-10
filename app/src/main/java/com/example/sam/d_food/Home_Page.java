@@ -15,7 +15,7 @@ public class Home_Page extends Activity {
         super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.activity_home_page);
 
-        SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar1);
+        SeekBar seekBar = (SeekBar)findViewById(R.id.homeSeekBar);
         seekBar.incrementProgressBy(10);
         seekBar.setMax(20);
         seekBar.setProgress(20);
