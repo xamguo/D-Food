@@ -25,7 +25,7 @@ public class LoginPageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
-        accountID=(TextView)findViewById(R.id.account);
+        accountID=(TextView)findViewById(R.id.accountID);
         password=(TextView)findViewById(R.id.password);
 
         userSwitch=(Switch)findViewById(R.id.switchUser);
