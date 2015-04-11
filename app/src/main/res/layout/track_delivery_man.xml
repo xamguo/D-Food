@@ -1,39 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/trackMap"
         android:layout_width="match_parent"
-        android:layout_height="498dp"
+        android:layout_height="438dp"
         android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_weight="0.36" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_above="@+id/tableRow" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.62"
-        android:weightSum="1">
+        android:layout_marginLeft="0dp"
+        android:id="@+id/tableRow"
+        android:layout_above="@+id/tableRow2"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/deliverymanNum"
             android:id="@+id/deliverymanNumTextView"
-            android:layout_weight="0.74"
             android:textColor="#ff000000"
-            style="@style/my_font_medium" />
+            style="@style/my_font_small"
+            android:width="200dp" />
 
-        <Button
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            style="@style/my_font_small" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/tableRow2"
+        android:layout_above="@+id/customCallButton"
+        android:layout_alignParentStart="true">
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Call"
-            android:id="@+id/customCallButton"
-            android:layout_weight="0.27"
-            style="@style/my_font_medium"
-            android:textColor="#ff000000" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView3"
+            style="@style/my_font_small"
+            android:width="200dp" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView10"
+            style="@style/my_font_small" />
+    </TableRow>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call"
+        android:id="@+id/customCallButton"
+        style="@style/my_font_small"
+        android:textColor="#ff000000"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="350dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="87dp" />
+
+</RelativeLayout>
