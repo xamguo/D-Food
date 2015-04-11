@@ -1,9 +1,11 @@
 package com.example.sam.d_food.presentation.main_page;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.integration.service.DataService;
@@ -22,12 +25,14 @@ import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListA
 public class HomePageActivity extends Activity {
     DataService service;
     boolean mBound = false;
+    MyReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.activity_home_page);
 
+        receiver();
         startService();
 
 
@@ -90,7 +95,10 @@ public class HomePageActivity extends Activity {
 
     private void bindService() {
         Intent intent = new Intent(this, DataService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        Log.v("Start bind service","xiao");
+        intent.putExtra("Test","This String is from homepage");
+        boolean b = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        Log.v("connected service",String.valueOf(b));
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -108,4 +116,27 @@ public class HomePageActivity extends Activity {
             mBound = false;
         }
     };
+
+    private void receiver() {
+        myReceiver = new MyReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("MY_ACTION");
+        registerReceiver(myReceiver, intentFilter);
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            // TODO Auto-generated method stub
+
+            int datapassed = arg1.getIntExtra("DATAPASSED", 0);
+
+            Toast.makeText(HomePageActivity.this,
+                    "Triggered by Service!\n"
+                            + "Data passed: " + String.valueOf(datapassed),
+                    Toast.LENGTH_LONG).show();
+
+        }
+    }
 }

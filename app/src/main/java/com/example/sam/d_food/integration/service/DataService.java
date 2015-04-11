@@ -3,6 +3,9 @@ package com.example.sam.d_food.integration.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 
 
 public class DataService extends IntentService {
@@ -48,6 +51,7 @@ public class DataService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.v("Service Started", "xiao");
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_FOO.equals(action)) {
@@ -60,6 +64,20 @@ public class DataService extends IntentService {
                 handleActionBaz(param1, param2);
             }
         }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+
+        Log.v("Binded from service","xiao");
+
+        Bundle extras = intent.getExtras();
+        String get = (String)extras.get("Test");
+
+        Log.v("data from activity",get);
+        MyThread myThread = new MyThread();
+        myThread.start();
+        return super.onBind(intent);
     }
 
     /**
@@ -76,5 +94,28 @@ public class DataService extends IntentService {
      */
     private void handleActionBaz(String param1, String param2) {
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public class MyThread extends Thread{
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            for(int i=0; i<10; i++){
+                try {
+                    Thread.sleep(5000);
+                    Intent intent = new Intent();
+                    intent.setAction("MY_ACTION");
+
+                    intent.putExtra("DATAPASSED", i);
+
+                    sendBroadcast(intent);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            stopSelf();
+        }
     }
 }
