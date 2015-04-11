@@ -3,7 +3,7 @@
         android:id="@+id/TableLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/my_background"
+        android:background="@drawable/background"
         android:padding="10dp" >
 
       <ImageView
@@ -11,7 +11,7 @@
           android:layout_height="wrap_content"
           android:id="@+id/logo"
           android:layout_centerHorizontal="true"
-          android:src="@drawable/logo"
+          android:src="@drawable/logo2"
           android:layout_marginTop="50dp"
           android:layout_alignParentTop="true"/>
 
@@ -41,6 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tableRow1_ref"
             android:layout_alignParentEnd="true"
+            android:background="@drawable/xiaog2"
+            android:progressDrawable="@drawable/seekbar"
             android:indeterminate="false" />
 
       <Button
