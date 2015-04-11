@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class TrackDeliveryManActivity extends Activity {
     private TextView numText;
+    private TextView nameText;
     private GoogleMap map;
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
@@ -48,8 +49,11 @@ public class TrackDeliveryManActivity extends Activity {
 
         myLocation = new LatLng(40.446650, -79.951912);
         zoomToLocation(myLocation);
-        numText = (TextView) findViewById(R.id.deliverymanNumTextView);
+        numText = (TextView) findViewById(R.id.dManNumText);
         numText.setText("412-111-2222");
+
+        nameText = (TextView) findViewById(R.id.dManNameText);
+        nameText.setText("Jason Goldman");
     }
     protected Location updateLocation() {
         mLocationListener = new LocationListener() {

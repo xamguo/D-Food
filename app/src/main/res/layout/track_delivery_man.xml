@@ -34,8 +34,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView9"
-            style="@style/my_font_small" />
+            android:id="@+id/dManNumText"
+            style="@style/my_font_small"
+            android:gravity="center" />
     </TableRow>
 
     <TableRow
@@ -49,22 +50,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView3"
+            android:text="@string/dManName"
+            android:id="@+id/dManNameTextView"
             style="@style/my_font_small"
             android:width="200dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView10"
-            style="@style/my_font_small" />
+            android:id="@+id/dManNameText"
+            style="@style/my_font_small"
+            android:gravity="center" />
     </TableRow>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Call"
         android:id="@+id/customCallButton"
         style="@style/my_font_small"
         android:textColor="#ff000000"
@@ -72,6 +73,8 @@
         android:layout_marginLeft="350dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="87dp" />
+        android:layout_marginBottom="87dp"
+        android:background="@drawable/call"/>
+
 
 </RelativeLayout>
