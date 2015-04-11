@@ -10,10 +10,9 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/logo"
-          android:layout_centerHorizontal="true"
           android:src="@drawable/logo4"
-          android:layout_marginTop="50dp"
-          android:layout_alignParentTop="true"/>
+          android:layout_alignParentTop="true"
+          android:layout_centerHorizontal="true" />
 
         <EditText
               android:layout_width="fill_parent"
@@ -23,12 +22,12 @@
                 style="@style/my_font_big_grey"
 
                 android:gravity="center"
-                android:text="Your Location"
-               android:background="@drawable/searchbox"
+            android:background="@drawable/searchbox"
 
               android:layout_below="@id/logo"
                 android:selectAllOnFocus="true"
-              android:layout_centerHorizontal="true" />
+              android:layout_centerHorizontal="true"
+            android:hint="Your Location" />
 
         <include
             android:id="@+id/tableRow1_ref"

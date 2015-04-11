@@ -24,7 +24,7 @@
             android:id="@+id/deliverymanNumTextView"
             android:layout_weight="0.74"
             android:textColor="#ff000000"
-            android:textSize="40sp" />
+            style="@style/my_font_medium" />
 
         <Button
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:text="Call"
             android:id="@+id/customCallButton"
             android:layout_weight="0.27"
-            android:textSize="40sp"
+            style="@style/my_font_medium"
             android:textColor="#ff000000" />
     </LinearLayout>
 
