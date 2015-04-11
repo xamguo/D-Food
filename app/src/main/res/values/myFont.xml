@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="my_font" >
+    <style name="my_font_big_black" >
+        <item name="android:textSize">50dp</item>
+        <item name="android:textColor">#ff000000</item>
+    </style>
+    <style name="my_font_big_grey" >
+        <item name="android:textSize">50dp</item>
+        <item name="android:textColor">@color/material_blue_grey_950</item>
+    </style>
+    <style name="my_font_small" >
+        <item name="android:textSize">30dp</item>
         <item name="android:textColor">#ff000000</item>
     </style>
 </resources>

@@ -19,12 +19,12 @@
         <TextView android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/my_font"
+            style="@style/my_font_small"
             android:textSize="36px" />
         <TextView android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/my_font"
+            style="@style/my_font_small"
             android:textSize="26px" />
 
     </LinearLayout>

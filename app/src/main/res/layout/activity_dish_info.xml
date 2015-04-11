@@ -5,13 +5,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@color/my_background"
-    tools:context="com.example.sam.d_food.DishInfo">
+    tools:context="com.example.sam.d_food.presentation.dish_page.DishInfoActivity">
 
     <TextView android:text="AAA Restaurant" android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="40dp"
-        style="@style/my_font"
+        style="@style/my_font_big_black"
         android:background="@drawable/border_white"
         android:id="@+id/textView8" />
 
@@ -31,7 +31,7 @@
         android:text=" Details: American Burger\n $9.00\n Location:"
         android:textSize="30dp"
         android:layout_toRightOf="@+id/dishImage"
-        style="@style/my_font"
+        style="@style/my_font_big_black"
         android:id="@+id/dishInfo"
         android:layout_below="@+id/textView8"
         android:background="@drawable/border_white"/>

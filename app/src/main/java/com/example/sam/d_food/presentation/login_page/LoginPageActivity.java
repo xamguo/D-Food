@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.login_page;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
+import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 
 public class LoginPageActivity extends Activity {

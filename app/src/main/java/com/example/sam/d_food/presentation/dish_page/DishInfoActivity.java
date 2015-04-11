@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.dish_page;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,8 +11,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.check_page.CheckActivity;
 
-public class DishInfo extends Activity {
+
+public class DishInfoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class DishInfo extends Activity {
 
     }
     private void goCheck(){
-        Intent intent = new Intent(this, Check.class);
+        Intent intent = new Intent(this, CheckActivity.class);
         startActivity(intent);
     }
 }

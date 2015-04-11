@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.user_page.TrackDeliveryManActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -17,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class DeliveryManMap extends Activity {
+public class DeliveryManMapActivity extends Activity {
     private GoogleMap map;
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
@@ -53,7 +55,7 @@ public class DeliveryManMap extends Activity {
 //        Uri gmmIntentUri = Uri.parse(uri);
 //        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
 //        mapIntent.setPackage("com.google.android.apps.maps");
-        Intent locationIntent = new Intent(this, TrackDeliveryMan.class);
+        Intent locationIntent = new Intent(this, TrackDeliveryManActivity.class);
         locationIntent.putExtra("location", loc);
         startActivity(locationIntent);
     }

@@ -1,6 +1,5 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.restaurant_page;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +8,16 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.dish_page.DishResultListActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class Restaurant_Result extends ListActivity {
+public class RestaurantResultListActivity extends ListActivity {
 
     private List<Map<String, Object>> mData;
     View justview;
@@ -142,7 +144,7 @@ public class Restaurant_Result extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         justview = v;
         v.setBackgroundColor(Color.GRAY);
-        Intent intent = new Intent(this,Dish_Result.class);
+        Intent intent = new Intent(this,DishResultListActivity.class);
         startActivity(intent);
     }
 

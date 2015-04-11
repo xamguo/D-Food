@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.check_page;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,20 +7,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.user_page.TrackDeliveryManActivity;
 
-public class RegisterPageActivity extends Activity {
+
+public class CheckActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_page);
+        setContentView(R.layout.activity_check);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register_page, menu);
+        getMenuInflater().inflate(R.menu.menu_check, menu);
         return true;
     }
 
@@ -38,9 +41,8 @@ public class RegisterPageActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void userhome(View view){
-        Intent intent = new Intent(this, UserHomePageActivity.class);
+    public void usermap(View view) {
+        Intent intent = new Intent(this, TrackDeliveryManActivity.class);
         startActivity(intent);
     }
 }

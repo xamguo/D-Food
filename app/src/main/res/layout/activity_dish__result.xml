@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/my_list"
-    tools:context="com.example.sam.d_food.Dish_Result">
+    tools:context="com.example.sam.d_food.presentation.dish_page.DishResultListActivity">
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

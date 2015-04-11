@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.main_page;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,8 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 
+import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.login_page.LoginPageActivity;
+import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
-public class Home_Page extends Activity {
+
+public class HomePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //submission Test
@@ -57,7 +61,7 @@ public class Home_Page extends Activity {
     }
 
     public void searchbutton(View view){
-        Intent intent = new Intent(this,Restaurant_Result.class);
+        Intent intent = new Intent(this,RestaurantResultListActivity.class);
         startActivity(intent);
     }
 }

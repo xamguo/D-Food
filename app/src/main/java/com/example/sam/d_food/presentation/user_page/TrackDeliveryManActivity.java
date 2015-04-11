@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.user_page;
 
 import android.app.Activity;
 import android.location.Location;
@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.sam.d_food.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -14,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class TrackDeliveryMan extends Activity {
+public class TrackDeliveryManActivity extends Activity {
     private TextView numText;
     private GoogleMap map;
     private LocationListener mLocationListener;

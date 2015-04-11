@@ -20,8 +20,8 @@
               android:layout_height="wrap_content"
               android:id="@+id/locationField"
                 android:layout_marginTop="50dp"
-            android:textColor="@color/material_blue_grey_950"
-                android:textSize="50dp"
+                style="@style/my_font_big_grey"
+
                 android:gravity="center"
                 android:text="Your Location"
                android:background="@drawable/searchbox"

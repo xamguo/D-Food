@@ -1,4 +1,4 @@
-package com.example.sam.d_food;
+package com.example.sam.d_food.presentation.dish_page;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -9,10 +9,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.sam.d_food.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Dish_Result extends ListActivity {
+public class DishResultListActivity extends ListActivity {
 
     private List<Map<String, Object>> mData;
 
@@ -35,7 +35,7 @@ public class Dish_Result extends ListActivity {
     }
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(this,DishInfo.class);
+        Intent intent = new Intent(this,DishInfoActivity.class);
         startActivity(intent);
     }
 
