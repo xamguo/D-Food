@@ -77,6 +77,7 @@ public class LoginPageActivity extends Activity {
                                 }else{
                                     launchUser=new Intent(LoginPageActivity.this, UserHomePageActivity.class);
                                 }
+                                launchUser.putExtra("toggle", toggle);
                                 startActivity(launchUser);
                             } // end method onPostExecute
                         }; // end AsyncTask
