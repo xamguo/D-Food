@@ -1,4 +1,4 @@
-package com.example.sam.d_food.business.user;
+package com.example.sam.d_food.business.deliveryman;
 
 import com.example.sam.d_food.integration.database.DatabaseConnector;
 
@@ -17,7 +17,7 @@ public class Login {
     }
     public Boolean authenticate(){
         Boolean exist=false;
-        if (db.checkUser(this.userName, this.password)){
+        if (db.checkDeliveryman(this.userName, this.password)){
             exist=true;
         }
         return exist;
