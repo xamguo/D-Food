@@ -10,9 +10,6 @@ import android.widget.Toast;
 import com.example.sam.d_food.presentation.main_page.HomePageActivity;
 import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
-/**
- * Created by Sam on 4/11/2015.
- */
 public class SearchReceiver extends BroadcastReceiver {
 
     int dataReceived;
