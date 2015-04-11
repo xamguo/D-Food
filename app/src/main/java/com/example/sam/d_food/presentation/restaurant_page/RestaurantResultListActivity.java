@@ -1,14 +1,19 @@
 package com.example.sam.d_food.presentation.restaurant_page;
 
 import android.app.ListActivity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.integration.service.DataService;
 import com.example.sam.d_food.presentation.dish_page.DishResultListActivity;
 
 import java.util.ArrayList;
@@ -208,4 +213,5 @@ public class RestaurantResultListActivity extends ListActivity {
             return convertView;
         }
     }
+
 }
