@@ -17,13 +17,13 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.business.user.Search;
 import com.example.sam.d_food.integration.service.DataService;
 import com.example.sam.d_food.presentation.login_page.LoginPageActivity;
 import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
 
 public class HomePageActivity extends Activity {
-    DataService service;
     boolean mBound = false;
     MyReceiver myReceiver;
 
@@ -56,7 +56,11 @@ public class HomePageActivity extends Activity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                bindService();
+                Search s = new Search(HomePageActivity.this);
+                double x,y;
+                x=1.1;
+                y=2.2;
+                s.search(1.1,1.1);
             }
         });
     }
