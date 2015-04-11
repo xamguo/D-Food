@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.sam.d_food.integration.database.DatabaseConnector;
+
 
 public class DataService extends IntentService {
+    DatabaseConnector db;
 
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     private static final String ACTION_FOO = "com.example.sam.d_food.integration.service.action.FOO";
@@ -51,7 +54,9 @@ public class DataService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.v("Service Started", "xiao");
+        Log.v("Service Started", "D-food");
+        setupDatabase();//create database
+
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_FOO.equals(action)) {
@@ -72,12 +77,25 @@ public class DataService extends IntentService {
         Log.v("Binded from service","xiao");
 
         Bundle extras = intent.getExtras();
-        String get = (String)extras.get("Test");
-
-        Log.v("data from activity",get);
-        MyThread myThread = new MyThread();
-        myThread.start();
+        String mode = (String)extras.get("Mode");
+        if(mode.equals("Search"))
+            searchMode(extras);
         return super.onBind(intent);
+    }
+
+    private void searchMode(Bundle extras) {
+
+        String longitude = (String)extras.get("longitude");
+        String latitude = (String)extras.get("latitude");
+        String price = (String)extras.get("price");
+
+        Log.v("Service get longitude",longitude);
+        Log.v("Service get latitude",latitude);
+        Log.v("Service get price",price);
+
+        Search mySearch = new Search();
+        mySearch.start();
+
     }
 
     /**
@@ -96,26 +114,28 @@ public class DataService extends IntentService {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public class MyThread extends Thread{
+    public class Search extends Thread{
 
         @Override
         public void run() {
             // TODO Auto-generated method stub
-            for(int i=0; i<10; i++){
-                try {
-                    Thread.sleep(5000);
-                    Intent intent = new Intent();
-                    intent.setAction("MY_ACTION");
+            try {
+                Thread.sleep(500);
+                Intent intent = new Intent();
+                intent.setAction("MY_ACTION");
 
-                    intent.putExtra("DATAPASSED", i);
+                intent.putExtra("DATAPASSED", 0);
 
-                    sendBroadcast(intent);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                sendBroadcast(intent);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             stopSelf();
         }
+    }
+
+    public void setupDatabase() {
+        db = new DatabaseConnector(this);
     }
 }
