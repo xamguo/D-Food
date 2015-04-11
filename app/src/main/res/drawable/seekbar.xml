@@ -7,7 +7,7 @@
     </item>
     <item android:id="@android:id/progress">
         <scale
-            android:drawable="@drawable/xiaog"
+            android:drawable="@drawable/row2"
             android:scaleWidth="100%"/>
     </item>
 

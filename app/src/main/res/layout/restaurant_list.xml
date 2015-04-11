@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/my_background"
+    android:background="@drawable/background_transparent"
     android:minHeight="80dp">
 
 

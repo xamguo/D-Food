@@ -20,6 +20,8 @@
     <color name="my_background_dark">#ff000000</color>
     <color name="my_list">#FFFFFFFF</color>
     <color name="my_green">#ff10971a</color>
+    <color name="my_red">#ffff0000</color>
+    <color name="my_dark_red">#ffc60300</color>
     <string name="title_activity_dish_info">DishInfo</string>
 
     <string-array name="array_name">
