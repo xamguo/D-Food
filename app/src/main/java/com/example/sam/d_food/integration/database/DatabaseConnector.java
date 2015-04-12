@@ -41,7 +41,11 @@ public class DatabaseConnector
         // create or open a database for reading/writing
         database = databaseOpenHelper.getWritableDatabase();
     } // end method open
-
+    public void check() throws SQLException
+    {
+        // create or open a database for reading/writing
+        database = databaseOpenHelper.getReadableDatabase();
+    }
     // close the database connection
     public void close()
     {
@@ -113,25 +117,26 @@ public class DatabaseConnector
 
     public boolean checkUser(String userName, String password) {
         boolean check=false;
+        check();
+
         Cursor cursor=database.rawQuery("SELECT userName, password FROM Users WHERE userName = '"+ userName + "' AND password ='"+ password + "'", null);
-        if(cursor==null){
+        if(!cursor.moveToFirst()){
             check=false;
         }
         else{
             check=true;
-            cursor.moveToFirst();
         }
         return check;
     }
     public boolean checkDeliveryman(String userName, String password) {
         boolean check=false;
+        check();
         Cursor cursor=database.rawQuery("SELECT userName, password FROM Deliveryman WHERE userName = '"+ userName + "' AND password ='"+ password + "'", null);
-        if(cursor==null){
+        if(!cursor.moveToFirst()){
             check=false;
         }
         else{
             check=true;
-            cursor.moveToFirst();
         }
         return check;
     }
@@ -259,6 +264,7 @@ public class DatabaseConnector
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             Date date = new Date();
+            String dateString="";
 
             // query to create a new table named history
             String createQuery = "CREATE TABLE history" +
@@ -268,13 +274,13 @@ public class DatabaseConnector
                     "startdate TEXT, enddate TEXT);";
 
             String createUsersTable= "CREATE TABLE "
-                    + "Users" + "(" + "_id" + " INTEGER PRIMARY KEY autoincrement," + "userName"
-                    + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+ dateFormat.format(date)
+                    + "Users" + "(" + "id" + " INTEGER PRIMARY KEY autoincrement," + "userName"
+                    + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+""+dateString
                     + " TEXT" + ")";
 
             String createDeliverymanTable= "CREATE TABLE "
-                    + "Deliveryman" + "(" + "_id" + " INTEGER PRIMARY KEY autoincrement," + "userName"
-                    + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+ dateFormat.format(date)
+                    + "Deliveryman" + "(" + "id" + " INTEGER PRIMARY KEY autoincrement," + "userName"
+                    + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+""+dateString
                     + " TEXT" + ")";
             db.execSQL(createQuery); // execute the query
             db.execSQL(createUsersTable); // execute the query

@@ -63,10 +63,6 @@
             android:label="@string/title_activity_register_page" >
         </activity>
         <activity
-            android:name=".presentation.deliveryman_page.DeliveryManMapActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".presentation.user_page.TrackDeliveryManActivity"
             android:label="@string/app_name" >
         </activity>

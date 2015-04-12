@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.presentation.deliveryman_page.DeliveryManMapActivity;
 
 
 public class UserHomePageActivity extends Activity {
@@ -42,7 +41,7 @@ public class UserHomePageActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
     public void usermap(View view) {
-        Intent intent = new Intent(this, DeliveryManMapActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, DeliveryManMapActivity.class);
+        //startActivity(intent);
     }
 }
