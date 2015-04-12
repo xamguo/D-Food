@@ -23,16 +23,22 @@ import java.util.Map;
 public class DishResultListActivity extends ListActivity {
 
     private List<Map<String, Object>> mData;
+    String restaurant_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish__result);
 
+        Bundle extras = getIntent().getExtras();
+        restaurant_id = extras.getString("position");
+
         mData = getData();
         MyAdapter adapter = new MyAdapter(this);
         setListAdapter(adapter);
     }
+
+
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Intent intent = new Intent(this,DishInfoActivity.class);

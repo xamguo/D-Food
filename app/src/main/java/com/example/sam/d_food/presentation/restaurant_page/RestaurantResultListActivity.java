@@ -161,8 +161,12 @@ public class RestaurantResultListActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         justview = v;
         v.setBackgroundColor(Color.GRAY);
+
+
         Intent intent = new Intent(this,DishResultListActivity.class);
+        intent.putExtra("position",position);
         startActivity(intent);
+
     }
 
     public class MyAdapter extends BaseAdapter {
