@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/my_list"
+    android:minHeight="40dp"
+    android:baselineAligned="true"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView android:id="@+id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/my_font_small"
+            android:textSize="32px"
+            android:layout_gravity="start"
+            android:maxWidth="400dp"
+            android:text="teststedddddddddddddddddddddddddsddddddddddddddddddddddd"/>
+        <TextView android:id="@+id/blank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <TextView android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/my_font_small"
+            android:layout_marginRight="10dp"
+            android:textSize="30px"
+            android:layout_gravity="right"
+            android:textStyle="bold"
+            android:text="dsfdfdsf"
+            android:maxWidth="160dp"/>
+    </LinearLayout>
+</LinearLayout>

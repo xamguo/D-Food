@@ -1,0 +1,61 @@
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/TableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/my_dark_red"
+        android:padding="10dp" >
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/logo"
+          android:src="@drawable/logo4"
+          android:layout_alignParentTop="true"
+          android:layout_centerHorizontal="true" />
+
+        <EditText
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/locationField"
+                android:layout_marginTop="50dp"
+                style="@style/my_font_big_grey"
+
+                android:gravity="center"
+            android:background="@drawable/searchbox"
+
+              android:layout_below="@id/logo"
+                android:selectAllOnFocus="true"
+              android:layout_centerHorizontal="true"
+            android:hint="Your Location" />
+
+        <include
+            android:id="@+id/tableRow1_ref"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            layout="@layout/description"
+            android:layout_below="@id/locationField" />
+
+        <SeekBar
+            android:id="@+id/homeSeekBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow1_ref"
+            android:layout_alignParentEnd="true"
+            android:thumb="@drawable/thumb"
+            android:background="@drawable/row"
+            android:progressDrawable="@drawable/seekbar"
+            android:indeterminate="false" />
+
+      <Button
+          android:layout_width="270dp"
+          android:layout_height="70dp"
+          android:text="D-Food Search"
+          android:id="@+id/searchRestaurant"
+          android:layout_alignParentBottom="true"
+          android:layout_centerHorizontal="true"
+          android:onClick="searchbutton"
+          android:background="@drawable/button"/>
+
+  </RelativeLayout>
