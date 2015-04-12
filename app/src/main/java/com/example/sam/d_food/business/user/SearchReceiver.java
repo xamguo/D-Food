@@ -7,13 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.example.sam.d_food.integration.service.Data;
 import com.example.sam.d_food.presentation.main_page.HomePageActivity;
 import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
 public class SearchReceiver extends BroadcastReceiver {
 
-    Data dataReceived;
+    int dataReceived;
     Activity activity;
     Intent intent;
 
@@ -30,7 +29,7 @@ public class SearchReceiver extends BroadcastReceiver {
             HomePageActivity.dialog.dismiss();
         }
 
-        //dataReceived = (Data) arg1.getSerializableExtra("SearchResult");
+        dataReceived = arg1.getIntExtra("DATAPASSED", 0);
         activity.startActivity(intent);
     }
 }

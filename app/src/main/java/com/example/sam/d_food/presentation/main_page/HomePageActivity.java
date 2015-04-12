@@ -15,9 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
@@ -34,7 +32,6 @@ public class HomePageActivity extends Activity {
     public static ProgressDialog dialog;
     private String price;
     static boolean receiverSign = false;
-    private EditText textView_location;
     Search s;
 
     @Override
@@ -42,8 +39,8 @@ public class HomePageActivity extends Activity {
         super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.activity_home_page);
 
-        textView_location = (EditText) findViewById(R.id.locationField);
         startService();
+
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.homeSeekBar);
         seekBar.incrementProgressBy(10);
@@ -104,8 +101,6 @@ public class HomePageActivity extends Activity {
 
     public void searchbutton(View view){
 
-        String location = textView_location.getText().toString();
-
         if(s != null) {
             s.unbindService();
         }
@@ -113,7 +108,6 @@ public class HomePageActivity extends Activity {
         if(receiverSign == true){
             unReceiver();
         }
-
         receiver();
 
         dialog = new ProgressDialog(this);
@@ -123,13 +117,12 @@ public class HomePageActivity extends Activity {
         double x,y;
         x=1.1;
         y=2.2;      //value for simulation
-        s.search(x,y,price,location);
+        s.search(x,y,price);
     }
 
     @Override
     protected void onPause() {
         if(s != null) {
-            unReceiver();
             s.unbindService();
             Log.v("unbindService","here");
         }
