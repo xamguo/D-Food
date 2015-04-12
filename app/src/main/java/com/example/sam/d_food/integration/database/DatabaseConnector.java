@@ -72,6 +72,21 @@ public class DatabaseConnector
         close(); // close the database
     } // end method insertContact
 
+    public void insertRestaurant(String location, double longitude, double latitude,
+                              String name, int price)
+    {
+        ContentValues newRestaurant = new ContentValues();
+        newRestaurant.put("location", location);
+        newRestaurant.put("longitude", longitude);
+        newRestaurant.put("latitude", latitude);
+        newRestaurant.put("name", name);
+        newRestaurant.put("price", price);
+
+        open(); // open the database
+        database.insert("restaurant", null, newRestaurant);
+        close(); // close the database
+    } // end method insertContact
+
     // inserts a new contact in the database
     public void updateContact(long id, String price, String downpay,
                               String term, String rate, String money, String total, String startdate, String enddate)
@@ -99,12 +114,31 @@ public class DatabaseConnector
                 null, null, null, null, "_id");
     } // end method getAllhistory
 
+    public Cursor getAllRestaurant()
+    {
+        return database.query("restaurant", new String[] {"_id", "location", "longitude","latitude", "name",
+                        "price"},
+                null, null, null, null, "_id");
+    } // end method getAllhistory
+
     // get a Cursor containing all information about the contact specified
     // by the given id
     public Cursor getOneContact(long id)
     {
         return database.query(
                 "history", null, "_id=" + id, null, null, null, null);
+    } // end method getOnContact
+
+    public Cursor getOneRestaurant(long id)
+    {
+        return database.query(
+                "restaurant", null, "_id=" + id, null, null, null, null);
+    } // end method getOnContact
+
+    public Cursor getRestaurantByLocation(String location)
+    {
+        return database.query(
+                "restaurant", null, "location= '" + location +"'", null, null, null, null);
     } // end method getOnContact
 
     // delete the contact specified by the given String price
@@ -273,6 +307,11 @@ public class DatabaseConnector
                     "rate TEXT, money TEXT, total TEXT, " +
                     "startdate TEXT, enddate TEXT);";
 
+            String createRestaurant = "CREATE TABLE restaurant" +
+                    "(_id integer primary key autoincrement," +
+                    "location TEXT, longitude DOUBLE, latitude DOUBLE," +
+                    "name TEXT, price INT);";
+
             String createUsersTable= "CREATE TABLE "
                     + "Users" + "(" + "id" + " INTEGER PRIMARY KEY autoincrement," + "userName"
                     + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+""+dateString
@@ -285,6 +324,7 @@ public class DatabaseConnector
             db.execSQL(createQuery); // execute the query
             db.execSQL(createUsersTable); // execute the query
             db.execSQL(createDeliverymanTable); // execute the query
+            db.execSQL(createRestaurant);
         } // end method onCreate
 
         @Override

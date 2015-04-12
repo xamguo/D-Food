@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/accountID"
         android:layout_marginTop="42dp"
+        android:selectAllOnFocus="true"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:text="Account ID" />
@@ -29,6 +30,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:selectAllOnFocus="true"
         android:id="@+id/password"
         android:layout_below="@+id/accountID"
         android:layout_centerHorizontal="true"
