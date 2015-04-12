@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Account ID"
+        android:selectAllOnFocus="true"
         android:ems="10"
         android:id="@+id/accountID"
         android:layout_below="@+id/textView7"
@@ -33,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/password"
+        android:selectAllOnFocus="true"
         android:layout_below="@+id/accountID"
         android:layout_alignStart="@+id/accountID"
         android:text="Password" />
@@ -41,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rePassword"
+        android:selectAllOnFocus="true"
         android:layout_below="@+id/password"
         android:layout_alignStart="@+id/password"
         android:text="Re-enter Password" />
@@ -59,6 +62,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
+        android:selectAllOnFocus="true"
         android:id="@+id/address"
         android:layout_below="@+id/rePassword"
         android:layout_alignStart="@+id/rePassword"

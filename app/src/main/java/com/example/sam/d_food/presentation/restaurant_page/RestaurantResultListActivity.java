@@ -13,6 +13,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.integration.service.Data;
 import com.example.sam.d_food.integration.service.DataService;
 import com.example.sam.d_food.presentation.dish_page.DishResultListActivity;
 
@@ -32,10 +33,21 @@ public class RestaurantResultListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resaurant__result);
 
-        mData = getData();
-        MyAdapter adapter = new MyAdapter(this);
-        setListAdapter(adapter);
+//        mData = getData();
+//        MyAdapter adapter = new MyAdapter(this);
+//        setListAdapter(adapter);
+        setMyAdapter();
 
+    }
+
+    private void setMyAdapter() {
+        String[] from = new String[] { "name", "location"};
+        int[] to = new int[] { R.id.title,R.id.info};
+        int flag = 0;
+        CursorAdapter historyAdapter = new SimpleCursorAdapter(
+                this, R.layout.restaurant_list, null, from, to, flag);
+        historyAdapter.changeCursor(Data.getC());
+        setListAdapter(historyAdapter);
     }
 
     private List<Map<String, Object>> getData() {
