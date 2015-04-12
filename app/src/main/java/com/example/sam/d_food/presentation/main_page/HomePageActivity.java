@@ -129,7 +129,7 @@ public class HomePageActivity extends Activity {
     @Override
     protected void onPause() {
         if(s != null) {
-            unReceiver();
+            //unReceiver();
             s.unbindService();
             Log.v("unbindService","here");
         }
