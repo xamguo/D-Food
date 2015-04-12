@@ -50,8 +50,8 @@ public class DeliveryHomePageActivity extends Activity {
     }
 
     public void deliverymap(View view) {
-        Intent intent = new Intent(this, DeliveryManMapActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, DeliveryManMapActivity.class);
+        //startActivity(intent);
     }
 
 }

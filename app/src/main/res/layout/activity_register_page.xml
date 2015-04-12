@@ -50,8 +50,18 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/register"
+        android:onClick="userhome"
+        android:layout_below="@+id/address"
+        android:layout_toEndOf="@+id/password" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/address"
         android:layout_below="@+id/rePassword"
-        android:layout_toEndOf="@+id/password"
-        android:onClick="userhome"/>
+        android:layout_alignStart="@+id/rePassword"
+        android:text="Phone number" />
 
 </RelativeLayout>
