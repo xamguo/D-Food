@@ -322,8 +322,8 @@ public class DatabaseConnector
                     + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+""+dateString
                     + " TEXT" + ")";
             db.execSQL(createQuery); // execute the query
-            //db.execSQL(createUsersTable); // execute the query
-            //db.execSQL(createDeliverymanTable); // execute the query
+            db.execSQL(createUsersTable); // execute the query
+            db.execSQL(createDeliverymanTable); // execute the query
             db.execSQL(createRestaurant);
         } // end method onCreate
 
