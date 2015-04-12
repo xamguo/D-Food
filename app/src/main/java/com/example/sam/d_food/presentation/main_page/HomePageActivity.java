@@ -153,4 +153,5 @@ public class HomePageActivity extends Activity {
         receiverSign = false;
         unregisterReceiver(searchReceiver);
     }
+
 }
