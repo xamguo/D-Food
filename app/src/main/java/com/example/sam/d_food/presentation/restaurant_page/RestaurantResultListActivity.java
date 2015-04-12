@@ -1,9 +1,11 @@
 package com.example.sam.d_food.presentation.restaurant_page;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +15,10 @@ import android.view.*;
 import android.widget.*;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.business.data.Dish;
+import com.example.sam.d_food.business.data.DishReceiver;
+import com.example.sam.d_food.business.user.Search;
+import com.example.sam.d_food.business.user.SearchReceiver;
 import com.example.sam.d_food.integration.service.Data;
 import com.example.sam.d_food.integration.service.DataService;
 import com.example.sam.d_food.presentation.dish_page.DishResultListActivity;
@@ -27,6 +33,10 @@ public class RestaurantResultListActivity extends ListActivity {
 
     private List<Map<String, Object>> mData;
     View justview;
+    DishReceiver dishReceiver;
+    Dish dish;
+    static boolean receiverSign = false;
+    public static ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,16 @@ public class RestaurantResultListActivity extends ListActivity {
 //        setListAdapter(adapter);
         setMyAdapter();
 
+    }
+
+    @Override
+    protected void onPause() {
+        if(dish != null) {
+            //unReceiver();
+            dish.unbindService();
+            Log.v("unbindService","here");
+        }
+        super.onPause();
     }
 
     private void setMyAdapter() {
@@ -162,11 +182,21 @@ public class RestaurantResultListActivity extends ListActivity {
         justview = v;
         v.setBackgroundColor(Color.GRAY);
 
+        if(receiverSign == true){
+            unReceiver();
+        }
 
+        receiver();
+        dialog = new ProgressDialog(this);
+        dialog.show();
+
+        dish = new Dish(RestaurantResultListActivity.this);
+        dish.getDish(0);
+/*
         Intent intent = new Intent(this,DishResultListActivity.class);
         intent.putExtra("position",position);
         startActivity(intent);
-
+*/
     }
 
     public class MyAdapter extends BaseAdapter {
@@ -230,4 +260,16 @@ public class RestaurantResultListActivity extends ListActivity {
         }
     }
 
+    private void receiver() {
+        dishReceiver = new DishReceiver(this, DishResultListActivity.class);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("MY_ACTION");
+        registerReceiver(dishReceiver, intentFilter);
+        receiverSign = true;
+    }
+
+    private void unReceiver() {
+        receiverSign = false;
+        unregisterReceiver(dishReceiver);
+    }
 }

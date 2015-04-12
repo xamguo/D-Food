@@ -93,6 +93,8 @@ public class DataService extends IntentService {
         String mode = (String)extras.get("Mode");
         if(mode.equals("Search"))
             searchMode(extras);
+        else if(mode.equals("Dish"))
+            dishMode(extras);
         return super.onBind(intent);
     }
 
@@ -120,6 +122,14 @@ public class DataService extends IntentService {
         //Search mySearch = new Search();
         //mySearch.start();
 
+    }
+
+    private void dishMode(Bundle extras) {
+        String restaurant_id = (String)extras.get("restaurant_id");
+        Intent intent = new Intent();
+        intent.setAction("MY_ACTION");
+        intent.putExtra("SearchResult", "Done");
+        sendBroadcast(intent);
     }
 
     /**

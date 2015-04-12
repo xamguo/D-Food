@@ -39,7 +39,7 @@ public class Dish {
     private void bindService(String restaurant_id) {
 
         Intent intent = new Intent(activity, DataService.class);
-        intent.putExtra("Mode","Search");
+        intent.putExtra("Mode","Dish");
         intent.putExtra("restaurant_id",restaurant_id);
 
         mBound = true;
