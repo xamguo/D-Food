@@ -87,6 +87,20 @@ public class DatabaseConnector
         close(); // close the database
     } // end method insertContact
 
+    public void insertDish(int restaurant_id, String name, double price,
+                                 String comments)
+    {
+        ContentValues newDish = new ContentValues();
+        newDish.put("restaurant_id", restaurant_id);
+        newDish.put("name", name);
+        newDish.put("price", price);
+        newDish.put("comments", comments);
+
+        open(); // open the database
+        database.insert("dish", null, newDish);
+        close(); // close the database
+    }
+
     // inserts a new contact in the database
     public void updateContact(long id, String price, String downpay,
                               String term, String rate, String money, String total, String startdate, String enddate)
@@ -312,6 +326,11 @@ public class DatabaseConnector
                     "location TEXT, longitude DOUBLE, latitude DOUBLE," +
                     "name TEXT, price INT);";
 
+            String createDish = "CREATE TABLE dish" +
+                    "(_id integer primary key autoincrement," +
+                    "restaurant_id INT, name TEXT,  no such table: Users (code 1): , while compiling: INSERT INTO Users(userName,address,password) VALUES (?,?,?) DOUBLE," +
+                    "comments TEXT);";
+
             String createUsersTable= "CREATE TABLE "
                     + "Users" + "(" + "id" + " INTEGER PRIMARY KEY autoincrement," + "userName"
                     + " TEXT," + "password" + " TEXT,"+ "address" + " TEXT,"+""+dateString
@@ -325,6 +344,7 @@ public class DatabaseConnector
             db.execSQL(createUsersTable); // execute the query
             db.execSQL(createDeliverymanTable); // execute the query
             db.execSQL(createRestaurant);
+            db.execSQL(createDish);
         } // end method onCreate
 
         @Override
