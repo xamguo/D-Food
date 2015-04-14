@@ -328,7 +328,7 @@ public class DatabaseConnector
 
             String createDish = "CREATE TABLE dish" +
                     "(_id integer primary key autoincrement," +
-                    "restaurant_id INT, name TEXT,  no such table: Users (code 1): , while compiling: INSERT INTO Users(userName,address,password) VALUES (?,?,?) DOUBLE," +
+                    "restaurant_id INT, name TEXT, price DOUBLE, " +
                     "comments TEXT);";
 
             String createUsersTable= "CREATE TABLE "
