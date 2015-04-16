@@ -4,11 +4,11 @@
     android:id="@+id/drawer_layout">
 
     <RelativeLayout
-        android:id="@+id/TableLayout1"
+        android:id="@+id/TableLayout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/my_dark_red"
-        android:padding="10dp" >
+        android:padding="@dimen/my_padding_small" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -22,34 +22,33 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/locationField"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/my_padding_from_logo"
             style="@style/my_font_big_grey"
             android:gravity="center"
             android:background="@drawable/searchbox"
             android:layout_below="@id/logo"
             android:selectAllOnFocus="true"
             android:layout_centerHorizontal="true"
-            android:hint="Your Location" />
+            android:hint="Your Location"/>
 
         <include
-            android:id="@+id/tableRow1_ref"
+            android:id="@+id/seekbar_index"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            layout="@layout/description"
+            android:layout_marginTop="@dimen/my_padding_from_logo"
+            layout="@layout/support_home_page_description"
             android:layout_below="@id/locationField" />
 
         <SeekBar
             android:id="@+id/homeSeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow1_ref"
+            android:layout_below="@+id/seekbar_index"
             android:layout_alignParentEnd="true"
             android:thumb="@drawable/thumb"
             android:background="@drawable/row"
             android:progressDrawable="@drawable/seekbar"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            style="@style/my_padding_left_and_right"
             android:indeterminate="false" />
 
         <Button
@@ -59,18 +58,12 @@
             android:id="@+id/searchRestaurant"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="searchbutton"
             android:background="@drawable/button"/>
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#111"/>
+        android:id="@+id/left_drawer_home_page"
+        style="@style/my_drawer"/>
 
 </android.support.v4.widget.DrawerLayout>

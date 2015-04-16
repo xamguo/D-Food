@@ -30,7 +30,7 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         //fieldImage.setImageResource(R.drawable.food);
 
         new DownloadImageTask(fieldImage)
-                .execute("http://chinastarharlingen.com/images/icon_menu.png");
+                .execute("https://pbs.twimg.com/profile_images/378800000765715763/f1d67a9deb0bb6c4bb8a4144083cd7c8_normal.jpeg");
 
 
 

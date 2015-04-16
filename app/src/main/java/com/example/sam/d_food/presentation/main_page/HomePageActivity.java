@@ -2,16 +2,10 @@ package com.example.sam.d_food.presentation.main_page;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.res.Configuration;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,11 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.business.user.Search;
@@ -47,6 +40,7 @@ public class HomePageActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +49,8 @@ public class HomePageActivity extends Activity {
 
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
+        searchButton = (Button) findViewById(R.id.searchRestaurant);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -70,8 +65,8 @@ public class HomePageActivity extends Activity {
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                R.string.drawer_open,  /* "open drawer" support_home_page_description for accessibility */
+                R.string.drawer_close  /* "close drawer" support_home_page_description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -124,6 +119,13 @@ public class HomePageActivity extends Activity {
 
             }
         });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search();
+            }
+        });
     }
 
     @Override
@@ -146,9 +148,7 @@ public class HomePageActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void searchbutton(View view){
-
-
+    public void search(){
         dialog = new ProgressDialog(this);
         dialog.show();
 
@@ -167,11 +167,7 @@ public class HomePageActivity extends Activity {
         if(receiverSign == true){
             unReceiver();
         }
-
         receiver();
-
-
-
         s = new Search(HomePageActivity.this);
         double x,y;
         x=1.1;
