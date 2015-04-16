@@ -148,7 +148,17 @@ public class HomePageActivity extends Activity {
 
     public void searchbutton(View view){
 
+
+        dialog = new ProgressDialog(this);
+        dialog.show();
+
         String location = textView_location.getText().toString();
+        location = "CMU";
+        Log.v("location", location);
+
+        if(location == null){
+            location = "CMU";
+        }
 
         if(s != null) {
             s.unbindService();
@@ -160,8 +170,7 @@ public class HomePageActivity extends Activity {
 
         receiver();
 
-        dialog = new ProgressDialog(this);
-        dialog.show();
+
 
         s = new Search(HomePageActivity.this);
         double x,y;
