@@ -4,11 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
 
 import com.example.sam.d_food.R;
@@ -27,12 +31,16 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         ImageView fieldImage = (ImageView) view.findViewById(R.id.img);
+        RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
         //fieldImage.setImageResource(R.drawable.food);
 
         new DownloadImageTask(fieldImage)
                 .execute("https://pbs.twimg.com/profile_images/378800000765715763/f1d67a9deb0bb6c4bb8a4144083cd7c8_normal.jpeg");
 
-
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        //stars.getDrawable(0).setColorFilter(Color., PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+        //stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
         //WebView webView = (WebView)view.findViewById(R.id.webView);
         //webView.loadUrl("http://chinastarharlingen.com/images/icon_menu.png");

@@ -18,13 +18,13 @@ import com.example.sam.d_food.integration.service.Data;
  */
 public class RestaurantListFragment extends ListFragment
 {
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         //v.setBackgroundColor(Color.GRAY);
         //Intent intent = new Intent(this,DishResultListActivity.class);
         //intent.putExtra("position",position);
         //startActivity(intent);
+
 
         Fragment fragment = new DishListFragment();
         RestaurantResultListActivity.dishListFragment = fragment;
@@ -47,9 +47,9 @@ public class RestaurantListFragment extends ListFragment
         int flag = 0;
 
         CursorAdapter historyAdapter = new CustomCursorAdapter(
-                inflater.getContext(), R.layout.restaurant_list, null, from, to, flag);
+                inflater.getContext(), R.layout.support_restaurant_list, null, from, to, flag);
 
-        //View v =  inflater.inflate(R.layout.restaurant_list, container, false);
+        //View v =  inflater.inflate(R.layout.support_restaurant_list, container, false);
         //WebView webView = (WebView)v.findViewById(R.id.webView);
 
         //if(webView != null)

@@ -48,7 +48,7 @@ public class HomePageActivity extends Activity {
         setContentView(R.layout.activity_home_page);
 
         textView_location = (EditText) findViewById(R.id.locationField);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
         searchButton = (Button) findViewById(R.id.searchRestaurant);
 
