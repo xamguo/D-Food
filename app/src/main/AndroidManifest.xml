@@ -62,7 +62,8 @@
         </activity>
         <activity
             android:name=".presentation.deliveryman_page.DeliveryHomePageActivity"
-            android:label="@string/title_activity_delivery_home_page" >
+            android:label="@string/title_activity_delivery_home_page"
+            android:theme="@style/CustomActionBarTheme">
         </activity>
         <activity
             android:name=".presentation.login_page.RegisterPageActivity"

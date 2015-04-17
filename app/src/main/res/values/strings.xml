@@ -6,7 +6,7 @@
     <string name="title_activity_dish__result">Dish_Result</string>
     <string name="title_activity_check">Check</string>
     <string name="title_activity_user_home_page">Home</string>
-    <string name="title_activity_delivery_home_page">DeliveryHomePageActivity</string>
+    <string name="title_activity_delivery_home_page">Home</string>
     <string name="title_activity_register_page">RegisterPageActivity</string>
 
     <string name="yourLocation">Your Location</string>

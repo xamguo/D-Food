@@ -12,15 +12,16 @@
         android:layout_height="wrap_content"
         android:text="Delivery man"
         android:id="@+id/textView4"
+        style="@style/my_font_medium"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp" />
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="HiHi Restaurant"
         android:id="@+id/textView5"
+        style="@style/my_font_small"
         android:layout_below="@+id/textView4"
         android:layout_centerHorizontal="true" />
 
@@ -47,9 +48,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Delivery"
+        style="@style/my_font_medium"
         android:id="@+id/startDeliverybutton"
-        android:layout_below="@+id/deliveryList"
-        android:layout_alignStart="@+id/textView5"
+        android:background="@drawable/custom_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:onClick="deliverymap"/>
 
 </RelativeLayout>
