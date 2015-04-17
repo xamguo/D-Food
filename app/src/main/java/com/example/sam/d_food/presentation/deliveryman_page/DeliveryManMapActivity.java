@@ -93,7 +93,7 @@ public class DeliveryManMapActivity extends Activity {
                     taskName.setText("Task 3");
                     phone.setText("412-555-888");
                 }
-                return true;
+                return false;
             }
         });
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {

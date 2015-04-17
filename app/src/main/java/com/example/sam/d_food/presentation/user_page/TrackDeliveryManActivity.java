@@ -104,7 +104,7 @@ public class TrackDeliveryManActivity extends Activity {
                     taskName.setText("Task 1");
                     phone.setText("412-667-888");
                 }
-                return true;
+                return false;
             }
         });
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
