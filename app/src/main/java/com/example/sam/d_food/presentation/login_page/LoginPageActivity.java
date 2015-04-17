@@ -86,11 +86,13 @@ public class LoginPageActivity extends Activity {
                                     launchUser=new Intent(LoginPageActivity.this, DeliveryHomePageActivity.class);
                                     user="Deliveryman";
                                     launchUser.putExtra("toggle", user);
+                                    finish();
                                     startActivity(launchUser);
                                 }else if(!toggle && customer.authenticate()){
                                     launchUser=new Intent(LoginPageActivity.this, UserHomePageActivity.class);
                                     user="Customer";
                                     launchUser.putExtra("toggle", user);
+                                    finish();
                                     startActivity(launchUser);
                                 }else{
                                     Toast.makeText(getApplicationContext(), "Wrong credentials  ", Toast.LENGTH_LONG).show();
