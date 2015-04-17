@@ -73,8 +73,7 @@ public class RestaurantResultListActivity extends Activity {
     public void onBackPressed() {
         if(pageNum == 1){
             super.onBackPressed();
-        }
-        else if(pageNum == 2) {
+        } else if(pageNum == 2) {
             FragmentManager manager = getFragmentManager();
 
             manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
@@ -83,6 +82,15 @@ public class RestaurantResultListActivity extends Activity {
                     .add(R.id.fragmentContainer, restaurantListFragment)
                     .commit();
             pageNum = 1;
+        } else if(pageNum == 3) {
+            FragmentManager manager = getFragmentManager();
+
+            manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
+
+            manager.beginTransaction()
+                    .add(R.id.fragmentContainer, dishListFragment)
+                    .commit();
+            pageNum = 2;
         }
     }
 }

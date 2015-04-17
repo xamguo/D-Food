@@ -1,5 +1,6 @@
 package com.example.sam.d_food.presentation.restaurant_page;
 
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.sam.d_food.R;
 
 /**
  * Created by Sam on 4/16/2015.
@@ -22,6 +25,14 @@ public class DishListFragment extends ListFragment
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        DishInfoFragment fragment = new DishInfoFragment();
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
+
+        manager.beginTransaction()
+                .add(R.id.fragmentContainer, fragment)
+                .commit();
+        RestaurantResultListActivity.pageNum = 3;
     }
 
     @Override

@@ -42,6 +42,7 @@ public class CheckActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
     public void usermap(View view) {
+        finish();
         Intent intent = new Intent(this, TrackDeliveryManActivity.class);
         startActivity(intent);
     }

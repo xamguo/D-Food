@@ -12,39 +12,48 @@
         android:gravity="center"
         android:textSize="40dp"
         style="@style/my_font_big_black"
-        android:background="@drawable/border_white"
+        android:background="@color/my_red"
         android:id="@+id/textView8" />
 
+    <LinearLayout
+        android:layout_below="@+id/textView8"
+        android:layout_above="@+id/commentsView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayoutRow"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/dishImage"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentStart="true"
         android:src="@drawable/food"
+        android:layout_weight="1"
         />
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:text=" Details: American Burger\n $9.00\n Location:"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:text="American Burger\n $9.00\n Location:"
         android:textSize="30dp"
-        android:layout_toRightOf="@+id/dishImage"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         style="@style/my_font_big_black"
         android:id="@+id/dishInfo"
-        android:layout_below="@+id/textView8"
+        android:layout_weight="1"
         android:background="@drawable/border_white"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Comments"
+        android:layout_marginBottom="@dimen/my_padding_small"
+        android:text="Comment"
         android:textSize="20dp"
         android:background="@drawable/border_white"
         android:id="@+id/commentsView"
-        android:layout_below="@+id/dishImage"
-        android:layout_alignParentStart="true"
         android:layout_above="@+id/dishSpinner"/>
 
     <Spinner
@@ -53,18 +62,17 @@
         android:id="@+id/dishSpinner"
         android:entries="@array/array_name"
         android:layout_above="@+id/addToCart"
-        android:background="@drawable/border_white"/>
+        android:popupBackground="@drawable/spinner_bg"
+        style="@style/spinner_style"
+        />
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:text="Add to cart"
-        android:background="@drawable/border_white"
         android:id="@+id/addToCart"
+        android:background="@drawable/custom_btn"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:onClick="checkout"/>
-
-
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
