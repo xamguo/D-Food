@@ -71,39 +71,13 @@ public class DataService extends IntentService {
         //Cursor c = db.getAllRestaurant();
         Cursor c = db.getRestaurantByLocation(location);
         Data data = new Data(c);
-        new ProgressTask().execute("a");
+        new DataProgress().execute("a");
         Intent intent = new Intent();
         intent.setAction("MY_ACTION");
         intent.putExtra("SearchResult", "Done");
         sendBroadcast(intent);
         //Search mySearch = new Search();
         //mySearch.start();
-    }
-
-    private String search() {
-        StringBuilder builder = new StringBuilder();
-        HttpClient client = new DefaultHttpClient();
-        String url = "http://10.0.0.6:8080/D_Food_Server/search";
-        HttpGet httpGet = new HttpGet(url);
-
-        try {
-            HttpResponse response = client.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            InputStream content = entity.getContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-        } catch (IOException e) {
-        }
-        String resp = builder.toString();
-        Log.v("Result", resp);
-
-        JSONTokener tokener = new JSONTokener(resp);
-
-        return resp;
-
     }
 
     public void setupDatabase() {
@@ -121,13 +95,5 @@ public class DataService extends IntentService {
 
     public Cursor getRestaurantByLocation(String location) {
         return db.getRestaurantByLocation(location);
-    }
-
-    private class ProgressTask extends AsyncTask<String, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            search();
-            return null;
-        }
     }
 }
