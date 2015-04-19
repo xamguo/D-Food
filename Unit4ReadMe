@@ -1,0 +1,13 @@
+Coding progress
+1. Database design and creation.
+We create our own data to store the information which includes the customer info, delivery
+man info, restaurant lists and the dish lists.
+2. Server
+We have our own server to handle the request from the app user. Whenever the user search,
+choose a restaurant, the server will accept the request and extract the data from the database
+and return the results back to the user.
+3. GoogleMap route
+We are going to display the route on which the delivery man will drive to deliver the food on the
+screen. User will be able to see and track the actual location of the delivery man.
+4. UI
+New UI design was implemented to make it more beautiful and user friendly.
