@@ -1,19 +1,28 @@
 package com.example.sam.d_food.integration.service;
 
 import android.app.IntentService;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.Context;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.example.sam.d_food.integration.database.DatabaseConnector;
+import com.example.sam.d_food.presentation.main_page.HomePageActivity;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class DataService extends IntentService {
@@ -27,41 +36,6 @@ public class DataService extends IntentService {
         super.onCreate();
     }
 
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FOO = "com.example.sam.d_food.integration.service.action.FOO";
-    private static final String ACTION_BAZ = "com.example.sam.d_food.integration.service.action.BAZ";
-
-    private static final String EXTRA_PARAM1 = "com.example.sam.d_food.integration.service.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.example.sam.d_food.integration.service.extra.PARAM2";
-
-    /**
-     * Starts this service to perform action Foo with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    public static void startActionFoo(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, DataService.class);
-        intent.setAction(ACTION_FOO);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
-        context.startService(intent);
-    }
-
-    /**
-     * Starts this service to perform action Baz with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    public static void startActionBaz(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, DataService.class);
-        intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
-        context.startService(intent);
-    }
-
     public DataService() {
         super("DataService");
     }
@@ -69,26 +43,11 @@ public class DataService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
-            }
-        }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-
         Log.v("Binded from service","xiao");
-
         Bundle extras = intent.getExtras();
         String mode = (String)extras.get("Mode");
         if(mode.equals("Search"))
@@ -112,55 +71,39 @@ public class DataService extends IntentService {
         //Cursor c = db.getAllRestaurant();
         Cursor c = db.getRestaurantByLocation(location);
         Data data = new Data(c);
-
+        new ProgressTask().execute("a");
         Intent intent = new Intent();
         intent.setAction("MY_ACTION");
         intent.putExtra("SearchResult", "Done");
         sendBroadcast(intent);
         //Search mySearch = new Search();
         //mySearch.start();
-
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionFoo(String param1, String param2) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+    private String search() {
+        StringBuilder builder = new StringBuilder();
+        HttpClient client = new DefaultHttpClient();
+        String url = "http://10.0.0.6:8080/D_Food_Server/search";
+        HttpGet httpGet = new HttpGet(url);
 
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionBaz(String param1, String param2) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public class Search extends Thread{
-
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            try {
-                Thread.sleep(500);
-                Intent intent = new Intent();
-                intent.setAction("MY_ACTION");
-
-                //db.open();
-                //result = db.getAllHistory();
-                //result = db.getAllRestaurant();
-                //Data data = new Data(result);
-                db.insertRestaurant("CMU", 0.52, 0.005, "Little Asia", 0);
-                intent.putExtra("SearchResult", "Done");
-                sendBroadcast(intent);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+        try {
+            HttpResponse response = client.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            InputStream content = entity.getContent();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
             }
-            stopSelf();
+        } catch (IOException e) {
         }
+        String resp = builder.toString();
+        Log.v("Result", resp);
+
+        JSONTokener tokener = new JSONTokener(resp);
+
+        return resp;
+
     }
 
     public void setupDatabase() {
@@ -178,5 +121,13 @@ public class DataService extends IntentService {
 
     public Cursor getRestaurantByLocation(String location) {
         return db.getRestaurantByLocation(location);
+    }
+
+    private class ProgressTask extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            search();
+            return null;
+        }
     }
 }

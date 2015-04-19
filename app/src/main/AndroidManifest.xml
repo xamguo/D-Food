@@ -81,7 +81,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAP7AiIHP6Wn-KnfPP41Rdico1M9-0k_bU" />
+            android:value="AIzaSyDdzhZ-q68CtaWDFhBfPzY9aY8re3DfabI" />
 
         <service
             android:name=".integration.service.DataService"
