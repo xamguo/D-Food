@@ -182,6 +182,9 @@ public class HomePageActivity extends Activity {
             s.unbindService();
             Log.v("unbindService","here");
         }
+        if(receiverSign == true){
+            unReceiver();
+        }
         super.onPause();
     }
 

@@ -36,7 +36,6 @@ public class Search {
 
     private void bindService(String longitude, String latitude, String price) {
         if(location.equals("Your Location") || location == null) {
-
             location = "CMU";
         }
         Intent intent = new Intent(activity, DataService.class);

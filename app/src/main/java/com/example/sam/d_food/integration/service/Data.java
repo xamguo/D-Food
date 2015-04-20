@@ -1,7 +1,6 @@
 package com.example.sam.d_food.integration.service;
 
 import android.database.Cursor;
-
 import java.io.Serializable;
 
 /**

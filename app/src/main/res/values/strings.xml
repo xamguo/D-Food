@@ -40,14 +40,9 @@
     </string-array>
 
     <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Home</item>
+        <item>Login</item>
+        <item>My Cart</item>
     </string-array>
 
 </resources>
