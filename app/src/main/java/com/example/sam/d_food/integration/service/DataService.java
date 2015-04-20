@@ -71,7 +71,7 @@ public class DataService extends IntentService {
         //Cursor c = db.getAllRestaurant();
         Cursor c = db.getRestaurantByLocation(location);
         Data data = new Data(c);
-        new DataProgress().execute("a");
+        //new DataProgress().execute("a");      //to start a data transfer with server
         Intent intent = new Intent();
         intent.setAction("MY_ACTION");
         intent.putExtra("SearchResult", "Done");
