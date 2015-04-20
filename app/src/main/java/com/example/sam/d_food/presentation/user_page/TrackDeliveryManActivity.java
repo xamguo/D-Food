@@ -13,10 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sam.d_food.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -40,6 +42,8 @@ public class TrackDeliveryManActivity extends Activity {
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
     private Marker deliveryMarker;
+    private String totalDuration;
+
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
 
@@ -102,7 +106,18 @@ public class TrackDeliveryManActivity extends Activity {
 
             downloadTask.execute(url);
 
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
+            TextView durationView = (TextView) findViewById(R.id.durationTextView);
+            durationView.setText(totalDuration);
+
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(myMarker.getPosition());
+            builder.include(dManMarker.getPosition());
+            LatLngBounds bounds = builder.build();
+
+            int padding = 40;
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            map.animateCamera(cu);
         }
     }
 
@@ -290,10 +305,32 @@ public class TrackDeliveryManActivity extends Activity {
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
+                double t = parser.parseDuration(jObject);
+
+                totalDuration = toTime(t);
             }catch(Exception e){
                 e.printStackTrace();
             }
             return routes;
+        }
+
+        protected String toTime(double t) {
+            double stringTime = t;
+            int min = 0;
+            int hour = 0;
+
+            if (t < 60) {
+                return "1 min";
+            } else {
+                if (t < 3600) {
+                    min =1 + (int) t/60;
+                    return min + "min";
+                } else {
+                    hour = (int) t/3600;
+                    min = 1 + (int) (t - hour*3600)/60;
+                    return hour + "hour" + min + "min";
+                }
+            }
         }
 
         @Override
