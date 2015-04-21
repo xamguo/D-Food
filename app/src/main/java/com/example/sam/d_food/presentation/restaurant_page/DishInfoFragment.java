@@ -3,18 +3,15 @@ package com.example.sam.d_food.presentation.restaurant_page;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.presentation.check_page.CheckActivity;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 
 /**
@@ -26,7 +23,7 @@ public class DishInfoFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_dish_info, container, false);
+        View v = inflater.inflate(R.layout.layout_dish_info, container, false);
         spinner = (Spinner)v.findViewById(R.id.dishSpinner);
 
         checkButton = (Button)v.findViewById(R.id.addToCart);

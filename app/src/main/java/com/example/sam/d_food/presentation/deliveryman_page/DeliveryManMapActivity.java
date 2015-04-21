@@ -37,7 +37,7 @@ public class DeliveryManMapActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.delivery_man_map);
+        setContentView(R.layout.layout_man_map);
 
         location = updateLocation();
         uri = "geo:" + Double.toString(location.getLatitude()) + ","

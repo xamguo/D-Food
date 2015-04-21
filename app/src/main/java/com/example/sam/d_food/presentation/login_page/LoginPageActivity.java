@@ -16,10 +16,8 @@ import android.widget.Toast;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.deliveryman.Login;
 import com.example.sam.d_food.ws.remote.DatabaseConnector;
-import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
 import com.example.sam.d_food.presentation.intents.IntentToUserHome;
-import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 
 public class LoginPageActivity extends Activity {
@@ -35,7 +33,7 @@ public class LoginPageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_page);
+        setContentView(R.layout.layout_login_page);
 
         accountID=(TextView)findViewById(R.id.accountID);
         password=(TextView)findViewById(R.id.password);

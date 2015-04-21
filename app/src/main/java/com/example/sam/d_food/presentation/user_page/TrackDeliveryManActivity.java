@@ -50,7 +50,7 @@ public class TrackDeliveryManActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.track_delivery_man);
+        setContentView(R.layout.layout_track_delivery_man);
 
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);

@@ -20,7 +20,7 @@ public class RestaurantResultListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resaurant__result);
+        setContentView(R.layout.layout_resaurant__result);
 
 //        mData = getData();
 //        MyAdapter adapter = new MyAdapter(this);

@@ -20,7 +20,7 @@ public class DishInfoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dish_info);
+        setContentView(R.layout.layout_dish_info);
         Spinner spinner = (Spinner)findViewById(R.id.dishSpinner);
         String[] years = new String[]{"1","2","3","4","5","6","7","8"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);

@@ -1,7 +1,6 @@
 package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,11 +17,11 @@ public class DeliveryHomePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delivery_home_page);
+        setContentView(R.layout.layout_delivery_home_page);
 
         String[] itemsArray = {"Pizza, Arlington Ave", "Cake1, CMU", "Cake2, Downtown", "Cake3, S Aiken, Hurry"};
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_listview, itemsArray);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.layout_listview, itemsArray);
         ListView listView = (ListView) findViewById(R.id.deliveryList);
         listView.setAdapter(adapter);
     }

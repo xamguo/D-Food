@@ -31,7 +31,7 @@ public class RegisterPageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_page);
+        setContentView(R.layout.layout_register_page);
 
         userName=(EditText)findViewById(R.id.accountID);
         password=(EditText)findViewById(R.id.password);

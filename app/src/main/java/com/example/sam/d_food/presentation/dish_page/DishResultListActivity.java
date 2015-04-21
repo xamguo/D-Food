@@ -28,7 +28,7 @@ public class DishResultListActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dish__result);
+        setContentView(R.layout.layout_dish__result);
 
         Bundle extras = getIntent().getExtras();
         restaurant_id = extras.getString("position");
@@ -126,7 +126,7 @@ public class DishResultListActivity extends ListActivity {
 
                 holder=new ViewHolder();
 
-                convertView = mInflater.inflate(R.layout.dish_list, null);
+                convertView = mInflater.inflate(R.layout.layout_dish_list, null);
                 holder.title = (TextView)convertView.findViewById(R.id.title);
                 holder.info = (TextView)convertView.findViewById(R.id.info);
                 convertView.setTag(holder);

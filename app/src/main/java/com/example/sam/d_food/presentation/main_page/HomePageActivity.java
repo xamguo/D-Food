@@ -24,7 +24,6 @@ import com.example.sam.d_food.business.user.Search;
 import com.example.sam.d_food.business.user.SearchReceiver;
 import com.example.sam.d_food.integration.service.DataService;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
-import com.example.sam.d_food.presentation.login_page.LoginPageActivity;
 import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
 
@@ -46,7 +45,7 @@ public class HomePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //submission Test
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.layout_home_page);
 
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
@@ -55,7 +54,7 @@ public class HomePageActivity extends Activity {
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, getResources().getStringArray(R.array.planets_array)));
+                R.layout.layout_list_item, getResources().getStringArray(R.array.planets_array)));
 
         //add onclick listener of list view here
 
