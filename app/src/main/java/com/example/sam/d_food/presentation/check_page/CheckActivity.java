@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.intents.IntentToUserMap;
 import com.example.sam.d_food.presentation.user_page.TrackDeliveryManActivity;
 
 
@@ -43,7 +44,7 @@ public class CheckActivity extends Activity {
     }
     public void usermap(View view) {
         finish();
-        Intent intent = new Intent(this, TrackDeliveryManActivity.class);
+        IntentToUserMap intent = new IntentToUserMap(this);
         startActivity(intent);
     }
 }

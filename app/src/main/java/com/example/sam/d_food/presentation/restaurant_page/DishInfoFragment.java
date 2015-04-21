@@ -15,6 +15,7 @@ import android.widget.Spinner;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.check_page.CheckActivity;
+import com.example.sam.d_food.presentation.intents.IntentToCheck;
 
 /**
  * Created by Sam on 4/16/2015.
@@ -57,7 +58,7 @@ public class DishInfoFragment extends Fragment{
 
     }
     private void goCheck(){
-        Intent intent = new Intent(getActivity(), CheckActivity.class);
-        startActivity(intent);
+        IntentToCheck intentToCheck = new IntentToCheck(getActivity());
+        startActivity(intentToCheck);
     }
 }
