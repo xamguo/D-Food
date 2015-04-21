@@ -34,6 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import android.os.Handler;
 
 public class TrackDeliveryManActivity extends Activity {
     private TextView numText;
@@ -43,6 +44,7 @@ public class TrackDeliveryManActivity extends Activity {
     private LocationManager mLocationManager;
     private Marker deliveryMarker;
     private String totalDuration;
+    private Location location;
 
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
@@ -57,6 +59,9 @@ public class TrackDeliveryManActivity extends Activity {
         trackMyLocation();
 
         Button tractButton = (Button) findViewById(R.id.tractButton);
+
+        zoomToLocation();
+
         tractButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,10 +111,7 @@ public class TrackDeliveryManActivity extends Activity {
 
             downloadTask.execute(url);
 
-            TextView durationView = (TextView) findViewById(R.id.durationTextView);
-            durationView.setText(totalDuration);
-
-//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             builder.include(myMarker.getPosition());
             builder.include(dManMarker.getPosition());
@@ -118,6 +120,9 @@ public class TrackDeliveryManActivity extends Activity {
             int padding = 40;
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             map.animateCamera(cu);
+
+            TextView durationView = (TextView) findViewById(R.id.durationTextView);
+            durationView.setText(totalDuration);
         }
     }
 
@@ -126,7 +131,7 @@ public class TrackDeliveryManActivity extends Activity {
         LatLng myLocation;
 
         myLocation = new LatLng(40.446650, -79.951912);
-        zoomToLocation(myLocation);
+        zoomToLocation();
         numText = (TextView) findViewById(R.id.dManNumText);
         numText.setText("412-111-2222");
 
@@ -165,10 +170,10 @@ public class TrackDeliveryManActivity extends Activity {
 
         return customerLocation;
     }
-    protected void zoomToLocation(LatLng currentLocation) {
+    protected void zoomToLocation() {
         LatLng newLoc = null;
         LatLng myLocation = null;
-        Location location = null;
+        location = null;
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.trackMap))
                 .getMap();
