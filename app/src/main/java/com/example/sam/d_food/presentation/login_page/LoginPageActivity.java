@@ -17,6 +17,8 @@ import com.example.sam.d_food.R;
 import com.example.sam.d_food.business.deliveryman.Login;
 import com.example.sam.d_food.integration.database.DatabaseConnector;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
+import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
+import com.example.sam.d_food.presentation.intents.IntentToUserHome;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 
@@ -77,19 +79,20 @@ public class LoginPageActivity extends Activity {
                             @Override
                             protected void onPostExecute(Object result)
                             {
-                                Intent launchUser = null;
+                                IntentToUserHome launchUser = null;
+                                IntentToDeliverymanHome launchDeliveryman = null;
                                 String user = null;
                                 db=new DatabaseConnector(getApplicationContext());
                                 deliveryMan=new Login(accountID.getText().toString(), password.getText().toString(), db);
                                 customer=new com.example.sam.d_food.business.user.Login(accountID.getText().toString(), password.getText().toString(), db);
                                 if (toggle && deliveryMan.authenticate()){
-                                    launchUser=new Intent(LoginPageActivity.this, DeliveryHomePageActivity.class);
+                                    launchDeliveryman = new IntentToDeliverymanHome(LoginPageActivity.this);
                                     user="Deliveryman";
                                     launchUser.putExtra("toggle", user);
                                     finish();
-                                    startActivity(launchUser);
+                                    startActivity(launchDeliveryman);
                                 }else if(!toggle && customer.authenticate()){
-                                    launchUser=new Intent(LoginPageActivity.this, UserHomePageActivity.class);
+                                    launchUser=new IntentToUserHome(LoginPageActivity.this);
                                     user="Customer";
                                     launchUser.putExtra("toggle", user);
                                     finish();
