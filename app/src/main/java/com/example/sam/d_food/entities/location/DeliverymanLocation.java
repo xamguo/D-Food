@@ -1,9 +1,8 @@
-package com.example.sam.d_food.business.location;
+package com.example.sam.d_food.entities.location;
 
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
 

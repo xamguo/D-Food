@@ -1,17 +1,17 @@
-package com.example.sam.d_food.business.deliveryman;
+package com.example.sam.d_food.entities.user;
 
 /**
  * Created by Sam on 4/11/2015.
  */
-public class DeliverymanInfo {
+public class UserInfo {
     private String userName;
     private String password;
     private String address;
 
-    public DeliverymanInfo() {
+    public UserInfo() {
     }
 
-    public DeliverymanInfo(String userName, String password, String address) {
+    public UserInfo(String userName, String password, String address) {
         this.userName = userName;
         this.password = password;
         this.address = address;

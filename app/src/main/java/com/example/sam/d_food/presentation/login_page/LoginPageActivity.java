@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.business.deliveryman.Login;
-import com.example.sam.d_food.integration.database.DatabaseConnector;
+import com.example.sam.d_food.entities.deliveryman.Login;
+import com.example.sam.d_food.ws.remote.DatabaseConnector;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
@@ -26,7 +26,7 @@ public class LoginPageActivity extends Activity {
     private TextView password;
     private boolean toggle;
     private Switch userSwitch;
-    private com.example.sam.d_food.business.user.Login customer;
+    private com.example.sam.d_food.entities.user.Login customer;
     private Login deliveryMan;
     private DatabaseConnector db;
 
@@ -81,7 +81,7 @@ public class LoginPageActivity extends Activity {
                                 String user = null;
                                 db=new DatabaseConnector(getApplicationContext());
                                 deliveryMan=new Login(accountID.getText().toString(), password.getText().toString(), db);
-                                customer=new com.example.sam.d_food.business.user.Login(accountID.getText().toString(), password.getText().toString(), db);
+                                customer=new com.example.sam.d_food.entities.user.Login(accountID.getText().toString(), password.getText().toString(), db);
                                 if (toggle && deliveryMan.authenticate()){
                                     launchUser=new Intent(LoginPageActivity.this, DeliveryHomePageActivity.class);
                                     user="Deliveryman";

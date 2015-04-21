@@ -11,7 +11,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.integration.service.Data;
+import com.example.sam.d_food.ws.remote.Data;
 
 /**
  * Created by Sam on 4/16/2015.

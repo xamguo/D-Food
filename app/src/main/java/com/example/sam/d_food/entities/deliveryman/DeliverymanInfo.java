@@ -1,19 +1,17 @@
-package com.example.sam.d_food.business.user;
-
-import android.location.Location;
+package com.example.sam.d_food.entities.deliveryman;
 
 /**
  * Created by Sam on 4/11/2015.
  */
-public class UserInfo {
+public class DeliverymanInfo {
     private String userName;
     private String password;
     private String address;
 
-    public UserInfo() {
+    public DeliverymanInfo() {
     }
 
-    public UserInfo(String userName, String password, String address) {
+    public DeliverymanInfo(String userName, String password, String address) {
         this.userName = userName;
         this.password = password;
         this.address = address;

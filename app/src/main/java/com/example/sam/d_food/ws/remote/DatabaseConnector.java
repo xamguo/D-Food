@@ -1,6 +1,6 @@
 // DatabaseConnector.java
 // Provides easy connection and creation of UserContacts database.
-package com.example.sam.d_food.integration.database;
+package com.example.sam.d_food.ws.remote;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.sam.d_food.business.deliveryman.DeliverymanInfo;
-import com.example.sam.d_food.business.user.UserInfo;
+import com.example.sam.d_food.entities.deliveryman.DeliverymanInfo;
+import com.example.sam.d_food.entities.user.UserInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

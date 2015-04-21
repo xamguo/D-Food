@@ -1,6 +1,6 @@
-package com.example.sam.d_food.business.deliveryman;
+package com.example.sam.d_food.entities.deliveryman;
 
-import com.example.sam.d_food.integration.database.DatabaseConnector;
+import com.example.sam.d_food.ws.remote.DatabaseConnector;
 
 import java.util.List;
 

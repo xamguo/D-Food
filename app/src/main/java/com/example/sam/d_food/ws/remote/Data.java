@@ -1,4 +1,4 @@
-package com.example.sam.d_food.integration.service;
+package com.example.sam.d_food.ws.remote;
 
 import android.database.Cursor;
 import java.io.Serializable;

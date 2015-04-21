@@ -1,4 +1,4 @@
-package com.example.sam.d_food.business.location;
+package com.example.sam.d_food.entities.location;
 
 import android.location.Location;
 

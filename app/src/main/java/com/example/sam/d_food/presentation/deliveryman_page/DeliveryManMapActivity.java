@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.business.location.DeliverymanLocation;
+import com.example.sam.d_food.entities.location.DeliverymanLocation;
 import com.example.sam.d_food.presentation.user_page.TrackDeliveryManActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

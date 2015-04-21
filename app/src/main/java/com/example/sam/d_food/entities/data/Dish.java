@@ -1,4 +1,4 @@
-package com.example.sam.d_food.business.user;
+package com.example.sam.d_food.entities.data;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -8,42 +8,39 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.example.sam.d_food.integration.service.DataService;
+import com.example.sam.d_food.ws.remote.DataService;
 
-public class Search {
+/**
+ * Created by Sam on 4/11/2015.
+ */
+public class Dish {
     boolean mBound = false;
     Activity activity;
-    String pirceLevel;
+    int restaurant_id;
     String location;
 
-    public Search(Activity activity) {
+    public Dish(Activity activity) {
         this.activity = activity;
     }
 
-    public void search(double longitude, double latitude, String price, String location) {
-        this.location = location;
-        pirceLevel = price;
-        bindService(String.valueOf(longitude),String.valueOf(latitude), price);
+    public void getDish(int restaurant_id) {
+        this.restaurant_id = restaurant_id;
+        bindService(String.valueOf(restaurant_id));
     }
 
     public void unbindService() {
         if (mBound) {
             activity.unbindService(mConnection);
             mBound = false;
-            Log.v("Search class","unbindService");
+            Log.v("Search class", "unbindService");
         }
     }
 
-    private void bindService(String longitude, String latitude, String price) {
-        if(location.equals("Your Location") || location == null) {
-            location = "CMU";
-        }
+    private void bindService(String restaurant_id) {
+
         Intent intent = new Intent(activity, DataService.class);
         intent.putExtra("Mode","Search");
-        intent.putExtra("longitude",longitude);
-        intent.putExtra("latitude",latitude);
-        intent.putExtra("price",price);
-        intent.putExtra("location",location);
+        intent.putExtra("restaurant_id",restaurant_id);
 
         mBound = true;
         boolean b = activity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -64,3 +61,4 @@ public class Search {
         }
     };
 }
+

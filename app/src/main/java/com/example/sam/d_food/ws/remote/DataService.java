@@ -1,28 +1,11 @@
-package com.example.sam.d_food.integration.service;
+package com.example.sam.d_food.ws.remote;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-
-import com.example.sam.d_food.integration.database.DatabaseConnector;
-import com.example.sam.d_food.presentation.main_page.HomePageActivity;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONTokener;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 
 public class DataService extends IntentService {

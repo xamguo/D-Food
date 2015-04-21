@@ -84,7 +84,7 @@
             android:value="AIzaSyDdzhZ-q68CtaWDFhBfPzY9aY8re3DfabI" />
 
         <service
-            android:name=".integration.service.DataService"
+            android:name=".ws.remote.DataService"
             android:exported="false" >
         </service>
     </application>

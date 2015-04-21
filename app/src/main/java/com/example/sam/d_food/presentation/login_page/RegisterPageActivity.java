@@ -11,14 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.business.deliveryman.DeliverymanInfo;
-import com.example.sam.d_food.business.user.CRUD;
-import com.example.sam.d_food.business.user.UserInfo;
-import com.example.sam.d_food.integration.database.DatabaseConnector;
+import com.example.sam.d_food.entities.user.CRUD;
+import com.example.sam.d_food.ws.remote.DatabaseConnector;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
-
-import java.util.ArrayList;
 
 
 public class RegisterPageActivity extends Activity {
@@ -28,7 +24,7 @@ public class RegisterPageActivity extends Activity {
     private EditText re_password;
     private EditText address;
     private CRUD customer;
-    private com.example.sam.d_food.business.deliveryman.CRUD deliveryMan;
+    private com.example.sam.d_food.entities.deliveryman.CRUD deliveryMan;
     private String toggle;
     private DatabaseConnector db;
 
@@ -53,7 +49,7 @@ public class RegisterPageActivity extends Activity {
                     Intent intent=getIntent();
                     toggle=intent.getStringExtra("toggle");
                     if(toggle.equals("Deliveryman")){
-                        deliveryMan=new com.example.sam.d_food.business.deliveryman.CRUD(userName.getText().toString(), password.getText().toString(),address.getText().toString(), db);
+                        deliveryMan=new com.example.sam.d_food.entities.deliveryman.CRUD(userName.getText().toString(), password.getText().toString(),address.getText().toString(), db);
                         deliveryMan.addDeliveryman();
                         Toast.makeText(getApplicationContext(), "Saved  ", Toast.LENGTH_SHORT).show();
                         Intent launchDeliveryHome=new Intent(RegisterPageActivity.this, DeliveryHomePageActivity.class);

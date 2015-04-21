@@ -3,33 +3,11 @@ package com.example.sam.d_food.presentation.restaurant_page;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ListFragment;
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
-import android.webkit.WebView;
-import android.widget.*;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.integration.service.Data;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 
 public class RestaurantResultListActivity extends Activity {

@@ -1,15 +1,12 @@
-package com.example.sam.d_food.business.user;
+package com.example.sam.d_food.entities.user;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
-import com.example.sam.d_food.integration.service.Data;
+import com.example.sam.d_food.ws.remote.Data;
 import com.example.sam.d_food.presentation.main_page.HomePageActivity;
-import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
 public class SearchReceiver extends BroadcastReceiver {
 

@@ -1,6 +1,6 @@
-package com.example.sam.d_food.business.user;
+package com.example.sam.d_food.entities.user;
 
-import com.example.sam.d_food.integration.database.DatabaseConnector;
+import com.example.sam.d_food.ws.remote.DatabaseConnector;
 
 import java.util.List;
 
