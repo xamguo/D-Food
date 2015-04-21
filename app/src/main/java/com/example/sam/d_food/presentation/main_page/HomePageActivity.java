@@ -20,9 +20,10 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.user.Search;
-import com.example.sam.d_food.entities.user.SearchReceiver;
-import com.example.sam.d_food.ws.remote.DataService;
+import com.example.sam.d_food.business.user.Search;
+import com.example.sam.d_food.business.user.SearchReceiver;
+import com.example.sam.d_food.integration.service.DataService;
+import com.example.sam.d_food.presentation.intents.IntentToLogin;
 import com.example.sam.d_food.presentation.login_page.LoginPageActivity;
 import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
@@ -142,7 +143,7 @@ public class HomePageActivity extends Activity {
 
         if(item.getItemId() == R.id.login)
         {
-            Intent intent = new Intent(this,LoginPageActivity.class);
+            IntentToLogin intent = new IntentToLogin(this);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

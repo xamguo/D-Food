@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.intents.IntentToDeliverymanMap;
 
 
 public class DeliveryHomePageActivity extends Activity {
@@ -50,7 +51,7 @@ public class DeliveryHomePageActivity extends Activity {
     }
 
     public void deliverymap(View view) {
-        Intent intent = new Intent(this, DeliveryManMapActivity.class);
+        IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);
         startActivity(intent);
     }
 
