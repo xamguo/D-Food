@@ -131,7 +131,7 @@ public class TrackDeliveryManActivity extends Activity {
         numText.setText("412-111-2222");
 
         nameText = (TextView) findViewById(R.id.dManNameText);
-        nameText.setText("Jason Goldman");
+        nameText.setText("Function Li");
     }
     protected Location updateLocation() {
         mLocationListener = new LocationListener() {
