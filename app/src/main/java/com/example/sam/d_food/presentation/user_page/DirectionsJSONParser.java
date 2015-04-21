@@ -1,5 +1,7 @@
 package com.example.sam.d_food.presentation.user_page;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -14,7 +16,48 @@ import java.util.List;
  * Created by Weiwei on 4/18/2015.
  */
 public class DirectionsJSONParser {
+    private double totalTime = 0;
 
+    public double getTotalTime() {
+        return totalTime;
+    }
+
+    public double parseDuration(JSONObject jObject) {
+        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String,String>>>() ;
+        JSONArray jRoutes = null;
+        JSONArray jLegs = null;
+        JSONArray jSteps = null;
+
+        try {
+
+            jRoutes = jObject.getJSONArray("routes");
+            for(int i=0;i<jRoutes.length();i++){
+                jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
+                List path = new ArrayList<HashMap<String, String>>();
+
+
+                for(int j=0;j<jLegs.length();j++){
+                    jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
+
+
+                    for(int k=0;k<jSteps.length();k++){
+                        double duration = 0;
+                        float dur = 0;
+                        duration = (Double)((JSONObject)((JSONObject)jSteps.get(k)).get("duration")).getDouble("value");
+
+                         Log.v("my test", Double.toString(duration));
+
+                        totalTime = totalTime + duration;
+                    }
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+        }
+        return totalTime;
+    }
 
     public List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
@@ -39,6 +82,7 @@ public class DirectionsJSONParser {
 
                     for(int k=0;k<jSteps.length();k++){
                         String polyline = "";
+                        String dur = "";
                         polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline")).get("points");
                         List<LatLng> list = decodePoly(polyline);
 
