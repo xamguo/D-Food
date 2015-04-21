@@ -88,7 +88,7 @@ public class LoginPageActivity extends Activity {
                                 if (toggle && deliveryMan.authenticate()){
                                     launchDeliveryman = new IntentToDeliverymanHome(LoginPageActivity.this);
                                     user="Deliveryman";
-                                    launchUser.putExtra("toggle", user);
+                                    launchDeliveryman.putExtra("toggle", user);
                                     finish();
                                     startActivity(launchDeliveryman);
                                 }else if(!toggle && customer.authenticate()){
