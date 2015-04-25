@@ -1,12 +1,25 @@
 package com.example.sam.d_food.presentation.user_page;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,12 +30,22 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -34,7 +57,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import android.os.Handler;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrackDeliveryManActivity extends Activity {
     private TextView numText;
@@ -43,31 +67,202 @@ public class TrackDeliveryManActivity extends Activity {
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
     private Marker deliveryMarker;
+    private Marker dManMarker;
     private String totalDuration;
+    private String totalDistance = "";
+    private String dInfo = " mile away";
     private Location location;
+    private LatLng aLL;
+    private LatLng dMan;
+    private Marker myMarker;
+    private int interval = 5500;
+    private String dManLocData;
+    private JSONObject dManJObject;
+    private Button tractButton;
+    private Button ringButton;
 
+    private int locTest = 0;
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_track_delivery_man);
 
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
+        initial();
         trackMyLocation();
 
-        Button tractButton = (Button) findViewById(R.id.tractButton);
 
-        zoomToLocation();
+        tractButton = (Button) findViewById(R.id.tractButton);
+        ringButton = (Button) findViewById(R.id.customCallButton);
+//        MyPost locMyPost = new MyPost();
+//        locMyPost.execute(null);
+//        uploadLocation();
 
-        tractButton.setOnClickListener(new View.OnClickListener() {
+        ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trackDeliveryMan();
+                String vs = Context.VIBRATOR_SERVICE;
+                Vibrator mVibrator = (Vibrator)getSystemService(vs);
+
+                boolean isVibrator = mVibrator.hasVibrator();
+                notifyCustomer(savedInstanceState);
+                Log.v("Ring","hi");
+                Log.v("Vibrator",Boolean.toString(isVibrator));
+//                Vibrator vib;
+//                vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//                vib.vibrate(5000);
+//                Log.v("Ring","hi");
             }
         });
+
+
+//        Timer t = new Timer();
+//        t.scheduleAtFixedRate(new TimerTask() {
+//
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable()
+//                {
+//                    public void run()
+//                    {
+//                        try {
+//                            zoomToDeliveryman();
+//                            tractButton.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    trackDeliveryMan();
+//                                }
+//                            });
+//
+//                            ringButton.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    notifyCustomer();
+//                                    Log.v("Ring","hi");
+//                                }
+//                            });
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//            }
+//        }, 0, interval);
+
+    }
+
+    protected void notifyCustomer(Bundle bundle) {
+//        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        MediaPlayer player = MediaPlayer.create(this, notification);
+//        player.setLooping(true);
+//        player.start();
+
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+        int icon = R.drawable.logo4;
+        CharSequence tickerText = "bla bla";
+        long when = System.currentTimeMillis();
+        Notification notification = new Notification(icon, tickerText, when);
+        Context context = getApplicationContext();
+        CharSequence contentTitle = "My notification";
+        CharSequence contentText = "Hello World!";
+        Intent notificationIntent = new Intent(this, TrackDeliveryManActivity.class);
+        if(bundle!=null)
+            notificationIntent.putExtras(bundle); //you may put bundle or not
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+        int any_ID_you_want = 1;
+        //if you send another notification with same ID, this will be replaced by the other one
+        mNotificationManager.notify(any_ID_you_want,notification);
+
+    }
+
+    protected void initial() {
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.trackMap))
+                .getMap();
+        map.setMyLocationEnabled(true);
+
+        String dName = "Deliveryman";
+        aLL = new LatLng(40.440320, -80.003079);
+        dManMarker = map.addMarker(new MarkerOptions()
+                .position(aLL)
+                .title(dName)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
+    }
+
+    protected void uploadLocation() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                Log.v("Counter", "ggg");
+                postData();
+                updateDmanLocation("http://guoxiao113.oicp.net/D_Food_Server/user_track?id=1\n");
+//                try {
+//                    zoomToDeliveryman();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+            }
+
+        }, 0, interval);
+    }
+
+    protected void updateDmanLocation(String url) {
+        try {
+            dManLocData = downloadUrl(url);
+            try {
+                dManJObject = new JSONObject(dManLocData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.v("update dman loc", dManLocData.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void zoomToDeliveryman() throws JSONException {
+        if (dManJObject != null) {
+            locTest++;
+            Double lat = 40.440320;
+            Double lng = -80.003079;
+            lat = Double.parseDouble(dManJObject.getString("latitude")) + locTest*0.0003;
+            lng = Double.parseDouble(dManJObject.getString("longitude"))+ locTest*0.0003;
+            dMan = new LatLng(lat,lng);
+            Log.v("log", lat.toString());
+            Log.v("lng", lng.toString());
+            dManMarker.setPosition(dMan);
+            dManMarker.hideInfoWindow();
+            dManMarker.showInfoWindow();
+        }
+    }
+
+    public void getDmanLocation() {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/user_track?");
+
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            nameValuePairs.add(new BasicNameValuePair("id", "1"));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
     }
 
     protected void trackDeliveryMan() {
@@ -75,10 +270,8 @@ public class TrackDeliveryManActivity extends Activity {
         LatLng myLocation = null;
         Location location = null;
 
-        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.trackMap))
-                .getMap();
-        map.setMyLocationEnabled(true);
 
+        map.setMyLocationEnabled(true);
         location = map.getMyLocation();
 
 
@@ -86,16 +279,48 @@ public class TrackDeliveryManActivity extends Activity {
 
         } else {
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            final Marker myMarker =  map.addMarker(new MarkerOptions().position(myLocation).title("Your Location"));
+            myMarker =  map.addMarker(new MarkerOptions().position(myLocation).title("Your Location"));
 
-            LatLng aLL = new LatLng(40.440320, -80.003079);
-            final Marker dManMarker = map.addMarker(new MarkerOptions().position(aLL).title("Delivery Man"));
+//            dInfo = totalDistance + " mile away";
+
+            String url = getDirectionsUrl(myLocation, aLL);
+
+            DownloadTask downloadTask = new DownloadTask();
+
+            downloadTask.execute(url);
+
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(myMarker.getPosition());
+            builder.include(dManMarker.getPosition());
+            LatLngBounds bounds = builder.build();
+
+            int padding = 140;
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            map.animateCamera(cu);
+
+            dManMarker.setSnippet(totalDistance + dInfo);
+
+            if (dManMarker.isInfoWindowShown()) {
+                dManMarker.hideInfoWindow();
+            }
+            dManMarker.showInfoWindow();
+
 
             map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker arg0) {
-                    myMarker.showInfoWindow();
-                    dManMarker.showInfoWindow();
+
+                    if (arg0.getTitle().equals("Your Location")) {
+                        myMarker.showInfoWindow();
+                    } else {
+                        dManMarker.setSnippet(totalDistance + dInfo);
+                        Log.v("after", Boolean.toString(dManMarker.isInfoWindowShown()));
+                        if (dManMarker.isInfoWindowShown()) {
+                            dManMarker.hideInfoWindow();
+                        }
+                        dManMarker.showInfoWindow();
+                    }
                     return false;
                 }
             });
@@ -105,24 +330,43 @@ public class TrackDeliveryManActivity extends Activity {
 
                 }
             });
-            String url = getDirectionsUrl(myLocation, aLL);
-
-            DownloadTask downloadTask = new DownloadTask();
-
-            downloadTask.execute(url);
-
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(myMarker.getPosition());
-            builder.include(dManMarker.getPosition());
-            LatLngBounds bounds = builder.build();
-
-            int padding = 40;
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-            map.animateCamera(cu);
 
             TextView durationView = (TextView) findViewById(R.id.durationTextView);
             durationView.setText(totalDuration);
+
+        }
+    }
+
+    public class MyPost extends AsyncTask {
+
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            postData();
+            return null;
+        }
+    }
+
+    public void postData() {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/track?");
+
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            nameValuePairs.add(new BasicNameValuePair("id", "1"));
+            nameValuePairs.add(new BasicNameValuePair("latitude", "40.440320"));
+            nameValuePairs.add(new BasicNameValuePair("longitude", "-80.003079"));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
         }
     }
 
@@ -160,48 +404,43 @@ public class TrackDeliveryManActivity extends Activity {
 
             }
         };
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+
+        String bestProvider = mLocationManager.getBestProvider(criteria, false);
+
+        mLocationManager.requestLocationUpdates(bestProvider, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
+        location = mLocationManager
+                .getLastKnownLocation(bestProvider);
 
-        Location customerLocation = mLocationManager
-                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        return location;
 
-        return customerLocation;
+//        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//
+//        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+//                LOCATION_REFRESH_DISTANCE, mLocationListener);
+//
+//        Location customerLocation = mLocationManager
+//                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//
+//        return customerLocation;
     }
     protected void zoomToLocation() {
         LatLng newLoc = null;
         LatLng myLocation = null;
-        location = null;
-
-        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.trackMap))
-                .getMap();
-        map.setMyLocationEnabled(true);
 
         location = map.getMyLocation();
-
+        if (location == null) {
+            location = updateLocation();
+        }
 
         if (location == null) {
 
         } else {
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            final Marker myMarker =  map.addMarker(new MarkerOptions().position(myLocation).title("Your Location"));
-
-            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker arg0) {
-                    myMarker.showInfoWindow();
-                    return false;
-                }
-            });
-            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-
-                }
-            });
-
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
         }
     }
@@ -311,12 +550,19 @@ public class TrackDeliveryManActivity extends Activity {
                 // Starts parsing data
                 routes = parser.parse(jObject);
                 double t = parser.parseDuration(jObject);
+                double dis = parser.getDistance();
 
+                totalDistance = toDistance(dis);
                 totalDuration = toTime(t);
             }catch(Exception e){
                 e.printStackTrace();
             }
             return routes;
+        }
+
+        protected String toDistance(double dis) {
+            String d = String.format("%.1f", dis/1600);
+            return d;
         }
 
         protected String toTime(double t) {

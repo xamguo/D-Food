@@ -17,9 +17,14 @@ import java.util.List;
  */
 public class DirectionsJSONParser {
     private double totalTime = 0;
+    private double distance = 0;
 
     public double getTotalTime() {
         return totalTime;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 
     public double parseDuration(JSONObject jObject) {
@@ -42,11 +47,12 @@ public class DirectionsJSONParser {
 
                     for(int k=0;k<jSteps.length();k++){
                         double duration = 0;
-                        float dur = 0;
+                        double dis = 0;
+
                         duration = (Double)((JSONObject)((JSONObject)jSteps.get(k)).get("duration")).getDouble("value");
+                        dis = (Double)((JSONObject)((JSONObject)jSteps.get(k)).get("distance")).getDouble("value");
 
-                         Log.v("my test", Double.toString(duration));
-
+                        distance = distance + dis;
                         totalTime = totalTime + duration;
                     }
                 }
