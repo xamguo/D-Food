@@ -23,10 +23,6 @@ public class SearchReceiver extends BroadcastReceiver {
     public void onReceive(Context arg0, Intent arg1) {
         // TODO Auto-generated method stub
 
-        if(HomePageActivity.dialog.isShowing()) {
-            HomePageActivity.dialog.dismiss();
-        }
-
         //dataReceived = (Data) arg1.getSerializableExtra("SearchResult");
         activity.startActivity(intent);
     }
