@@ -22,14 +22,17 @@ import android.widget.SeekBar;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.user.Search;
 import com.example.sam.d_food.entities.user.SearchReceiver;
+import com.example.sam.d_food.ws.remote.DataProgress;
 import com.example.sam.d_food.ws.remote.DataService;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
 import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class HomePageActivity extends Activity {
 
-    public static ProgressDialog dialog;
     public static boolean receiverSign = false;
 
     private String price;
@@ -41,11 +44,18 @@ public class HomePageActivity extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button searchButton;
+    //public ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.layout_home_page);
+
+
+
+        //dialog = new ProgressDialog(this);
+
 
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
@@ -78,7 +88,7 @@ public class HomePageActivity extends Activity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        startService();
+//        startService();
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.homeSeekBar);
         seekBar.incrementProgressBy(10);
@@ -123,7 +133,7 @@ public class HomePageActivity extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search();
+                 search();
             }
         });
     }
@@ -149,42 +159,53 @@ public class HomePageActivity extends Activity {
     }
 
     public void search(){
-        dialog = new ProgressDialog(this);
-        dialog.show();
+        //dialog.setMessage("Searching");
+        //dialog.show();
 
-        String location = textView_location.getText().toString();
-        location = "CMU";
-        Log.v("location", location);
 
-        if(location == null){
-            location = "CMU";
+//        String location = textView_location.getText().toString();
+//        location = "CMU";
+//        Log.v("location", location);
+//
+//        if(location == null){
+//            location = "CMU";
+//        }
+//
+//        if(s != null) {
+//            s.unbindService();
+//        }
+//
+//        if(receiverSign == true){
+//            unReceiver();
+//        }
+//        receiver();
+//        s = new Search(HomePageActivity.this);
+//        double x,y;
+//        x=1.1;
+//        y=2.2;      //value for simulation
+//        s.search(x,y,price,location);
+        try {
+            DataProgress dataProgress = new DataProgress(this);
+            dataProgress.execute(" ").get();
+            //ArrayList<HashMap<String, String>> restaurantList = dataProgress.getJsonlist();
+            Intent intent = new Intent(this, RestaurantResultListActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if(s != null) {
-            s.unbindService();
-        }
-
-        if(receiverSign == true){
-            unReceiver();
-        }
-        receiver();
-        s = new Search(HomePageActivity.this);
-        double x,y;
-        x=1.1;
-        y=2.2;      //value for simulation
-        s.search(x,y,price,location);
+        //dialog.dismiss();
     }
 
     @Override
     protected void onPause() {
-        if(s != null) {
-            //unReceiver();
-            s.unbindService();
-            Log.v("unbindService","here");
-        }
-        if(receiverSign == true){
-            unReceiver();
-        }
+//        if(s != null) {
+//            //unReceiver();
+//            s.unbindService();
+//            Log.v("unbindService","here");
+//        }
+//        if(receiverSign == true){
+//            unReceiver();
+//        }
         super.onPause();
     }
 
