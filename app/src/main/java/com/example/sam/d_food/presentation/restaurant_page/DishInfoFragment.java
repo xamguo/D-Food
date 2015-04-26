@@ -53,7 +53,6 @@ public class DishInfoFragment extends Fragment{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         goCheck();
-                        postOrder();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -64,50 +63,6 @@ public class DishInfoFragment extends Fragment{
                 })
                 .show();
 
-    }
-
-    private void postOrder() {
-        InputStream inputStream = null;
-        String result = "";
-        try {
-
-            String url = "http://guoxiao113.oicp.net/D_Food_Server/place_order?";
-
-            // 1. create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
-
-            // 2. make POST request to the given URL
-            HttpPost httpPost = new HttpPost(url);
-
-            String json = "";
-
-            // 3. build jsonObject
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("order_id", "1");
-            jsonObject.accumulate("user_id", "1");
-            jsonObject.accumulate("restaurant_id", "1");
-            jsonObject.accumulate("dish_id", "1");
-            jsonObject.accumulate("dish_quantity", "1");
-            jsonObject.accumulate("dMan_id", "1");
-
-            // 4. convert JSONObject to JSON to String
-            json = jsonObject.toString();
-
-            // 5. set json to StringEntity
-            StringEntity se = new StringEntity(json);
-
-            // 6. set httpPost Entity
-            httpPost.setEntity(se);
-
-            // 7. Set some headers to inform server about the type of the content
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            // 8. Execute POST request to the given URL
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
     }
 
     private void goCheck(){
