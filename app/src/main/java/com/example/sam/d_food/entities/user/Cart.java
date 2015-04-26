@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Sam on 4/11/2015.
  */
 public class Cart {
-    static public ArrayList<Order> myOders;
+    static public ArrayList<Order> myOders = new ArrayList<Order>();
 
     static public void addOder(String name, String restaurantName, int id, int quantity) {
            myOders.add(new Order(name,restaurantName,id,quantity));
