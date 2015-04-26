@@ -13,10 +13,10 @@
         android:textSize="40dp"
         style="@style/my_font_big_black"
         android:background="@color/my_red"
-        android:id="@+id/textView8" />
+        android:id="@+id/restaurantName" />
 
     <LinearLayout
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/restaurantName"
         android:layout_above="@+id/commentsView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

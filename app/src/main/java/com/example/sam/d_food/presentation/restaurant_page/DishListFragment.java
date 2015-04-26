@@ -32,6 +32,8 @@ public class DishListFragment extends ListFragment
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         DishInfoFragment fragment = new DishInfoFragment();
+        fragment.setDish(RestaurantProxy.getDishList(restaurantIndex).get(position));
+        fragment.setRestaurantName(RestaurantProxy.getRestaurants().get(restaurantIndex).getName());
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
 
