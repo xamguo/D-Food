@@ -1,10 +1,12 @@
 package com.example.sam.d_food.presentation.user_page;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -19,6 +21,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -80,6 +83,7 @@ public class TrackDeliveryManActivity extends Activity {
     private JSONObject dManJObject;
     private Button tractButton;
     private Button ringButton;
+    private Context TD_Context;
 
     private int locTest = 0;
     private final int LOCATION_REFRESH_TIME = 5;
@@ -90,6 +94,7 @@ public class TrackDeliveryManActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_track_delivery_man);
 
+        TD_Context = TrackDeliveryManActivity.this;
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
         initial();
@@ -101,6 +106,8 @@ public class TrackDeliveryManActivity extends Activity {
 //        MyPost locMyPost = new MyPost();
 //        locMyPost.execute(null);
 //        uploadLocation();
+
+        checkLocServiceEnabled();
 
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +161,44 @@ public class TrackDeliveryManActivity extends Activity {
 //            }
 //        }, 0, interval);
 
+    }
+
+    protected void checkLocServiceEnabled() {
+        LocationManager lm = null;
+        boolean gps_enabled = false,network_enabled = false;
+        if(lm==null)
+            lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        try{
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }catch(Exception ex){}
+        try{
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }catch(Exception ex){}
+
+        if(!gps_enabled && !network_enabled){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(TD_Context);
+            dialog.setMessage(TD_Context.getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(TD_Context.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    TD_Context.startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton(TD_Context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            dialog.show();
+
+        }
     }
 
     protected void notifyCustomer(Bundle bundle) {
