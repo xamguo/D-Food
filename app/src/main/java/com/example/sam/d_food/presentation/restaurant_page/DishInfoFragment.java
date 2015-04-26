@@ -11,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.data.Dish;
+import com.example.sam.d_food.entities.user.Cart;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 
 import org.apache.http.HttpResponse;
@@ -21,6 +24,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.InputStream;
 
@@ -30,17 +34,33 @@ import java.io.InputStream;
 public class DishInfoFragment extends Fragment{
     Button checkButton;
     Spinner spinner;
+    TextView info;
+    TextView comment;
+    TextView restName;
+
+    Dish dish;
+    String restaurantName;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_dish_info, container, false);
         spinner = (Spinner)v.findViewById(R.id.dishSpinner);
+        info = (TextView)v.findViewById(R.id.dishInfo);
+        restName = (TextView)v.findViewById(R.id.restaurantName);
+        comment = (TextView)v.findViewById(R.id.commentsView);
+
+        restName.setText(restaurantName);
+        info.setText(dish.getName() + "\r\n" + "$" + dish.getPrice());
+        comment.setText("Good dish");
 
         checkButton = (Button)v.findViewById(R.id.addToCart);
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int i = spinner.getSelectedItemPosition();
+                int quantity = spinner.getSelectedItemPosition() + 1;
+                //Log.v("check quantity", String.valueOf(quantity));
+                Cart.addOder(dish.getName(), restaurantName, dish.getId(), quantity);
                 checkout();
             }
         });
@@ -63,6 +83,22 @@ public class DishInfoFragment extends Fragment{
                 })
                 .show();
 
+    }
+
+    public Dish getDish() {
+        return dish;
+    }
+
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     private void goCheck(){
