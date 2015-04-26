@@ -4,15 +4,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.data.Restaurant;
 import com.example.sam.d_food.entities.data.RestaurantProxy;
-import com.example.sam.d_food.ws.remote.Data;
+import com.example.sam.d_food.ws.remote.DataProgress;
 
 /**
  * Created by Sam on 4/16/2015.
@@ -25,11 +26,23 @@ public class RestaurantListFragment extends ListFragment
         //Intent intent = new Intent(this,DishResultListActivity.class);
         //intent.putExtra("position",position);
         //startActivity(intent);
+        Restaurant restaurantSelected = RestaurantProxy.getRestaurants().get(position);
+        String restaurantName = restaurantSelected.getName();
 
+        if(!restaurantSelected.isDishesSet()) {
+            try {
+                Log.v("restaurantName", restaurantName);
+                DataProgress dataProgress = new DataProgress();
+                dataProgress.execute("dish", restaurantName).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        Fragment fragment = new DishListFragment();
+        /**/
+        DishListFragment fragment = new DishListFragment();
+        fragment.setRestaurantIndex(position);
         RestaurantResultListActivity.dishListFragment = fragment;
-
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
 
@@ -42,7 +55,7 @@ public class RestaurantListFragment extends ListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setListAdapter(new CustomArrayAdapter(getActivity(), RestaurantProxy.getRestaurants()));
+        //setListAdapter(new CustomRestaurantArrayAdapter(getActivity(), RestaurantProxy.getRestaurants()));
 
 //        String[] from = new String[] { "name", "location"};
 //        int[] to = new int[] { R.id.title,R.id.info};
@@ -62,7 +75,15 @@ public class RestaurantListFragment extends ListFragment
 
         //ImageView img = (ImageView) v.findViewById(R.id.img);
         //img.setImageResource(R.drawable.food);
-
         return super.onCreateView(inflater, container, savedInstanceState);
+        //return null;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setListAdapter(new CustomRestaurantArrayAdapter(getActivity(), RestaurantProxy.getRestaurants()));
+
+        super.onCreate(savedInstanceState);
+    }
+
 }

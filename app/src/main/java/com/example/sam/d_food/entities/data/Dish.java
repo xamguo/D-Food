@@ -14,51 +14,38 @@ import com.example.sam.d_food.ws.remote.DataService;
  * Created by Sam on 4/11/2015.
  */
 public class Dish {
-    boolean mBound = false;
-    Activity activity;
-    int restaurant_id;
-    String location;
+    private int id;
+    private double price;
+    private String name;
 
-    public Dish(Activity activity) {
-        this.activity = activity;
+    public Dish(int id, double price, String name) {
+        this.id = id;
+        this.price = price;
+        this.name = name;
     }
 
-    public void getDish(int restaurant_id) {
-        this.restaurant_id = restaurant_id;
-        bindService(String.valueOf(restaurant_id));
+    public int getId() {
+        return id;
     }
 
-    public void unbindService() {
-        if (mBound) {
-            activity.unbindService(mConnection);
-            mBound = false;
-            Log.v("Search class", "unbindService");
-        }
+    public void setId(int id) {
+        this.id = id;
     }
 
-    private void bindService(String restaurant_id) {
-
-        Intent intent = new Intent(activity, DataService.class);
-        intent.putExtra("Mode","Search");
-        intent.putExtra("restaurant_id",restaurant_id);
-
-        mBound = true;
-        boolean b = activity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        Log.v("connected service",String.valueOf(b));
+    public double getPrice() {
+        return price;
     }
 
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            mBound = true;
-            Log.v("connected service","xiao");
-        }
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
-    };
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 

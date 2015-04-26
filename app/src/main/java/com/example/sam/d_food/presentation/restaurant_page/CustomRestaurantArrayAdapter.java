@@ -27,10 +27,10 @@ import java.util.List;
 /**
  * Created by Sam on 4/24/2015.
  */
-public class CustomArrayAdapter extends ArrayAdapter {
+public class CustomRestaurantArrayAdapter extends ArrayAdapter {
     ArrayList<Restaurant> restaurants;
     Activity activity;
-    public CustomArrayAdapter(Activity a, ArrayList list) {
+    public CustomRestaurantArrayAdapter(Activity a, ArrayList list) {
         super(a, R.layout.support_restaurant_list, list);
         restaurants = list;
         activity = a;
@@ -42,6 +42,7 @@ public class CustomArrayAdapter extends ArrayAdapter {
         ImageView fieldImage;
         RatingBar ratingBar;
         TextView name;
+        TextView desc;
 
 
         LayoutInflater inflater=activity.getLayoutInflater();
@@ -50,15 +51,21 @@ public class CustomArrayAdapter extends ArrayAdapter {
         fieldImage = (ImageView) row.findViewById(R.id.img);
         ratingBar = (RatingBar)row.findViewById(R.id.ratingBar);
         name = (TextView)row.findViewById(R.id.title);
+        desc = (TextView)row.findViewById(R.id.info);
 
-        new DownloadImageTask(fieldImage)
-                .execute("https://pbs.twimg.com/profile_images/378800000765715763/f1d67a9deb0bb6c4bb8a4144083cd7c8_normal.jpeg");
-
+        String url = restaurants.get(position).getPic_url();
+        if(url == null) {
+            new DownloadImageTask(fieldImage)
+                    .execute("https://pbs.twimg.com/profile_images/378800000765715763/f1d67a9deb0bb6c4bb8a4144083cd7c8_normal.jpeg");
+        } else {
+            new DownloadImageTask(fieldImage)
+                    .execute(url);
+        }
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         name.setText(restaurants.get(position).getName());
+        desc.setText(restaurants.get(position).getDescription());
         ratingBar.setRating(Float.parseFloat(restaurants.get(position).getRating()));
-
         return row;
     }
 
