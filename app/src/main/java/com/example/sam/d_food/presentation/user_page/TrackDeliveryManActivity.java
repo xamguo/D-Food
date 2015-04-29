@@ -111,39 +111,39 @@ public class TrackDeliveryManActivity extends Activity {
         });
 
 
-//        Timer t = new Timer();
-//        t.scheduleAtFixedRate(new TimerTask() {
-//
-//            @Override
-//            public void run() {
-//                runOnUiThread(new Runnable()
-//                {
-//                    public void run()
-//                    {
-//                        try {
-//                            zoomToDeliveryman();
-//                            tractButton.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    trackDeliveryMan();
-//                                }
-//                            });
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    public void run()
+                    {
+                        try {
+                            zoomToDeliveryman();
+                            tractButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    trackDeliveryMan();
+                                }
+                            });
 //
 //                            ringButton.setOnClickListener(new View.OnClickListener() {
 //                                @Override
 //                                public void onClick(View v) {
-//                                    notifyCustomer();
+//                                    notifyCustomer(savedInstanceState);
 //                                    Log.v("Ring","hi");
 //                                }
 //                            });
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//            }
-//        }, 0, interval);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }, 0, interval);
 
     }
 
