@@ -13,16 +13,9 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -112,17 +105,8 @@ public class TrackDeliveryManActivity extends Activity {
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String vs = Context.VIBRATOR_SERVICE;
-                Vibrator mVibrator = (Vibrator)getSystemService(vs);
-
-                boolean isVibrator = mVibrator.hasVibrator();
                 notifyCustomer(savedInstanceState);
                 Log.v("Ring","hi");
-                Log.v("Vibrator",Boolean.toString(isVibrator));
-//                Vibrator vib;
-//                vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//                vib.vibrate(5000);
-//                Log.v("Ring","hi");
             }
         });
 
@@ -207,23 +191,25 @@ public class TrackDeliveryManActivity extends Activity {
 //        player.setLooping(true);
 //        player.start();
 
+        Intent notificationIntent = new Intent(TD_Context, TrackDeliveryManActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(TD_Context, 0, notificationIntent, 0);
+
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-        int icon = R.drawable.logo4;
-        CharSequence tickerText = "bla bla";
-        long when = System.currentTimeMillis();
-        Notification notification = new Notification(icon, tickerText, when);
-        Context context = getApplicationContext();
-        CharSequence contentTitle = "My notification";
-        CharSequence contentText = "Hello World!";
-        Intent notificationIntent = new Intent(this, TrackDeliveryManActivity.class);
-        if(bundle!=null)
-            notificationIntent.putExtras(bundle); //you may put bundle or not
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+
+        Notification dManNotification = new Notification.Builder(TD_Context)
+                .setSmallIcon(R.drawable.logo4)
+                .setContentTitle(TD_Context.getString(R.string.app_name))
+                .setContentIntent(intent)
+                .setPriority(5) //private static final PRIORITY_HIGH = 5;
+                .setContentText("I'm in front of your door")
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS).build();
+
         int any_ID_you_want = 1;
         //if you send another notification with same ID, this will be replaced by the other one
-        mNotificationManager.notify(any_ID_you_want,notification);
+        mNotificationManager.notify(any_ID_you_want,dManNotification);
 
     }
 
