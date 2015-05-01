@@ -100,7 +100,7 @@ public class TrackDeliveryManActivity extends Activity {
         }
 
         MyPost locMyPost = new MyPost();
-        locMyPost.execute(null);
+        locMyPost.execute((Integer)null);
         uploadLocation();
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
