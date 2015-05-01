@@ -106,11 +106,8 @@ public class CheckActivity extends Activity {
 
     private void check() {
         for(int i = 0; i < Cart.getOrderNum(); i++) {
-            PlaceOrderProcess order = new PlaceOrderProcess();
+            PlaceOrderProcess order = new PlaceOrderProcess(this);
             order.execute(String.valueOf(Cart.getOrderID(i)),String.valueOf(Cart.getOrderQuantity(i)), String.valueOf(userID));
         }
-        finish();
-        IntentToUserMap intent = new IntentToUserMap(this);
-        startActivity(intent);
     }
 }

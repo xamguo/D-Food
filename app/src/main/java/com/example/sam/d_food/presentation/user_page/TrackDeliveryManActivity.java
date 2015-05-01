@@ -67,6 +67,7 @@ public class TrackDeliveryManActivity extends Activity {
     private Marker dManMarker;
     private String totalDuration;
     private String totalDistance = "";
+    private String deliverymanID;
     private String dInfo = " mile away";
     private Location location;
     private LatLng aLL;
@@ -90,6 +91,9 @@ public class TrackDeliveryManActivity extends Activity {
         setContentView(R.layout.layout_track_delivery_man);
 
         TD_Context = TrackDeliveryManActivity.this;
+        Bundle extras = getIntent().getExtras();
+        deliverymanID = String.valueOf(extras.getInt("deliverymanID"));
+        Log.v("Track deliverymanID",deliverymanID);
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
         tractButton = (Button) findViewById(R.id.tractButton);
@@ -393,7 +397,7 @@ public class TrackDeliveryManActivity extends Activity {
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            nameValuePairs.add(new BasicNameValuePair("id", "1"));
+            nameValuePairs.add(new BasicNameValuePair("id", deliverymanID));
             nameValuePairs.add(new BasicNameValuePair("latitude", "40.440320"));
             nameValuePairs.add(new BasicNameValuePair("longitude", "-80.003079"));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
