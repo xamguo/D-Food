@@ -1,4 +1,4 @@
-package com.example.sam.d_food.presentation.restaurant_page;
+package com.example.sam.d_food.presentation.main_flow_pages;
 
 import android.app.FragmentManager;
 import android.app.ListFragment;
@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.data.RestaurantProxy;
+import com.example.sam.d_food.entities.data.BuildRestaurant;
+import com.example.sam.d_food.entities.data.DishesEditor;
+import com.example.sam.d_food.entities.data.RestaurantEditor;
+import com.example.sam.d_food.presentation.main_flow_pages.adapters.CustomDishArrayAdapter;
 
 /**
  * Created by Sam on 4/16/2015.
@@ -18,16 +20,25 @@ import com.example.sam.d_food.entities.data.RestaurantProxy;
 public class DishListFragment extends ListFragment
 {
     private int restaurantIndex;
+    DishesEditor dishesEditor;
+    RestaurantEditor restaurantEditor;
 
     public void setRestaurantIndex(int restaurantIndex) {
         this.restaurantIndex = restaurantIndex;
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dishesEditor = new BuildRestaurant();
+        restaurantEditor = new BuildRestaurant();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /* Set up the list fragment view */
-        setListAdapter(new CustomDishArrayAdapter(getActivity(), RestaurantProxy.getDishList(restaurantIndex)));
+        setListAdapter(new CustomDishArrayAdapter(getActivity(), dishesEditor.getDishList(restaurantIndex)));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -35,14 +46,14 @@ public class DishListFragment extends ListFragment
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         DishInfoFragment fragment = new DishInfoFragment();
-        fragment.setDish(RestaurantProxy.getDishList(restaurantIndex).get(position));
-        fragment.setRestaurantName(RestaurantProxy.getRestaurants().get(restaurantIndex).getName());
+        fragment.setDish(dishesEditor.getDishList(restaurantIndex).get(position));
+        fragment.setRestaurantName(restaurantEditor.getRestaurants().get(restaurantIndex).getName());
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
 
         manager.beginTransaction()
                 .add(R.id.fragmentContainer, fragment)
                 .commit();
-        RestaurantResultListActivity.pageNum = 3;
+        FragmentContainerActivity.pageNum = 3;
     }
 }

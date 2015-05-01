@@ -1,4 +1,4 @@
-package com.example.sam.d_food.presentation.user_page;
+package com.example.sam.d_food.presentation.user_page.json_parser;
 
 import android.util.Log;
 

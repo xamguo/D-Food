@@ -14,14 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.deliveryman.Login;
-import com.example.sam.d_food.ws.remote.DatabaseConnector;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
 import com.example.sam.d_food.presentation.intents.IntentToUserHome;
 
 
 public class LoginPageActivity extends Activity {
-
+/*
     private TextView accountID;
     private TextView password;
     private boolean toggle;
@@ -162,4 +160,5 @@ public class LoginPageActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }

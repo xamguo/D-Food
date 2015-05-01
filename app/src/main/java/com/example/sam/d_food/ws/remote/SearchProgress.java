@@ -1,25 +1,21 @@
 package com.example.sam.d_food.ws.remote;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.data.BuildRestaurant;
 import com.example.sam.d_food.entities.data.Dish;
-import com.example.sam.d_food.entities.data.RestaurantProxy;
-import com.example.sam.d_food.presentation.main_page.HomePageActivity;
-import com.example.sam.d_food.presentation.restaurant_page.DishListFragment;
-import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
+import com.example.sam.d_food.entities.data.DishesEditor;
+import com.example.sam.d_food.entities.data.RestaurantEditor;
+import com.example.sam.d_food.presentation.main_flow_pages.FragmentContainerActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -33,14 +29,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Sam on 4/19/2015.
  */
-public class DataProgress extends AsyncTask<String, Void, Boolean> {
+public class SearchProgress extends AsyncTask<String, Void, Boolean> {
     String restaurantName;
     String longitude;
     String latitude;
@@ -48,11 +43,15 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
     Activity activity;
     private String mode;
     private ProgressDialog dialog;
+    RestaurantEditor restaurantEditor;
+    DishesEditor dishesEditor;
 
-    public DataProgress(Activity c) {
+    public SearchProgress(Activity c) {
         super();
         activity = c;
         dialog = new ProgressDialog(activity);
+        restaurantEditor = new BuildRestaurant();
+        dishesEditor = new BuildRestaurant();
     }
 
     @Override
@@ -69,7 +68,7 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
         }
         if(mode.equals("restaurant")) {
             /* Go to the next page from here */
-            Intent intent = new Intent(activity, RestaurantResultListActivity.class);
+            Intent intent = new Intent(activity, FragmentContainerActivity.class);
             activity.startActivity(intent);
             super.onPostExecute(aBoolean);
         } else if(mode.equals("dish")){
@@ -85,7 +84,7 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
 
         if(Mode.equals("restaurant")) {
             mode = "restaurant";
-            RestaurantProxy.clearProxy();       //clear the proxy
+            restaurantEditor.clearProxy();       //clear the proxy
             result = searchRestaurant(Mode);
             longitude = strings[1];
             latitude = strings[2];
@@ -100,7 +99,7 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
             saveDish(result);
         } else {
             mode = "restaurant";
-            RestaurantProxy.clearProxy();
+            restaurantEditor.clearProxy();
             //Mode.equals(" ");
             result = searchRestaurant(" ");
             Log.v("Search", result);
@@ -154,7 +153,7 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
             JSONArray restaurantList = responseObject.getJSONArray("restaurantList");
             for (int i = 0; i < restaurantList.length(); i++) {
                 JSONObject restaurant = restaurantList.getJSONObject(i);
-                RestaurantProxy.createRestaurant(restaurant.getString("name"), restaurant.getString("rating"), restaurant.getString("description"),restaurant.getString("pic_url"));
+                restaurantEditor.createRestaurant(restaurant.getString("name"), restaurant.getString("rating"), restaurant.getString("description"),restaurant.getString("pic_url"));
                 Log.v("name", restaurant.getString("name"));
                 Log.v("rating", restaurant.getString("rating"));
             }
@@ -213,7 +212,7 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
                 Dish dishTemp = new Dish(dishId, dishPrice, dishName);
                 dishes.add(dishTemp);
             }
-            RestaurantProxy.setDishList(restaurantName,dishes);
+            dishesEditor.setDishList(restaurantName,dishes);
         } catch (Exception e) {
             e.printStackTrace();
         }

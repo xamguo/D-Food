@@ -1,4 +1,4 @@
-package com.example.sam.d_food.presentation.restaurant_page;
+package com.example.sam.d_food.presentation.main_flow_pages;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,7 +18,7 @@ import com.example.sam.d_food.presentation.intents.IntentToCheck;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
 
 
-public class RestaurantResultListActivity extends Activity {
+public class FragmentContainerActivity extends Activity {
 
     View justview;
     private DrawerLayout mDrawerLayout;
@@ -42,7 +42,7 @@ public class RestaurantResultListActivity extends Activity {
         manager.beginTransaction()
                 .add(R.id.fragmentContainer, restaurantListFragment)
                 .commit();
-        RestaurantResultListActivity.pageNum = 1;
+        FragmentContainerActivity.pageNum = 1;
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_restaurant);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_restaurant);
@@ -114,14 +114,14 @@ public class RestaurantResultListActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(position == 1){
-                IntentToLogin intent = new IntentToLogin(RestaurantResultListActivity.this);
+                IntentToLogin intent = new IntentToLogin(FragmentContainerActivity.this);
                 startActivity(intent);
                 mDrawerList.setItemChecked(position, false);
                 mDrawerLayout.closeDrawer(mDrawerList);
             } else if(position == 0) {
                 finish();
             } else if(position == 2) {
-                IntentToCheck intentToCheck = new IntentToCheck(RestaurantResultListActivity.this);
+                IntentToCheck intentToCheck = new IntentToCheck(FragmentContainerActivity.this);
                 startActivity(intentToCheck);
                 finish();
             }

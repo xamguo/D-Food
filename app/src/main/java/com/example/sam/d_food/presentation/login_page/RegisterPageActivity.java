@@ -11,14 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.user.CRUD;
-import com.example.sam.d_food.ws.remote.DatabaseConnector;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 
 public class RegisterPageActivity extends Activity {
-
+/*
     private EditText userName;
     private EditText password;
     private EditText re_password;
@@ -98,4 +96,5 @@ public class RegisterPageActivity extends Activity {
         Intent intent = new Intent(this, UserHomePageActivity.class);
         startActivity(intent);
     }
+    */
 }

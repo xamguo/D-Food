@@ -1,7 +1,6 @@
 package com.example.sam.d_food.presentation.main_page;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;    //changed to v7
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,19 +22,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.user.Search;
-import com.example.sam.d_food.entities.user.SearchReceiver;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
-import com.example.sam.d_food.ws.remote.DataProgress;
-import com.example.sam.d_food.ws.remote.DataService;
+import com.example.sam.d_food.ws.remote.SearchProgress;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
-import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.sam.d_food.presentation.main_flow_pages.FragmentContainerActivity;
 
 
 public class HomePageActivity extends Activity {
@@ -44,9 +35,7 @@ public class HomePageActivity extends Activity {
     public static boolean receiverSign = false;
 
     private String price;
-    private SearchReceiver searchReceiver;
     private EditText textView_location;
-    private Search s;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -231,8 +220,8 @@ public class HomePageActivity extends Activity {
 //        s.search(x,y,price,location);
         try {
             /* Go to the next page from dataProgress */
-            DataProgress dataProgress = new DataProgress(this);
-            dataProgress.execute(" ");
+            SearchProgress searchProgress = new SearchProgress(this);
+            searchProgress.execute(" ");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -257,24 +246,6 @@ public class HomePageActivity extends Activity {
 //        }
         super.onPause();
         mSensorManager.unregisterListener(mSensorListener);
-    }
-
-    private void startService() {
-        startService(new Intent(this, DataService.class));
-    }
-
-
-    private void receiver() {
-        searchReceiver = new SearchReceiver(this, RestaurantResultListActivity.class);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("MY_ACTION");
-        registerReceiver(searchReceiver, intentFilter);
-        receiverSign = true;
-    }
-
-    private void unReceiver() {
-        receiverSign = false;
-        unregisterReceiver(searchReceiver);
     }
 
     @Override

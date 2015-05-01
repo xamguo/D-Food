@@ -1,15 +1,5 @@
 package com.example.sam.d_food.entities.data;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.util.Log;
-
-import com.example.sam.d_food.ws.remote.DataService;
-
 /**
  * Created by Sam on 4/11/2015.
  */

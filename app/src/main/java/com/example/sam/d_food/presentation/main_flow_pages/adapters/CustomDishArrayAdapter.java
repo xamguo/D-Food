@@ -1,4 +1,4 @@
-package com.example.sam.d_food.presentation.restaurant_page;
+package com.example.sam.d_food.presentation.main_flow_pages.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

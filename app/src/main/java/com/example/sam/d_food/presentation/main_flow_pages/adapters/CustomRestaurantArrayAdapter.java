@@ -1,7 +1,6 @@
-package com.example.sam.d_food.presentation.restaurant_page;
+package com.example.sam.d_food.presentation.main_flow_pages.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ import com.example.sam.d_food.entities.data.Restaurant;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Sam on 4/24/2015.

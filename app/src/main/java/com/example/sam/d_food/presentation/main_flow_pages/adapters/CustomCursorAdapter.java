@@ -1,4 +1,4 @@
-package com.example.sam.d_food.presentation.restaurant_page;
+package com.example.sam.d_food.presentation.main_flow_pages.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +10,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;

@@ -1,4 +1,4 @@
-package com.example.sam.d_food.presentation.restaurant_page;
+package com.example.sam.d_food.presentation.main_flow_pages;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
