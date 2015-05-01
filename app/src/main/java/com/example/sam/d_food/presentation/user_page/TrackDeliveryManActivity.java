@@ -78,6 +78,7 @@ public class TrackDeliveryManActivity extends Activity {
     private Button tractButton;
     private Button ringButton;
     private Context TD_Context;
+    private int flag = 0;
 
     private int locTest = 0;
     private final int LOCATION_REFRESH_TIME = 5;
@@ -91,18 +92,16 @@ public class TrackDeliveryManActivity extends Activity {
         TD_Context = TrackDeliveryManActivity.this;
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
-        initial();
-        trackMyLocation();
-
-
         tractButton = (Button) findViewById(R.id.tractButton);
         ringButton = (Button) findViewById(R.id.customCallButton);
-//        MyPost locMyPost = new MyPost();
-//        locMyPost.execute(null);
-//        uploadLocation();
-
         checkLocServiceEnabled();
+        if (initial()) {
+            trackMyLocation();
+        }
 
+        MyPost locMyPost = new MyPost();
+        locMyPost.execute(null);
+        uploadLocation();
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +109,6 @@ public class TrackDeliveryManActivity extends Activity {
                 Log.v("Ring","hi");
             }
         });
-
 
         Timer t = new Timer();
         t.scheduleAtFixedRate(new TimerTask() {
@@ -122,6 +120,9 @@ public class TrackDeliveryManActivity extends Activity {
                     public void run()
                     {
                         try {
+                            if (flag != 1) {
+                                zoomToLocation();
+                            }
                             zoomToDeliveryman();
                             tractButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -145,7 +146,6 @@ public class TrackDeliveryManActivity extends Activity {
                 });
             }
         }, 0, interval);
-
     }
 
     protected void checkLocServiceEnabled() {
@@ -214,17 +214,23 @@ public class TrackDeliveryManActivity extends Activity {
 
     }
 
-    protected void initial() {
+    protected boolean initial() {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.trackMap))
                 .getMap();
-        map.setMyLocationEnabled(true);
 
-        String dName = "Deliveryman";
-        aLL = new LatLng(40.440320, -80.003079);
-        dManMarker = map.addMarker(new MarkerOptions()
-                .position(aLL)
-                .title(dName)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
+        if (map != null) {
+            map.setMyLocationEnabled(true);
+            String dName = "Deliveryman";
+            aLL = new LatLng(40.440320, -80.003079);
+            dManMarker = map.addMarker(new MarkerOptions()
+                    .position(aLL)
+                    .title(dName)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
+
+        } else {
+            return false;
+        }
+        return true;
     }
 
     protected void uploadLocation() {
@@ -472,6 +478,7 @@ public class TrackDeliveryManActivity extends Activity {
         if (location == null) {
 
         } else {
+            flag = 1;
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
         }
