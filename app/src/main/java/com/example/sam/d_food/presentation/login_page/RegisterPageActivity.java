@@ -16,15 +16,12 @@ import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 
 public class RegisterPageActivity extends Activity {
-/*
+
     private EditText userName;
     private EditText password;
     private EditText re_password;
     private EditText address;
-    private CRUD customer;
-    private com.example.sam.d_food.entities.deliveryman.CRUD deliveryMan;
     private String toggle;
-    private DatabaseConnector db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +38,15 @@ public class RegisterPageActivity extends Activity {
         register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
-
-                db=new DatabaseConnector(getApplicationContext());
                 if(password.getText().toString().equals(re_password.getText().toString())){
                     Intent intent=getIntent();
                     toggle=intent.getStringExtra("toggle");
                     if(toggle.equals("Deliveryman")){
-                        deliveryMan=new com.example.sam.d_food.entities.deliveryman.CRUD(userName.getText().toString(), password.getText().toString(),address.getText().toString(), db);
-                        deliveryMan.addDeliveryman();
                         Toast.makeText(getApplicationContext(), "Saved  ", Toast.LENGTH_SHORT).show();
                         Intent launchDeliveryHome=new Intent(RegisterPageActivity.this, DeliveryHomePageActivity.class);
                         launchDeliveryHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchDeliveryHome);
                     }else {
-                        customer=new CRUD(userName.getText().toString(), password.getText().toString(),address.getText().toString(), db);
-                        customer.addUser();
                         Toast.makeText(getApplicationContext(), "Saved  ", Toast.LENGTH_SHORT).show();
                         Intent launchCustomerHome=new Intent(RegisterPageActivity.this, UserHomePageActivity.class);
                         launchCustomerHome.putExtra("userName",userName.getText().toString());
@@ -68,7 +59,6 @@ public class RegisterPageActivity extends Activity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,10 +81,4 @@ public class RegisterPageActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void userhome(View view){
-        Intent intent = new Intent(this, UserHomePageActivity.class);
-        startActivity(intent);
-    }
-    */
 }

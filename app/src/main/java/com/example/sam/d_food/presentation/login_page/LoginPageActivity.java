@@ -16,17 +16,16 @@ import android.widget.Toast;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
 import com.example.sam.d_food.presentation.intents.IntentToUserHome;
+import com.example.sam.d_food.ws.remote.LoginProcess;
 
 
 public class LoginPageActivity extends Activity {
-/*
+
     private TextView accountID;
     private TextView password;
     private boolean toggle;
     private Switch userSwitch;
-    private com.example.sam.d_food.entities.user.Login customer;
-    private Login deliveryMan;
-    private DatabaseConnector db;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +35,19 @@ public class LoginPageActivity extends Activity {
         accountID=(TextView)findViewById(R.id.accountID);
         password=(TextView)findViewById(R.id.password);
 
+        mode = "user";
         userSwitch=(Switch)findViewById(R.id.switchUser);
         userSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     toggle=true;
+                    mode = "deliveryman";
                 } else {
                     toggle=false;
+                    mode = "user";
                 }
             }
         });
-
 
         Button login = (Button) findViewById(R.id.login);
         Button register = (Button) findViewById(R.id.register);
@@ -56,51 +57,13 @@ public class LoginPageActivity extends Activity {
 
     }
 
-
     View.OnClickListener loginClicked = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-                AsyncTask<Object, Object, Object> saveContactTask =
-                        new AsyncTask<Object, Object, Object>()
-                        {
-                            @Override
-                            protected Object doInBackground(Object... params)
-                            {
-                                //check login
-                                return null;
-                            } // end method doInBackground
-
-                            @Override
-                            protected void onPostExecute(Object result)
-                            {
-                                IntentToUserHome launchUser = null;
-                                IntentToDeliverymanHome launchDeliveryman = null;
-                                String user = null;
-                                db=new DatabaseConnector(getApplicationContext());
-                                deliveryMan=new Login(accountID.getText().toString(), password.getText().toString(), db);
-                                customer=new com.example.sam.d_food.entities.user.Login(accountID.getText().toString(), password.getText().toString(), db);
-                                if (toggle && deliveryMan.authenticate()){
-                                    launchDeliveryman = new IntentToDeliverymanHome(LoginPageActivity.this);
-                                    user="Deliveryman";
-                                    launchDeliveryman.putExtra("toggle", user);
-                                    finish();
-                                    startActivity(launchDeliveryman);
-                                }else if(!toggle && customer.authenticate()){
-                                    launchUser=new IntentToUserHome(LoginPageActivity.this);
-                                    user="Customer";
-                                    launchUser.putExtra("toggle", user);
-                                    finish();
-                                    startActivity(launchUser);
-                                }else{
-                                    Toast.makeText(getApplicationContext(), "Wrong credentials  ", Toast.LENGTH_LONG).show();
-                                }
-                            } // end method onPostExecute
-                        }; // end AsyncTask
-
-                // save the contact to the database using a separate thread
-                saveContactTask.execute((Object[]) null);
+            LoginProcess loginProcess = new LoginProcess(LoginPageActivity.this);
+            loginProcess.execute(mode, accountID.getText().toString(), password.getText().toString());
         } // end method onClick
     };
 
@@ -109,35 +72,17 @@ public class LoginPageActivity extends Activity {
         @Override
         public void onClick(View v)
         {
-            AsyncTask<Object, Object, Object> saveContactTask =
-                    new AsyncTask<Object, Object, Object>()
-                    {
-                        @Override
-                        protected Object doInBackground(Object... params)
-                        {
-                            return null;
-                        } // end method doInBackground
-
-                        @Override
-                        protected void onPostExecute(Object result)
-                        {
-                            String user;
-                            if (toggle){
-                                user="Deliveryman";
-                            }else{
-                                user="Customer";
-                            }
-                            Intent launchRegister=new Intent(LoginPageActivity.this, RegisterPageActivity.class);
-                            launchRegister.putExtra("toggle", user);
-                            startActivity(launchRegister);
-                        } // end method onPostExecute
-                    }; // end AsyncTask
-
-            // save the contact to the database using a separate thread
-            saveContactTask.execute((Object[]) null);
-        } // end method onClick
+            String user;
+            if (toggle){
+                user="Deliveryman";
+            }else{
+                user="Customer";
+            }
+            Intent launchRegister=new Intent(LoginPageActivity.this, RegisterPageActivity.class);
+            launchRegister.putExtra("toggle", user);
+            startActivity(launchRegister);
+        }
     };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,5 +105,5 @@ public class LoginPageActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    */
+
 }
