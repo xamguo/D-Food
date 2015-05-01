@@ -3,6 +3,7 @@ package com.example.sam.d_food.presentation.main_flow_pages;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
+import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 
 public class FragmentContainerActivity extends Activity {
@@ -49,7 +51,7 @@ public class FragmentContainerActivity extends Activity {
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.layout_list_item, getResources().getStringArray(R.array.planets_array)));
+                R.layout.layout_list_item, getResources().getStringArray(R.array.drawer_items)));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -123,6 +125,10 @@ public class FragmentContainerActivity extends Activity {
             } else if(position == 2) {
                 IntentToCheck intentToCheck = new IntentToCheck(FragmentContainerActivity.this);
                 startActivity(intentToCheck);
+                finish();
+            } else if(position == 3) {
+                Intent intenet = new Intent(FragmentContainerActivity.this, UserHomePageActivity.class);
+                startActivity(intenet);
                 finish();
             }
         }

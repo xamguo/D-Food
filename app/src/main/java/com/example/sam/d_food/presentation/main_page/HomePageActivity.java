@@ -26,6 +26,7 @@ import android.widget.SeekBar;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
+import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 import com.example.sam.d_food.ws.remote.SearchProgress;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
 import com.example.sam.d_food.presentation.main_flow_pages.FragmentContainerActivity;
@@ -66,7 +67,7 @@ public class HomePageActivity extends Activity {
         /* Drawer settings */
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.layout_list_item, getResources().getStringArray(R.array.planets_array)));
+                R.layout.layout_list_item, getResources().getStringArray(R.array.drawer_items)));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -183,6 +184,9 @@ public class HomePageActivity extends Activity {
             } else if(position == 2) {
                 IntentToCheck intentToCheck = new IntentToCheck(HomePageActivity.this);
                 startActivity(intentToCheck);
+            } else if(position == 3) {
+                Intent intenet = new Intent(HomePageActivity.this, UserHomePageActivity.class);
+                startActivity(intenet);
             }
             mDrawerList.setItemChecked(position, false);
             mDrawerLayout.closeDrawer(mDrawerList);

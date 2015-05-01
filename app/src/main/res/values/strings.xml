@@ -42,10 +42,11 @@
         <item>9</item>
     </string-array>
 
-    <string-array name="planets_array">
+    <string-array name="drawer_items">
         <item>Home</item>
         <item>Login</item>
         <item>My Cart</item>
+        <item>User Home</item>
     </string-array>
 
 </resources>
