@@ -38,7 +38,7 @@
         android:background="@drawable/custom_btn"
         android:layout_below="@+id/orders"
         android:layout_centerHorizontal="true"
-        android:onClick="usermap"/>
+        android:onClick="check"/>
 
     <Button
         android:layout_width="200dp"

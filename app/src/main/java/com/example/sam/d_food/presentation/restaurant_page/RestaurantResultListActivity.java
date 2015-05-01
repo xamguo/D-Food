@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.intents.IntentToCheck;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
 
 
@@ -118,6 +119,10 @@ public class RestaurantResultListActivity extends Activity {
                 mDrawerList.setItemChecked(position, false);
                 mDrawerLayout.closeDrawer(mDrawerList);
             } else if(position == 0) {
+                finish();
+            } else if(position == 2) {
+                IntentToCheck intentToCheck = new IntentToCheck(RestaurantResultListActivity.this);
+                startActivity(intentToCheck);
                 finish();
             }
         }

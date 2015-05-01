@@ -16,6 +16,10 @@ public class Cart {
         return myOrders.size();
     }
 
+    static public int getOrderID(int index) {
+        return myOrders.get(index).getId();
+    }
+
     static public String getOrderName(int index) {
         return myOrders.get(index).getName();
     }

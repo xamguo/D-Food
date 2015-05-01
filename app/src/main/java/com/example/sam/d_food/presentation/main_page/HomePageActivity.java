@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.user.Search;
 import com.example.sam.d_food.entities.user.SearchReceiver;
+import com.example.sam.d_food.presentation.intents.IntentToCheck;
 import com.example.sam.d_food.ws.remote.DataProgress;
 import com.example.sam.d_food.ws.remote.DataService;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
@@ -184,6 +185,9 @@ public class HomePageActivity extends Activity {
             if(position == 1){
                 IntentToLogin intent = new IntentToLogin(HomePageActivity.this);
                 startActivity(intent);
+            } else if(position == 2) {
+                IntentToCheck intentToCheck = new IntentToCheck(HomePageActivity.this);
+                startActivity(intentToCheck);
             }
             mDrawerList.setItemChecked(position, false);
             mDrawerLayout.closeDrawer(mDrawerList);
