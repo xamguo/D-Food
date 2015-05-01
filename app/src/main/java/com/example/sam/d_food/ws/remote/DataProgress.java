@@ -1,14 +1,19 @@
 package com.example.sam.d_food.ws.remote;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.data.Dish;
 import com.example.sam.d_food.entities.data.RestaurantProxy;
 import com.example.sam.d_food.presentation.main_page.HomePageActivity;
+import com.example.sam.d_food.presentation.restaurant_page.DishListFragment;
+import com.example.sam.d_food.presentation.restaurant_page.RestaurantResultListActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,14 +46,35 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
     String latitude;
     String distance;
     Activity activity;
-
-    public DataProgress() {
-        super();
-    }
+    private String mode;
+    private ProgressDialog dialog;
 
     public DataProgress(Activity c) {
         super();
         activity = c;
+        dialog = new ProgressDialog(activity);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        this.dialog.setMessage("Progress start");
+        this.dialog.show();
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        if(mode.equals("restaurant")) {
+            /* Go to the next page from here */
+            Intent intent = new Intent(activity, RestaurantResultListActivity.class);
+            activity.startActivity(intent);
+            super.onPostExecute(aBoolean);
+        } else if(mode.equals("dish")){
+            super.onPostExecute(aBoolean);
+        }
     }
 
     @Override
@@ -58,6 +84,7 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
         String result;
 
         if(Mode.equals("restaurant")) {
+            mode = "restaurant";
             RestaurantProxy.clearProxy();       //clear the proxy
             result = searchRestaurant(Mode);
             longitude = strings[1];
@@ -66,11 +93,13 @@ public class DataProgress extends AsyncTask<String, Void, Boolean> {
             Log.v("Search", result);
             saveRestaurants(result);
         } else if(Mode.equals("dish")) {
+            mode = "dish";
             restaurantName = strings[1];
             result = searchDishes(restaurantName);
             Log.v("Search", result);
             saveDish(result);
         } else {
+            mode = "restaurant";
             RestaurantProxy.clearProxy();
             //Mode.equals(" ");
             result = searchRestaurant(" ");

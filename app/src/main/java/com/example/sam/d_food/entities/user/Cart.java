@@ -6,23 +6,53 @@ import java.util.ArrayList;
  * Created by Sam on 4/11/2015.
  */
 public class Cart {
-    static public ArrayList<Order> myOders = new ArrayList<Order>();
+    static public ArrayList<Order> myOrders = new ArrayList<Order>();
 
-    static public void addOder(String name, String restaurantName, int id, int quantity) {
-           myOders.add(new Order(name,restaurantName,id,quantity));
+    static public void addOrder(String name, String restaurantName, int id, int quantity, double wholePrice) {
+           myOrders.add(new Order(name, restaurantName, id, quantity, wholePrice));
+    }
+
+    static public int getOrderNum() {
+        return myOrders.size();
+    }
+
+    static public String getOrderName(int index) {
+        return myOrders.get(index).getName();
+    }
+
+    static public int getOrderQuantity(int index) {
+        return myOrders.get(index).getQuantity();
+    }
+
+    static public double getOrderPrice(int index) {
+        return myOrders.get(index).getWholePrice();
+    }
+
+    static public String getOrderRestaurantName(int index) {
+        return myOrders.get(index).getRestaurantName();
+    }
+
+    static public double getTotalPrice() {
+        double price = 0;
+        for(int i = 0; i < myOrders.size(); i++){
+            price += Cart.getOrderPrice(i);
+        }
+        return price;
     }
 
     private static class Order{
         String name;
         String restaurantName;
+        double wholePrice;
         int id;
         int quantity;
 
-        private Order(String name, String restaurantName, int id, int quantity) {
+        private Order(String name, String restaurantName, int id, int quantity, double wholePrice) {
             this.name = name;
             this.id = id;
             this.quantity = quantity;
             this.restaurantName = restaurantName;
+            this.wholePrice = wholePrice;
         }
 
         public String getName() {
@@ -55,6 +85,14 @@ public class Cart {
 
         public void setRestaurantName(String restaurantName) {
             this.restaurantName = restaurantName;
+        }
+
+        public double getWholePrice() {
+            return wholePrice;
+        }
+
+        public void setWholePrice(double wholePrice) {
+            this.wholePrice = wholePrice;
         }
     }
 }

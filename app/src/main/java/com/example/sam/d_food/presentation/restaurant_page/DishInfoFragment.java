@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,6 @@ import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.data.Dish;
 import com.example.sam.d_food.entities.user.Cart;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.InputStream;
 
 /**
  * Created by Sam on 4/16/2015.
@@ -60,7 +49,7 @@ public class DishInfoFragment extends Fragment{
             public void onClick(View view) {
                 int quantity = spinner.getSelectedItemPosition() + 1;
                 //Log.v("check quantity", String.valueOf(quantity));
-                Cart.addOder(dish.getName(), restaurantName, dish.getId(), quantity);
+                Cart.addOrder(dish.getName(), restaurantName, dish.getId(), quantity, dish.getPrice()*quantity);
                 checkout();
             }
         });

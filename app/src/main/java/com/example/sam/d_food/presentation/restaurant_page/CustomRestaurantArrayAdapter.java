@@ -30,6 +30,7 @@ import java.util.List;
 public class CustomRestaurantArrayAdapter extends ArrayAdapter {
     ArrayList<Restaurant> restaurants;
     Activity activity;
+
     public CustomRestaurantArrayAdapter(Activity a, ArrayList list) {
         super(a, R.layout.support_restaurant_list, list);
         restaurants = list;
@@ -43,7 +44,7 @@ public class CustomRestaurantArrayAdapter extends ArrayAdapter {
         RatingBar ratingBar;
         TextView name;
         TextView desc;
-
+        LayerDrawable stars; // for changing the view
 
         LayoutInflater inflater=activity.getLayoutInflater();
         row=inflater.inflate(R.layout.support_restaurant_list, parent, false);
@@ -53,22 +54,30 @@ public class CustomRestaurantArrayAdapter extends ArrayAdapter {
         name = (TextView)row.findViewById(R.id.title);
         desc = (TextView)row.findViewById(R.id.info);
 
+        /* Image setting */
         String url = restaurants.get(position).getPic_url();
         if(url == null) {
+            /* get the default image */
             new DownloadImageTask(fieldImage)
                     .execute("https://pbs.twimg.com/profile_images/378800000765715763/f1d67a9deb0bb6c4bb8a4144083cd7c8_normal.jpeg");
         } else {
+            /* download the image */
             new DownloadImageTask(fieldImage)
                     .execute(url);
         }
-        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+
+        /* View changing */
+        stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+
+        /* Value setting */
         name.setText(restaurants.get(position).getName());
         desc.setText(restaurants.get(position).getDescription());
         ratingBar.setRating(Float.parseFloat(restaurants.get(position).getRating()));
         return row;
     }
 
+    /* Inner class for image downloading and displaying */
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

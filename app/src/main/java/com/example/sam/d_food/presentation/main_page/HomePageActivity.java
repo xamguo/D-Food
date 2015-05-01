@@ -11,13 +11,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;    //changed to v7
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,29 +64,24 @@ public class HomePageActivity extends Activity {
         super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.layout_home_page);
 
-
-
         //dialog = new ProgressDialog(this);
-
 
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
         searchButton = (Button) findViewById(R.id.searchRestaurant);
 
+        /* Drawer settings */
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.layout_list_item, getResources().getStringArray(R.array.planets_array)));
 
-        //add onclick listener of list view here
-
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" support_home_page_description for accessibility */
                 R.string.drawer_close  /* "close drawer" support_home_page_description for accessibility */
         ) {
@@ -101,12 +97,12 @@ public class HomePageActivity extends Activity {
 
 //        startService();
 
+        /* SeekBar settings */
         SeekBar seekBar = (SeekBar)findViewById(R.id.homeSeekBar);
         seekBar.incrementProgressBy(10);
         seekBar.setMax(20);
         seekBar.setProgress(20);
         price = "2";
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -141,12 +137,14 @@ public class HomePageActivity extends Activity {
             }
         });
 
+        /* Sensor settings */
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
+        /* Search button settings */
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,12 +178,20 @@ public class HomePageActivity extends Activity {
         return true;
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if(position == 1){
+                IntentToLogin intent = new IntentToLogin(HomePageActivity.this);
+                startActivity(intent);
+            }
+            mDrawerList.setItemChecked(position, false);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;    //click the icon
-        }
-
         if(item.getItemId() == R.id.login)
         {
             IntentToLogin intent = new IntentToLogin(this);
@@ -197,7 +203,6 @@ public class HomePageActivity extends Activity {
     public void search(){
         //dialog.setMessage("Searching");
         //dialog.show();
-
 
 //        String location = textView_location.getText().toString();
 //        location = "CMU";
@@ -221,11 +226,9 @@ public class HomePageActivity extends Activity {
 //        y=2.2;      //value for simulation
 //        s.search(x,y,price,location);
         try {
+            /* Go to the next page from dataProgress */
             DataProgress dataProgress = new DataProgress(this);
-            dataProgress.execute(" ").get();
-            //ArrayList<HashMap<String, String>> restaurantList = dataProgress.getJsonlist();
-            Intent intent = new Intent(this, RestaurantResultListActivity.class);
-            startActivity(intent);
+            dataProgress.execute(" ");
         } catch (Exception e) {
             e.printStackTrace();
         }

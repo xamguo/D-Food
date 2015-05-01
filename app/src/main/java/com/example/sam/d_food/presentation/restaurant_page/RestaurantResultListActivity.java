@@ -5,14 +5,25 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.intents.IntentToLogin;
 
 
 public class RestaurantResultListActivity extends Activity {
 
     View justview;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
     static Fragment restaurantListFragment;
     static Fragment dishListFragment;
     static int pageNum;
@@ -31,6 +42,32 @@ public class RestaurantResultListActivity extends Activity {
                 .add(R.id.fragmentContainer, restaurantListFragment)
                 .commit();
         RestaurantResultListActivity.pageNum = 1;
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_restaurant);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_restaurant);
+
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.layout_list_item, getResources().getStringArray(R.array.planets_array)));
+
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.string.drawer_open,  /* "open drawer" support_home_page_description for accessibility */
+                R.string.drawer_close  /* "close drawer" support_home_page_description for accessibility */
+        ) {
+            public void onDrawerClosed(View view) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     @Override
@@ -69,6 +106,20 @@ public class RestaurantResultListActivity extends Activity {
                     .add(R.id.fragmentContainer, dishListFragment)
                     .commit();
             pageNum = 2;
+        }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if(position == 1){
+                IntentToLogin intent = new IntentToLogin(RestaurantResultListActivity.this);
+                startActivity(intent);
+                mDrawerList.setItemChecked(position, false);
+                mDrawerLayout.closeDrawer(mDrawerList);
+            } else if(position == 0) {
+                finish();
+            }
         }
     }
 }

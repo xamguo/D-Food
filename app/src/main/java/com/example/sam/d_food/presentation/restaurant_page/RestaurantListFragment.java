@@ -3,6 +3,7 @@ package com.example.sam.d_food.presentation.restaurant_page;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ListFragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,35 +22,10 @@ import com.example.sam.d_food.ws.remote.DataProgress;
 public class RestaurantListFragment extends ListFragment
 {
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        //v.setBackgroundColor(Color.GRAY);
-        //Intent intent = new Intent(this,DishResultListActivity.class);
-        //intent.putExtra("position",position);
-        //startActivity(intent);
-        Restaurant restaurantSelected = RestaurantProxy.getRestaurants().get(position);
-        String restaurantName = restaurantSelected.getName();
-
-        if(!restaurantSelected.isDishesSet()) {
-            try {
-                Log.v("restaurantName", restaurantName);
-                DataProgress dataProgress = new DataProgress();
-                dataProgress.execute("dish", restaurantName).get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**/
-        DishListFragment fragment = new DishListFragment();
-        fragment.setRestaurantIndex(position);
-        RestaurantResultListActivity.dishListFragment = fragment;
-        FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
-
-        manager.beginTransaction()
-                .add(R.id.fragmentContainer, fragment)
-                .commit();
-        RestaurantResultListActivity.pageNum = 2;
+    public void onCreate(Bundle savedInstanceState) {
+        /* Set up the list fragment view */
+        setListAdapter(new CustomRestaurantArrayAdapter(getActivity(), RestaurantProxy.getRestaurants()));
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -80,10 +56,36 @@ public class RestaurantListFragment extends ListFragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setListAdapter(new CustomRestaurantArrayAdapter(getActivity(), RestaurantProxy.getRestaurants()));
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        //v.setBackgroundColor(Color.GRAY);
+        //Intent intent = new Intent(this,DishResultListActivity.class);
+        //intent.putExtra("position",position);
+        //startActivity(intent);
+        Restaurant restaurantSelected = RestaurantProxy.getRestaurants().get(position);
+        String restaurantName = restaurantSelected.getName();
 
-        super.onCreate(savedInstanceState);
+        if(!restaurantSelected.isDishesSet()) {
+            try {
+                Log.v("restaurantName", restaurantName);
+                DataProgress dataProgress = new DataProgress(getActivity());
+                dataProgress.execute("dish", restaurantName).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        /* DishListFragment setting */
+        DishListFragment fragment = new DishListFragment();
+        fragment.setRestaurantIndex(position);  // pass the index to DishListFragment
+
+        /* Fragment transaction */
+        RestaurantResultListActivity.dishListFragment = fragment;  //tell the container
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().remove(manager.findFragmentById(R.id.fragmentContainer)).commit();
+        manager.beginTransaction()
+                .add(R.id.fragmentContainer, fragment)
+                .commit();
+        RestaurantResultListActivity.pageNum = 2;
+
     }
-
 }
