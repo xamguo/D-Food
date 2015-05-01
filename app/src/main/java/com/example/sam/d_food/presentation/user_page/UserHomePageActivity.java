@@ -5,16 +5,38 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.presentation.intents.IntentToCheck;
+import com.example.sam.d_food.presentation.intents.IntentToUserMap;
 
 
 public class UserHomePageActivity extends Activity {
+    Button orderButton;
+    Button trackButton;
+    Button infoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_user_home_page);
+        orderButton = (Button)findViewById(R.id.orders);
+        trackButton = (Button)findViewById(R.id.track);
+        infoButton = (Button)findViewById(R.id.info);
+
+        orderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userCart();
+            }
+        });
+        trackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userMap();
+            }
+        });
     }
 
 
@@ -39,8 +61,12 @@ public class UserHomePageActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void usermap(View view) {
-        //Intent intent = new Intent(this, DeliveryManMapActivity.class);
-        //startActivity(intent);
+    public void userMap() {
+        IntentToUserMap intent = new IntentToUserMap(this);
+        startActivity(intent);
+    }
+    public void userCart() {
+        IntentToCheck intentToCheck = new IntentToCheck(this);
+        startActivity(intentToCheck);
     }
 }

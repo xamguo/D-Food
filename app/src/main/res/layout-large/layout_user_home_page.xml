@@ -37,8 +37,7 @@
         android:id="@+id/track"
         android:background="@drawable/custom_btn"
         android:layout_below="@+id/orders"
-        android:layout_centerHorizontal="true"
-        android:onClick="check"/>
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="200dp"

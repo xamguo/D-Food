@@ -21,6 +21,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/my_background"
         android:inputType="textPersonName"
         android:text="Account ID"
         android:selectAllOnFocus="true"
@@ -33,38 +34,49 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/my_background"
         android:id="@+id/password"
         android:selectAllOnFocus="true"
         android:layout_below="@+id/accountID"
+        android:layout_marginTop="10dp"
         android:layout_alignStart="@+id/accountID"
+        android:layout_alignEnd="@+id/accountID"
         android:text="Password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/my_background"
         android:id="@+id/rePassword"
         android:selectAllOnFocus="true"
         android:layout_below="@+id/password"
-        android:layout_alignStart="@+id/password"
+        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/accountID"
+        android:layout_alignEnd="@+id/accountID"
         android:text="Re-enter Password" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:id="@+id/register"
-        android:layout_below="@+id/address"
-        android:layout_toEndOf="@+id/password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/my_background"
         android:inputType="phone"
         android:ems="10"
         android:selectAllOnFocus="true"
         android:id="@+id/address"
         android:layout_below="@+id/rePassword"
-        android:layout_alignStart="@+id/rePassword"
+        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/accountID"
+        android:layout_alignEnd="@+id/accountID"
         android:text="Phone number" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_marginTop="10dp"
+        android:id="@+id/register"
+        android:layout_below="@+id/address"
+        android:layout_alignStart="@+id/accountID"
+        android:layout_alignEnd="@+id/accountID"
+        android:layout_toEndOf="@+id/password" />
 </RelativeLayout>

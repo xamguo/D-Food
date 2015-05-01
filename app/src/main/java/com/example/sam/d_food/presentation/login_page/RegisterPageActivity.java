@@ -42,12 +42,12 @@ public class RegisterPageActivity extends Activity {
                     Intent intent=getIntent();
                     toggle=intent.getStringExtra("toggle");
                     if(toggle.equals("Deliveryman")){
-                        Toast.makeText(getApplicationContext(), "Saved  ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), toggle, Toast.LENGTH_SHORT).show();
                         Intent launchDeliveryHome=new Intent(RegisterPageActivity.this, DeliveryHomePageActivity.class);
                         launchDeliveryHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchDeliveryHome);
                     }else {
-                        Toast.makeText(getApplicationContext(), "Saved  ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), toggle, Toast.LENGTH_SHORT).show();
                         Intent launchCustomerHome=new Intent(RegisterPageActivity.this, UserHomePageActivity.class);
                         launchCustomerHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchCustomerHome);
