@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;    //changed to v7
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class HomePageActivity extends Activity {
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
+    private int shakeFlag = 0;
 
 
     @Override
@@ -55,7 +57,7 @@ public class HomePageActivity extends Activity {
         setContentView(R.layout.layout_home_page);
 
         //dialog = new ProgressDialog(this);
-
+        shakeFlag = 0;
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
@@ -138,7 +140,7 @@ public class HomePageActivity extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 search();
+                search();
             }
         });
     }
@@ -154,7 +156,11 @@ public class HomePageActivity extends Activity {
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta; // perform low-cut filter
             if (mAccel > 8) {
-                search();
+                if (shakeFlag == 0) {
+                    shakeFlag = 1;
+                    Log.v("shake++++++++++++++++++", Integer.toString(shakeFlag));
+                    search();
+                }
             }
         }
 
@@ -231,6 +237,7 @@ public class HomePageActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        shakeFlag = 0;
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 

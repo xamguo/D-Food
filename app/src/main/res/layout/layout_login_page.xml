@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_below="@+id/textView"
-        android:src="@drawable/logo4_small"
+        android:src="@drawable/logo4"
         android:layout_centerHorizontal="true" />
 
     <EditText

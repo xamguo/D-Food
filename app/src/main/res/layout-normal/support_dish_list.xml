@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/my_font_big_black"
+        style="@style/my_font_small"
         android:text="Large Text"
         android:layout_marginStart="20dp"
         android:id="@+id/dishName" />
@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/my_font_big_grey"
+        style="@style/my_font_small"
         android:text="Large Text"
         android:gravity="right"
         android:id="@+id/dishPrice"
