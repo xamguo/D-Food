@@ -12,18 +12,9 @@
         android:layout_height="wrap_content"
         android:text="D-Food"
         android:id="@+id/textView"
-        android:layout_marginTop="72dp"
+        style="@style/my_font_medium"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        style="@style/my_font_medium" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_below="@+id/textView"
-        android:src="@drawable/logo4"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignEnd="@+id/switchUser" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -35,8 +26,8 @@
         android:layout_marginTop="42dp"
         android:selectAllOnFocus="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageView"
-        android:hint="user name" />
+        android:hint="user name"
+        android:layout_below="@+id/textView" />
 
     <EditText
         android:layout_width="wrap_content"
