@@ -31,6 +31,7 @@
     <string name="gps_network_not_enabled">Please Enable WiFi or GPS to Use Map Service</string>
     <string name="open_location_settings">Go to Enable GPS</string>
     <string name="Cancel">Cancel</string>
+    <string name="gps_error">Error</string>
 
     <string-array name="quantities">
         <item>1</item>

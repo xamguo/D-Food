@@ -143,10 +143,10 @@ public class TrackDeliveryManActivity extends Activity {
     }
 
     protected void checkLocServiceEnabled() {
-        LocationManager lm = null;
+        LocationManager lm;
         boolean gps_enabled = false,network_enabled = false;
-        if(lm==null)
-            lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         try{
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }catch(Exception ex){}

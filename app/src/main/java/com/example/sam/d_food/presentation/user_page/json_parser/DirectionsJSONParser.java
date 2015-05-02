@@ -1,5 +1,6 @@
 package com.example.sam.d_food.presentation.user_page.json_parser;
 
+
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -12,41 +13,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Weiwei on 4/18/2015.
- */
+
 public class DirectionsJSONParser {
     private double totalTime = 0;
     private double distance = 0;
-    
+
     public double getDistance() {
         return distance;
     }
 
     public double parseDuration(JSONObject jObject) {
-        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String,String>>>() ;
-        JSONArray jRoutes = null;
-        JSONArray jLegs = null;
-        JSONArray jSteps = null;
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        JSONArray jSteps;
 
         try {
 
             jRoutes = jObject.getJSONArray("routes");
             for(int i=0;i<jRoutes.length();i++){
                 jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
-                List path = new ArrayList<HashMap<String, String>>();
-
-
                 for(int j=0;j<jLegs.length();j++){
                     jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
 
 
                     for(int k=0;k<jSteps.length();k++){
-                        double duration = 0;
-                        double dis = 0;
+                        double duration;
+                        double dis;
 
-                        duration = (Double)((JSONObject)((JSONObject)jSteps.get(k)).get("duration")).getDouble("value");
-                        dis = (Double)((JSONObject)((JSONObject)jSteps.get(k)).get("distance")).getDouble("value");
+                        duration = ((JSONObject)((JSONObject)jSteps.get(k)).get("duration")).getDouble("value");
+                        dis = ((JSONObject)((JSONObject)jSteps.get(k)).get("distance")).getDouble("value");
 
                         distance = distance + dis;
                         totalTime = totalTime + duration;
@@ -57,16 +52,17 @@ public class DirectionsJSONParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }catch (Exception e){
+            Log.v("error","e");
         }
         return totalTime;
     }
 
     public List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
-        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String,String>>>() ;
-        JSONArray jRoutes = null;
-        JSONArray jLegs = null;
-        JSONArray jSteps = null;
+        List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        JSONArray jSteps;
 
         try {
 
@@ -75,7 +71,7 @@ public class DirectionsJSONParser {
 
             for(int i=0;i<jRoutes.length();i++){
                 jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
-                List path = new ArrayList<HashMap<String, String>>();
+                List path = new ArrayList<>();
 
 
                 for(int j=0;j<jLegs.length();j++){
@@ -83,16 +79,15 @@ public class DirectionsJSONParser {
 
 
                     for(int k=0;k<jSteps.length();k++){
-                        String polyline = "";
-                        String dur = "";
+                        String polyline;
                         polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline")).get("points");
                         List<LatLng> list = decodePoly(polyline);
 
 
                         for(int l=0;l<list.size();l++){
-                            HashMap<String, String> hm = new HashMap<String, String>();
-                            hm.put("lat", Double.toString(((LatLng)list.get(l)).latitude) );
-                            hm.put("lng", Double.toString(((LatLng)list.get(l)).longitude) );
+                            HashMap<String, String> hm = new HashMap<>();
+                            hm.put("lat", Double.toString((list.get(l)).latitude) );
+                            hm.put("lng", Double.toString((list.get(l)).longitude) );
                             path.add(hm);
                         }
                     }
@@ -103,13 +98,14 @@ public class DirectionsJSONParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }catch (Exception e){
+            Log.v("error","e");
         }
         return routes;
     }
 
     private List<LatLng> decodePoly(String encoded) {
 
-        List<LatLng> poly = new ArrayList<LatLng>();
+        List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
         int lat = 0, lng = 0;
 

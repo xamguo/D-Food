@@ -58,6 +58,7 @@ public class DeliveryHomePageActivity extends Activity {
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,6 +83,7 @@ public class DeliveryHomePageActivity extends Activity {
 
     public void deliveryMap() {
         IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);
+        intent.putExtra("deliverymanID", "1");
         startActivity(intent);
     }
 }

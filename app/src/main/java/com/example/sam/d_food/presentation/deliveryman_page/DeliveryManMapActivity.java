@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.deliveryman.Task;
+import com.example.sam.d_food.entities.deliveryman.TaskProxy;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -55,11 +57,12 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     private String dManID;
     private Timer t;
     private Activity activity;
+    private ArrayList<Task> userList = new ArrayList<>();
     private GoogleApiClient mGoogleApiClient;
 
     private int count;
     private int locFlag = 0;
-    private final int interval = 1000;
+    private final int interval = 4000;
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
 
@@ -93,12 +96,13 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                         onConnected(myB);
                         String dName = "Deliveryman";
                         if (dManLocation != null) {
+                            uploadLocation();
                             dManLL = new LatLng(dManLocation.getLatitude(),dManLocation.getLongitude());
                             dManMarker = map.addMarker(new MarkerOptions()
                                     .position(dManLL)
                                     .title(dName)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
-                            zoomToLocation(dManLocation, dManMarker);
+//                            zoomToLocation(dManLocation, dManMarker);
                             Log.v("lat", Double.toString(dManLocation.getLatitude()));
                             Log.v("lon", Double.toString(dManLocation.getLongitude()));
                         }
@@ -114,6 +118,18 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
             }
         });
 
+    }
+
+    private void putToList(Task t) {
+        int flag = 0;
+        for (int i = 0; i < userList.size(); i++) {
+            if (t.getUserName() == userList.get(i).getUserName()) {
+                flag = 1;
+            }
+        }
+        if (flag == 0) {
+            userList.add(t);
+        }
     }
 
     public void onConnected(Bundle b) {
@@ -171,6 +187,10 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     }
 
     protected boolean initial() {
+        ArrayList<Task> myTasks = TaskProxy.getTaskList();
+        for(int i = 0; i < myTasks.size(); i++) {
+            putToList(myTasks.get(i));
+        }
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
                 .getMap();
         if (map != null) {
@@ -190,7 +210,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                 zoomToLocation(dManLocation, dManMarker);
             }
 
-
+            showTaskLocation();
         } else {
             return false;
         }
@@ -209,18 +229,18 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     }
 
 
-//    protected void showTaskLocation(Location currentLocation) {
-//        location = currentLocation;
-//        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//        final LatLng task2Location = new LatLng(40.449197, -79.934917);
-//        LatLng task3Location = new LatLng(40.446650, -79.951912);
-//        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-//                .getMap();
-//
-//        task1Marker = map.addMarker(new MarkerOptions().position(myLocation).title("Task 1"));
-//        task2Marker = map.addMarker(new MarkerOptions().position(task2Location).title("Task 2"));
-//        task3Marker = map.addMarker(new MarkerOptions().position(task3Location).title("Task 3"));
-//
+    protected void showTaskLocation() {
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+                .getMap();
+
+        for (int i = 0; i < userList.size(); i++) {
+            String taskName = null;
+            LatLng userLL = new LatLng(userList.get(i).getLatitude(),userList.get(i).getLongitude());
+            taskName = "Task" + Integer.toString(i);
+            Log.v("userLocation", Double.toString(userList.get(i).getLatitude()));
+            map.addMarker(new MarkerOptions().position(userLL).title(taskName)).showInfoWindow();
+        }
+
 //        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 //            @Override
 //            public boolean onMarkerClick(Marker arg0) {
@@ -243,15 +263,28 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
 //                return false;
 //            }
 //        });
-//        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//
-//            }
-//        });
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+            }
+        });
 //
 //        map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
-//    }
+    }
+
+    protected void uploadLocation() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                Log.v("Counter", "ggg");
+                postData(dManLL);
+            }
+
+        }, 0, interval);
+    }
 
     public void postData(LatLng location) {
         // Create a new HttpClient and Post Header
