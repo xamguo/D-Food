@@ -7,10 +7,11 @@
     android:background="@color/my_background_white"
     tools:context="com.example.sam.d_food.presentation.dish_page.DishInfoActivity">
 
-    <TextView android:text="AAA Restaurant" android:layout_width="fill_parent"
+    <TextView
+        android:text="@string/restaurantHeader"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="40dp"
         style="@style/my_font_big_black"
         android:background="@color/my_red"
         android:id="@+id/restaurantName" />
@@ -24,41 +25,40 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:id="@+id/dishImage"
-        android:src="@drawable/food"
-        android:layout_weight="1"
-        />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/my_padding_small"
+            android:id="@+id/dishImage"
+            android:src="@drawable/food"
+            android:layout_weight="1"
+            />
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:text="American Burger\n $9.00\n Location:"
-        android:textSize="30dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        style="@style/my_font_big_black"
-        android:id="@+id/dishInfo"
-        android:layout_weight="1"
-        android:background="@drawable/border_white"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="@string/restaurantDescription"
+            android:textSize="@dimen/my_padding_medium"
+            android:layout_marginBottom="@dimen/my_padding_small"
+            android:layout_marginTop="@dimen/my_padding_small"
+            style="@style/my_font_big_black"
+            android:id="@+id/dishInfo"
+            android:layout_weight="1"
+            android:background="@drawable/border_white"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/my_padding_small"
-        android:text="Comment"
-        android:textSize="20dp"
+        android:text="@string/restaurantComment"
         android:background="@drawable/border_white"
         android:id="@+id/commentsView"
         android:layout_above="@+id/dishSpinner"/>
 
     <Spinner
         android:layout_width="fill_parent"
-        android:layout_height="65dp"
+        android:layout_height="@dimen/my_padding_from_logo"
         android:id="@+id/dishSpinner"
         android:entries="@array/quantities"
         android:layout_above="@+id/addToCart"
@@ -68,8 +68,8 @@
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="65dp"
-        android:text="Add to cart"
+        android:layout_height="@dimen/my_height_medium"
+        android:text="@string/addCartButton"
         android:id="@+id/addToCart"
         android:background="@drawable/custom_btn"
         android:layout_centerHorizontal="true"

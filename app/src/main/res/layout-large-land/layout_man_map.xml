@@ -6,13 +6,13 @@
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="282dp"
+        android:layout_height="300dp"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_weight="0.36" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="81dp"
+        android:layout_height="80dp"
         android:layout_weight="0.38">
 
         <RelativeLayout
@@ -22,7 +22,6 @@
             <TextView
                 android:layout_width="188dp"
                 android:layout_height="match_parent"
-                android:text="@string/taskName"
                 android:id="@+id/taskNameTextView"
                 android:textColor="#ff000000"
                 android:textSize="40sp"
@@ -34,7 +33,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/phoneNum"
                 android:id="@+id/phoneNumTextView"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -46,23 +44,22 @@
                 android:textColor="#ff000000" />
 
         </RelativeLayout>
-
     </RelativeLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Call"
-        android:id="@+id/callButton"
-        android:layout_weight="0.36" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ring"
-        android:id="@+id/ringButton"
-        android:layout_weight="0.36" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/call"
+            android:id="@+id/callButton"
+            android:layout_weight="0.36" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ring"
+            android:id="@+id/ringButton"
+            android:layout_weight="0.36" />
     </LinearLayout>
 </LinearLayout>

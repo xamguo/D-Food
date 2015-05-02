@@ -3,6 +3,7 @@ package com.example.sam.d_food.presentation.main_flow_pages;
 import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class DishListFragment extends ListFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /* Set up the list fragment view */
         setListAdapter(new CustomDishArrayAdapter(getActivity(), dishesEditor.getDishList(restaurantIndex)));

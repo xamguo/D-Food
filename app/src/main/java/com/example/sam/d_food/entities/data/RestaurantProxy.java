@@ -1,13 +1,13 @@
+/*
+* All restaurants and dishes editor function entities are here.
+* */
 package com.example.sam.d_food.entities.data;
-
-import android.util.Log;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sam on 4/24/2015.
- */
 public class RestaurantProxy {
+
+    /* static ArrayList for the restaurants */
     private static ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 
     public ArrayList<Restaurant> getRestaurants() {

@@ -1,3 +1,4 @@
+/* self defined adapter for the dishes ArrayList */
 package com.example.sam.d_food.presentation.main_flow_pages.adapters;
 
 import android.app.Activity;

@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.data.Dish;
-import com.example.sam.d_food.entities.user.Cart;
+import com.example.sam.d_food.entities.user.CartBuilder;
+import com.example.sam.d_food.entities.user.CartEditor;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 
 public class DishInfoFragment extends Fragment{
@@ -46,8 +47,9 @@ public class DishInfoFragment extends Fragment{
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CartEditor cartEditor = new CartBuilder();
                 int quantity = spinner.getSelectedItemPosition() + 1;
-                Cart.addOrder(dish.getName(), restaurantName, dish.getId(), quantity, dish.getPrice()*quantity);
+                cartEditor.addOrder(dish.getName(), restaurantName, dish.getId(), quantity, dish.getPrice()*quantity);
                 checkout();
             }
         });

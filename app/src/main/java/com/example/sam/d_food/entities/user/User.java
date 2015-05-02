@@ -1,14 +1,16 @@
+/*
+* User information class, for both deliveryman and customer.
+* */
 package com.example.sam.d_food.entities.user;
 
 public class User {
-
-    private static String address;
-    private static int id;
-    private static int deliverymanID = -1;
-    private static boolean beepSign;
-    private static String name;
-    private static double longitude;
-    private static double latitude;
+    private static String address;      //user address
+    private static int id;              //user id
+    private static int deliverymanID = -1;  //deliveryman id, used in customer mode to track the deliveryman
+    private static boolean beepSign;       //beep sign, to control the alarm
+    private static String name;             //user name
+    private static double longitude;       //user longitude
+    private static double latitude;        //user latitude
 
     public User() {
     }

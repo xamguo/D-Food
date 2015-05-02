@@ -33,7 +33,7 @@ public class RegisterPageActivity extends Activity {
         userName=(EditText)findViewById(R.id.accountID);
         password=(EditText)findViewById(R.id.password);
         re_password=(EditText)findViewById(R.id.rePassword);
-        EditText address = (EditText) findViewById(R.id.address);
+        //EditText address = (EditText) findViewById(R.id.address);
 
         Button register = (Button) findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +47,7 @@ public class RegisterPageActivity extends Activity {
                         try {
                             RegisterProcess registerProcess = new RegisterProcess(RegisterPageActivity.this);
                             registerProcess.execute("deliveryman", userName.getText().toString(), password.getText().toString()).get();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
+                        } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
                         Intent launchDeliveryHome=new Intent(RegisterPageActivity.this, DeliveryHomePageActivity.class);
@@ -61,9 +59,7 @@ public class RegisterPageActivity extends Activity {
                         try {
                             RegisterProcess registerProcess = new RegisterProcess(RegisterPageActivity.this);
                             registerProcess.execute("user", userName.getText().toString(), password.getText().toString()).get();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
+                        } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
                         Intent launchCustomerHome=new Intent(RegisterPageActivity.this, UserHomePageActivity.class);

@@ -1,3 +1,5 @@
+/* self defined adapter for the restaurant ArrayList */
+
 package com.example.sam.d_food.presentation.main_flow_pages.adapters;
 
 import android.app.Activity;
@@ -22,9 +24,6 @@ import com.example.sam.d_food.entities.data.Restaurant;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-/**
- * Created by Sam on 4/24/2015.
- */
 public class CustomRestaurantArrayAdapter extends ArrayAdapter {
     ArrayList<Restaurant> restaurants;
     Activity activity;

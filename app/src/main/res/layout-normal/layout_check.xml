@@ -3,13 +3,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.sam.d_food.presentation.check_page.CheckActivity">
 
-    <TextView android:text="Check" android:layout_width="match_parent"
-        android:layout_height="100dp"
+    <TextView android:text="@string/checkHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/my_height_large"
         android:gravity="center"
-        android:textSize="50dp"
-        android:textColor="#FFFFFFFF"
+        style="@style/my_font_big_white"
         android:background="@color/my_red"
-        android:id="@+id/textView"
+        android:id="@+id/checkHeader"
         android:layout_alignParentTop="true" />
 
     <ListView
@@ -19,41 +19,38 @@
         android:smoothScrollbar="true"
         android:fastScrollAlwaysVisible="true"
         android:fastScrollEnabled="true"
-        android:layout_below="@+id/textView"
-        android:layout_above="@+id/editText2" />
+        android:layout_below="@+id/checkHeader"
+        android:layout_above="@+id/editTextPhoneNum" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="30dp"
-        android:id="@+id/editText2"
-        android:textColor="#FFFFFFFF"
-        android:minHeight="40dp"
+        style="@style/my_font_medium_white"
+        android:id="@+id/editTextPhoneNum"
+        android:minHeight="@dimen/my_min_height_medium"
         android:background="@drawable/border"
-        android:text="Phone: 412 736-9689\nDelivery man: 412 555-9999"
+        android:text="@string/myPhoneNum"
         android:editable="false"
-        android:layout_above="@+id/editText" />
+        android:layout_above="@+id/editTextUserName" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="30dp"
-        android:id="@+id/editText"
-        android:textColor="#FFFFFFFF"
-        android:minHeight="40dp"
+        android:id="@+id/editTextUserName"
+        style="@style/my_font_medium_white"
+        android:minHeight="@dimen/my_min_height_medium"
         android:background="@drawable/border"
-        android:text="Name: Xam"
+        android:text="@string/userName"
         android:editable="false"
         android:layout_above="@+id/startDeliverybutton" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Check Out"
-        android:textSize="40dp"
-        android:textColor="#FFFFFFFF"
+        android:text="@string/checkButton"
+        style="@style/my_font_medium_white"
         android:background="@drawable/border"
         android:id="@+id/startDeliverybutton"
         android:layout_alignParentBottom="true"

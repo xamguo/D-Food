@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delivery man"
-        android:id="@+id/textView4"
+        android:id="@+id/deliverymanHeader"
         style="@style/my_font_medium"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
@@ -19,35 +19,34 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HiHi Restaurant"
-        android:id="@+id/textView5"
+        android:id="@+id/restaurantName"
         style="@style/my_font_small"
-        android:layout_below="@+id/textView4"
+        android:layout_below="@+id/deliverymanHeader"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task List"
-        android:id="@+id/textView6"
-        android:layout_marginTop="42dp"
-        android:layout_below="@+id/textView5"
-        android:layout_toStartOf="@+id/textView5" />
+        android:id="@+id/taskTitle"
+        android:layout_marginTop="@dimen/my_padding_small"
+        android:layout_below="@+id/restaurantName"
+        android:layout_toStartOf="@+id/restaurantName" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/deliveryList"
-        android:layout_below="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
-        android:layout_alignEnd="@+id/textView4"
+        android:layout_below="@+id/taskTitle"
+        android:layout_alignStart="@+id/taskTitle"
+        android:layout_alignEnd="@+id/deliverymanHeader"
         android:choiceMode="multipleChoiceModal"
         tools:listitem="@android:layout/simple_list_item_multiple_choice" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Delivery"
+        android:text="@string/startDeliveryButton"
         style="@style/my_font_medium"
         android:id="@+id/startDeliverybutton"
         android:background="@drawable/custom_btn"

@@ -4,14 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.provider.Settings;
 
 import com.example.sam.d_food.R;
 
-/**
- * Created by Weiwei on 5/2/2015.
- */
 public class GPSServiceException extends Exception {
     Context TD_Context;
 
@@ -24,7 +19,6 @@ public class GPSServiceException extends Exception {
 
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -32,7 +26,6 @@ public class GPSServiceException extends Exception {
 
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                // TODO Auto-generated method stub
 
             }
         });

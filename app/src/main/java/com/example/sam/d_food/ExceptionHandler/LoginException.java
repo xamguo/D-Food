@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by Rodrigue on 4/12/2015.
- */
 public class LoginException extends Exception {
 
     private String errorMessage = "";
@@ -41,7 +38,7 @@ public class LoginException extends Exception {
         Date date = new Date();
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(log, true));
-            out.append(errorCode + "	" + errorMessage + "	" + new Timestamp(date.getTime()) + "\n");
+            out.append(errorCode).append("	").append(errorMessage).append("	").append(new Timestamp(date.getTime()).toString()).append("\n");
             out.close();
         } catch (IOException e) {
             System.out.println("COULD NOT LOG!!");

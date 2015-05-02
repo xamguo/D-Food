@@ -1,10 +1,13 @@
+/*
+* Task means the deliveryman task
+* */
 package com.example.sam.d_food.entities.deliveryman;
 
 public class Task {
-    String UserName;
-    double latitude;
-    double longitude;
-    String name;
+    String UserName;    //deliveryman name
+    double latitude;   //the latitude of the delivery address
+    double longitude;  //the longitude of the delivery address
+    String name;        //the task name
 
     public Task(String userName, double latitude, double longitude, String name) {
         UserName = userName;

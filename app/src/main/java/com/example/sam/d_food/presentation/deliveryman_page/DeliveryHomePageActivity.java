@@ -20,7 +20,6 @@ import java.util.concurrent.ExecutionException;
 
 
 public class DeliveryHomePageActivity extends Activity {
-    private String dManID;
     Button startDeliveryButton;
 
     @Override
@@ -32,14 +31,11 @@ public class DeliveryHomePageActivity extends Activity {
         try {
             GetTasksProcess getTasksProcess = new GetTasksProcess(2, DeliveryHomePageActivity.this);
             getTasksProcess.execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
         ArrayList<String> itemsArray = new ArrayList<>();
-
         ArrayList<Task> myTasks = TaskProxy.getTaskList();
         for(int i = 0; i < myTasks.size(); i++) {
             itemsArray.add(myTasks.get(i).getUserName() + "  " + myTasks.get(i).getName());

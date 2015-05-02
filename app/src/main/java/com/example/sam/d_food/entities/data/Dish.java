@@ -1,12 +1,12 @@
+/*
+* Dish Class
+* */
 package com.example.sam.d_food.entities.data;
 
-/**
- * Created by Sam on 4/11/2015.
- */
 public class Dish {
-    private int id;
-    private double price;
-    private String name;
+    private int id;           //dish id
+    private double price;   //dish price
+    private String name;     //dish name
 
     public Dish(int id, double price, String name) {
         this.id = id;

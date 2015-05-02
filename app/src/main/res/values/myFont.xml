@@ -4,14 +4,30 @@
         <item name="android:textSize">50dp</item>
         <item name="android:textColor">#ff000000</item>
     </style>
+
     <style name="my_font_big_grey" >
         <item name="android:textSize">50dp</item>
         <item name="android:textColor">@color/material_blue_grey_950</item>
     </style>
 
+    <style name="my_font_big_white" >
+        <item name="android:textSize">50dp</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+    <style name="my_font_medium_plus_white" >
+        <item name="android:textSize">40dp</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
     <style name="my_font_medium" >
         <item name="android:textSize">34dp</item>
         <item name="android:textColor">#ff000000</item>
+    </style>
+
+    <style name="my_font_medium_white" >
+        <item name="android:textSize">34dp</item>
+        <item name="android:textColor">#ffffffff</item>
     </style>
 
     <style name="my_font_small" >

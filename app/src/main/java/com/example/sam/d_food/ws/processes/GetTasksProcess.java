@@ -62,14 +62,14 @@ public class GetTasksProcess extends AsyncTask<String, Void, Void> {
             JSONTokener tokener = new JSONTokener(resp);
             JSONObject responseObject = (JSONObject) tokener.nextValue();
             JSONArray taskList = responseObject.getJSONArray("taskList");
+
+            TaskProxy taskProxy = new TaskProxy();
+            taskProxy.clearTask();
             for (int i = 0; i < taskList.length(); i++) {
                 JSONObject task = taskList.getJSONObject(i);
-
-                TaskProxy taskProxy = new TaskProxy();
                 taskProxy.addTask(task.getString("UserName"), task.getDouble("latitude"), task.getDouble("longitude"), task.getString("dishname"));
                 Log.v("name", task.getString("UserName"));
             }
-
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

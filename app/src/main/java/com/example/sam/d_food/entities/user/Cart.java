@@ -1,3 +1,7 @@
+/*
+ * The user cart class, all items stored into cart are stored here.
+ * An inner class is defined here that represent the user's order.
+  * */
 package com.example.sam.d_food.entities.user;
 
 import java.util.ArrayList;
@@ -5,48 +9,49 @@ import java.util.ArrayList;
 public class Cart {
     static public ArrayList<Order> myOrders = new ArrayList<>();
 
-    static public void addOrder(String name, String restaurantName, int id, int quantity, double wholePrice) {
+    public void addOrder(String name, String restaurantName, int id, int quantity, double wholePrice) {
            myOrders.add(new Order(name, restaurantName, id, quantity, wholePrice));
     }
 
-    static public int getOrderNum() {
+    public int getOrderNum() {
         return myOrders.size();
     }
 
-    static public int getOrderID(int index) {
+    public int getOrderID(int index) {
         return myOrders.get(index).getId();
     }
 
-    static public String getOrderName(int index) {
+    public String getOrderName(int index) {
         return myOrders.get(index).getName();
     }
 
-    static public int getOrderQuantity(int index) {
+    public int getOrderQuantity(int index) {
         return myOrders.get(index).getQuantity();
     }
 
-    static public double getOrderPrice(int index) {
+    public double getOrderPrice(int index) {
         return myOrders.get(index).getWholePrice();
     }
 
-    static public String getOrderRestaurantName(int index) {
+    public String getOrderRestaurantName(int index) {
         return myOrders.get(index).getRestaurantName();
     }
 
-    static public double getTotalPrice() {
+    public double getTotalPrice() {
         double price = 0;
         for(int i = 0; i < myOrders.size(); i++){
-            price += Cart.getOrderPrice(i);
+            price += this.getOrderPrice(i);
         }
         return price;
     }
 
+    /* inner class. User's order */
     private static class Order{
-        String name;
-        String restaurantName;
-        double wholePrice;
-        int id;
-        int quantity;
+        String name;            //dish name
+        String restaurantName;//restaurant name
+        double wholePrice;    //total price
+        int id;                 //order id
+        int quantity;          //quantities
 
         private Order(String name, String restaurantName, int id, int quantity, double wholePrice) {
             this.name = name;

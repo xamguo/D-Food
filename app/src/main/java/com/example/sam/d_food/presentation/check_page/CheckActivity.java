@@ -10,7 +10,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.user.Cart;
+import com.example.sam.d_food.entities.user.CartBuilder;
+import com.example.sam.d_food.entities.user.CartEditor;
 import com.example.sam.d_food.ws.processes.PlaceOrderProcess;
 
 import java.util.ArrayList;
@@ -49,21 +50,22 @@ public class CheckActivity extends Activity {
 
     /* Get the order info */
     private List<Map<String, String>> getCheckData() {
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        if(Cart.getOrderNum() != 0) {
-            Map<String, String> map_total = new HashMap<String, String>();
+        CartEditor cartEditor = new CartBuilder();
+        List<Map<String, String>> list = new ArrayList<>();
+        if(cartEditor.getOrderNum() != 0) {
+            Map<String, String> map_total = new HashMap<>();
             map_total.put("check_name", "Total");
-            map_total.put("check_restaurant", Cart.getOrderRestaurantName(0));
+            map_total.put("check_restaurant", cartEditor.getOrderRestaurantName(0));
             map_total.put("check_quantity", " ");
-            map_total.put("check_price", "$" + Cart.getTotalPrice());
+            map_total.put("check_price", "$" + cartEditor.getTotalPrice());
             list.add(map_total);
         }
-        for(int i = 0; i < Cart.getOrderNum(); i++) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("check_name", Cart.getOrderName(i));
-            map.put("check_restaurant", Cart.getOrderRestaurantName(i));
-            map.put("check_quantity", String.valueOf(Cart.getOrderQuantity(i)));
-            map.put("check_price", "$" + Cart.getOrderPrice(i));
+        for(int i = 0; i < cartEditor.getOrderNum(); i++) {
+            Map<String, String> map = new HashMap<>();
+            map.put("check_name", cartEditor.getOrderName(i));
+            map.put("check_restaurant", cartEditor.getOrderRestaurantName(i));
+            map.put("check_quantity", String.valueOf(cartEditor.getOrderQuantity(i)));
+            map.put("check_price", "$" + cartEditor.getOrderPrice(i));
             list.add(map);
         }
         return list;
@@ -92,9 +94,10 @@ public class CheckActivity extends Activity {
     }
 
     private void check() {
-        for(int i = 0; i < Cart.getOrderNum(); i++) {
+        CartEditor cartEditor = new CartBuilder();
+        for(int i = 0; i < cartEditor.getOrderNum(); i++) {
             PlaceOrderProcess order = new PlaceOrderProcess(this);
-            order.execute(String.valueOf(Cart.getOrderID(i)),String.valueOf(Cart.getOrderQuantity(i)), String.valueOf(userID));
+            order.execute(String.valueOf(cartEditor.getOrderID(i)),String.valueOf(cartEditor.getOrderQuantity(i)), String.valueOf(userID));
         }
     }
 }

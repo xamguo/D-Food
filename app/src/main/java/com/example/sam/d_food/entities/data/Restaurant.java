@@ -1,24 +1,25 @@
+/*
+* The restaurant data class
+* */
+
 package com.example.sam.d_food.entities.data;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sam on 4/11/2015.
- */
 public class Restaurant {
-    String name;
-    String rating;
-    String description;
-    String pic_url;
-    ArrayList<Dish> dishes;
-    boolean dishesSet;
+    String name;                //name
+    String rating;              //rating
+    String description;         //description
+    String pic_url;             //picture url
+    ArrayList<Dish> dishes;     //dishes are stored inside restaurant
+    boolean dishesSet;         //sign for whether the dishes are downloaded
 
     public Restaurant(String name, String rating, String description, String pic_url) {
         this.name = name;
         this.rating = rating;
         this.description = description;
         this.pic_url = pic_url;
-        this.dishes = new ArrayList<Dish>();
+        this.dishes = new ArrayList<>();
         this.dishesSet = false;
     }
 
@@ -37,7 +38,6 @@ public class Restaurant {
     public void setRating(String rating) {
         this.rating = rating;
     }
-
 
     public String getDescription() {
         return description;
