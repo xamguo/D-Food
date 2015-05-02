@@ -79,15 +79,18 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
         String Mode = strings[0];
         String result;
 
+        Log.v("myMode",Mode);
         switch (Mode) {
             case "restaurant":
                 mode = "restaurant";
                 restaurantEditor.clearProxy();       //clear the proxy
-
-                result = searchRestaurant(Mode);
                 longitude = strings[1];
+                //longitude =  String.valueOf(-79.9436244);
                 latitude = strings[2];
+                //latitude =  String.valueOf(40.4409227);
                 distance = strings[3];
+                //distance =  String.valueOf(10);
+                result = searchRestaurant(Mode);
                 Log.v("Search", result);
                 saveRestaurants(result);
                 break;
@@ -123,9 +126,10 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
             params.add(new BasicNameValuePair("longitude", longitude));
             params.add(new BasicNameValuePair("latitude", latitude));
             params.add(new BasicNameValuePair("distance", distance));
-
+            //Log.v("mylongitude",longitude);
             String paramString = URLEncodedUtils.format(params, "utf-8");
             url += paramString;
+            Log.v("myURL",url);
         }
         httpGet = new HttpGet(url);
 
