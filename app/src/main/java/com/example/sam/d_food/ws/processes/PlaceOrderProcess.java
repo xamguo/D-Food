@@ -1,4 +1,4 @@
-package com.example.sam.d_food.ws.remote;
+package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -74,9 +74,9 @@ public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
             deliverymanID = responseObject.getInt("deliverymanID");
 
         } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }

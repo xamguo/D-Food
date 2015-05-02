@@ -17,9 +17,6 @@ import com.example.sam.d_food.entities.data.Dish;
 import com.example.sam.d_food.entities.user.Cart;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 
-/**
- * Created by Sam on 4/16/2015.
- */
 public class DishInfoFragment extends Fragment{
     Button checkButton;
     Spinner spinner;
@@ -39,22 +36,25 @@ public class DishInfoFragment extends Fragment{
         restName = (TextView)v.findViewById(R.id.restaurantName);
         comment = (TextView)v.findViewById(R.id.commentsView);
 
+        /* Set the restaurant information */
         restName.setText(restaurantName);
         info.setText(dish.getName() + "\r\n" + "$" + dish.getPrice());
         comment.setText("Good dish");
 
+        /* Set up the go for check-out button */
         checkButton = (Button)v.findViewById(R.id.addToCart);
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int quantity = spinner.getSelectedItemPosition() + 1;
-                //Log.v("check quantity", String.valueOf(quantity));
                 Cart.addOrder(dish.getName(), restaurantName, dish.getId(), quantity, dish.getPrice()*quantity);
                 checkout();
             }
         });
         return v;
     }
+
+    /* Check-out function, a dialog is shown to ask the user's choice */
     public void checkout() {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Check out?")
@@ -71,13 +71,15 @@ public class DishInfoFragment extends Fragment{
                     }
                 })
                 .show();
-
     }
 
-    public Dish getDish() {
-        return dish;
+    /* Jump to the next activity */
+    private void goCheck(){
+        IntentToCheck intentToCheck = new IntentToCheck(getActivity());
+        startActivity(intentToCheck);
     }
 
+    /* helper classes */
     public void setDish(Dish dish) {
         this.dish = dish;
     }
@@ -90,8 +92,5 @@ public class DishInfoFragment extends Fragment{
         this.restaurantName = restaurantName;
     }
 
-    private void goCheck(){
-        IntentToCheck intentToCheck = new IntentToCheck(getActivity());
-        startActivity(intentToCheck);
-    }
+
 }

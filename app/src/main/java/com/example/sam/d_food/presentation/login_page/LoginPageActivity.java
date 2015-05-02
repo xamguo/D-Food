@@ -2,7 +2,6 @@ package com.example.sam.d_food.presentation.login_page;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,12 +10,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
-import com.example.sam.d_food.presentation.intents.IntentToUserHome;
-import com.example.sam.d_food.ws.remote.LoginProcess;
+import com.example.sam.d_food.ws.processes.LoginProcess;
 
 
 public class LoginPageActivity extends Activity {
@@ -24,7 +20,6 @@ public class LoginPageActivity extends Activity {
     private TextView accountID;
     private TextView password;
     private boolean toggle;
-    private Switch userSwitch;
     private String mode;
 
     @Override
@@ -36,14 +31,14 @@ public class LoginPageActivity extends Activity {
         password=(TextView)findViewById(R.id.password);
 
         mode = "user";
-        userSwitch=(Switch)findViewById(R.id.switchUser);
+        Switch userSwitch = (Switch) findViewById(R.id.switchUser);
         userSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    toggle=true;
+                    toggle = true;
                     mode = "deliveryman";
                 } else {
-                    toggle=false;
+                    toggle = false;
                     mode = "user";
                 }
             }

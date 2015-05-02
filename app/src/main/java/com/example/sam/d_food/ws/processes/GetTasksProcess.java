@@ -1,12 +1,10 @@
-package com.example.sam.d_food.ws.remote;
+package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.sam.d_food.entities.deliveryman.TaskProxy;
-import com.example.sam.d_food.entities.user.User;
-import com.example.sam.d_food.presentation.intents.IntentToUserMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -29,9 +27,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sam on 5/1/2015.
- */
 public class GetTasksProcess extends AsyncTask<String, Void, Void> {
 
     int deliverymanID;
@@ -64,9 +59,6 @@ public class GetTasksProcess extends AsyncTask<String, Void, Void> {
                 builder.append(line);
             }
             String resp = builder.toString();
-            //Log.v("resp",resp);
-
-
             JSONTokener tokener = new JSONTokener(resp);
             JSONObject responseObject = (JSONObject) tokener.nextValue();
             JSONArray taskList = responseObject.getJSONArray("taskList");
@@ -79,9 +71,9 @@ public class GetTasksProcess extends AsyncTask<String, Void, Void> {
             }
 
         } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }

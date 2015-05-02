@@ -1,4 +1,4 @@
-package com.example.sam.d_food.ws.remote;
+package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
+import com.example.sam.d_food.presentation.main_page.HomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
+import com.example.sam.d_food.ws.processes.services.UserTypeService;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,16 +30,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sam on 5/1/2015.
- */
-public class RegisterProcess extends AsyncTask<String, Void, Integer> {
+public class LoginProcess extends AsyncTask<String, Void, Integer> {
     Integer userID;
     String mode;
     Activity activity;
     private ProgressDialog dialog;
 
-    public RegisterProcess(Activity activity) {
+    public LoginProcess(Activity activity) {
         this.activity = activity;
         dialog = new ProgressDialog(activity);
     }
@@ -52,12 +51,13 @@ public class RegisterProcess extends AsyncTask<String, Void, Integer> {
     /* params 0 is dishID, 1 is quantity */
     protected Integer doInBackground(String... params) {
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/register?");
+        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/login?");
         try {
             // Add your data
             //Log.v("params[0]", params[0]);
             //Log.v("params[1]", params[1]);
             //Log.v("params[2]", params[2]);
+
             mode = params[0];
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("mode", params[0]));
@@ -78,11 +78,9 @@ public class RegisterProcess extends AsyncTask<String, Void, Integer> {
                 builder.append(line);
             }
             String resp = builder.toString();
-            //Log.v("resp",resp);
             JSONTokener tokener = new JSONTokener(resp);
             JSONObject responseObject = (JSONObject) tokener.nextValue();
             userID = responseObject.getInt("userID");
-            //Log.v("userID",String.valueOf(userID));
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -102,11 +100,15 @@ public class RegisterProcess extends AsyncTask<String, Void, Integer> {
 
         if(userID != -1) {
             if (mode.equals("user")) {
-                Intent intenet = new Intent(activity, UserHomePageActivity.class);
-                activity.startActivity(intenet);
+                HomePageActivity.isDeliveryman = false;
+                UserTypeService.setUserType("Signed user");
+                Intent intent = new Intent(activity, UserHomePageActivity.class);
+                activity.startActivity(intent);
             } else if (mode.equals("deliveryman")) {
-                Intent intenet = new Intent(activity, DeliveryHomePageActivity.class);
-                activity.startActivity(intenet);
+                UserTypeService.setUserType("deliveryman");
+                HomePageActivity.isDeliveryman = true;
+                Intent intent = new Intent(activity, DeliveryHomePageActivity.class);
+                activity.startActivity(intent);
             }
             activity.finish();
         }

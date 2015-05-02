@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <supports-screens
         android:largeScreens="true"
@@ -28,7 +28,7 @@
         <activity
             android:name=".presentation.main_page.HomePageActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +38,7 @@
         <activity
             android:name=".presentation.main_flow_pages.FragmentContainerActivity"
             android:label="@string/app_name"
-            android:theme="@style/CustomActionBarTheme">
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
             android:name=".presentation.check_page.CheckActivity"
@@ -46,12 +46,12 @@
         </activity>
         <activity
             android:name=".presentation.login_page.LoginPageActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".presentation.user_page.UserHomePageActivity"
             android:label="@string/title_activity_user_home_page"
-            android:theme="@style/CustomActionBarTheme">
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
             android:name=".presentation.deliveryman_page.DeliveryManMapActivity"
@@ -60,7 +60,7 @@
         <activity
             android:name=".presentation.deliveryman_page.DeliveryHomePageActivity"
             android:label="@string/title_activity_delivery_home_page"
-            android:theme="@style/CustomActionBarTheme">
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
             android:name=".presentation.login_page.RegisterPageActivity"
@@ -69,10 +69,18 @@
         <activity
             android:name=".presentation.user_page.TrackDeliveryManActivity"
             android:label="@string/app_name"
-            android:theme="@style/CustomActionBarTheme">
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDdzhZ-q68CtaWDFhBfPzY9aY8re3DfabI" />
+
+        <service
+            android:name=".ws.processes.services.UserTypeService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
+
 </manifest>

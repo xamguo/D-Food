@@ -47,6 +47,7 @@
         <item>Login</item>
         <item>My Cart</item>
         <item>User Home</item>
+        <item>My Info</item>
     </string-array>
 
 </resources>
