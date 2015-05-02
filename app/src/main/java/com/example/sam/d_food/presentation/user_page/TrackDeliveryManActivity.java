@@ -21,6 +21,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.sam.d_food.ExceptionHandler.DownloadDataException;
+import com.example.sam.d_food.ExceptionHandler.GPSServiceException;
+import com.example.sam.d_food.ExceptionHandler.WiFiServiceException;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.user_page.json_parser.DirectionsJSONParser;
@@ -52,38 +55,29 @@ import java.util.TimerTask;
 
 public class TrackDeliveryManActivity extends Activity {
     private TextView numText;
-    private TextView nameText;
     private GoogleMap map;
-    private LocationListener mLocationListener;
-    private LocationManager mLocationManager;
     private Marker dManMarker;
     private String totalDuration;
     private String totalDistance = "";
     private String deliverymanID;
     private String dInfo = " mile away";
     private Location location;
-    private LatLng aLL;
     private LatLng dMan;
     private Marker myMarker;
     private int interval = 4000;
-    private String dManLocData;
     private JSONObject dManJObject;
     private Button tractButton;
     private Context TD_Context;
     private Timer updateDmanTimer;
     private Timer t;
     private String bpSign = "false";
-
-    private Bundle trackBundle;
-    private final int LOCATION_REFRESH_TIME = 5;
-    private final int LOCATION_REFRESH_DISTANCE = 100;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_track_delivery_man);
-        trackBundle = savedInstanceState;
-
+        activity = getParent();
         TD_Context = TrackDeliveryManActivity.this;
 
 //        Bundle extras = getIntent().getExtras();
@@ -93,7 +87,11 @@ public class TrackDeliveryManActivity extends Activity {
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
         tractButton = (Button) findViewById(R.id.tractButton);
-        checkLocServiceEnabled();
+        try {
+            checkLocServiceEnabled();
+        } catch (GPSServiceException | WiFiServiceException e) {
+            e.printStackTrace();
+        }
 
         //Initial the map fragment.
         if (initial()) {
@@ -131,17 +129,21 @@ public class TrackDeliveryManActivity extends Activity {
         }, 0, interval);
     }
 
-    protected void checkLocServiceEnabled() {
+    protected void checkLocServiceEnabled() throws GPSServiceException, WiFiServiceException {
         LocationManager lm;
-        boolean gps_enabled = false,network_enabled = false;
+        boolean gps_enabled,network_enabled;
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         try{
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        }catch(Exception ex){}
+        }catch(Exception ex){
+            throw new GPSServiceException("Please Enable GPS Servie");
+        }
         try{
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        }catch(Exception ex){}
+        }catch(Exception ex){
+            throw new WiFiServiceException("Please Enable Wifi Service");
+        }
 
         if(!gps_enabled && !network_enabled){
             AlertDialog.Builder dialog = new AlertDialog.Builder(TD_Context);
@@ -169,7 +171,7 @@ public class TrackDeliveryManActivity extends Activity {
         }
     }
 
-    protected void notifyCustomer(Bundle bundle) {
+    protected void notifyCustomer() {
 //        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 //        MediaPlayer player = MediaPlayer.create(this, notification);
 //        player.setLooping(true);
@@ -204,7 +206,7 @@ public class TrackDeliveryManActivity extends Activity {
         if (map != null) {
             map.setMyLocationEnabled(true);
             String dName = "Deliveryman";
-            aLL = new LatLng(40.440320, -80.003079);
+            LatLng aLL = new LatLng(40.440320, -80.003079);
             dManMarker = map.addMarker(new MarkerOptions()
                     .position(aLL)
                     .title(dName)
@@ -229,7 +231,7 @@ public class TrackDeliveryManActivity extends Activity {
                     freshDmanLocation(dManUrl);
                 }
                 if (bpSign.equals("true")) {
-                    notifyCustomer(trackBundle);
+                    notifyCustomer();
                 }
             }
 
@@ -239,13 +241,15 @@ public class TrackDeliveryManActivity extends Activity {
     //Get the deliveryman location info from the server
     protected void freshDmanLocation(String url) {
         try {
-            dManLocData = downloadUrl(url);
+            String dManLocData = downloadUrl(url);
             try {
                 dManJObject = new JSONObject(dManLocData);
             } catch (JSONException e) {
+                DownloadDataException dataException = new DownloadDataException();
+                dataException.print(activity);
                 e.printStackTrace();
             }
-            Log.v("update dman loc", dManLocData.toString());
+            Log.v("update dman loc", dManLocData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -270,7 +274,6 @@ public class TrackDeliveryManActivity extends Activity {
 
 
     protected void trackDeliveryMan() {
-        LatLng newLoc = null;
         LatLng myLocation;
         String dName = "Deliveryman";
 
@@ -280,7 +283,7 @@ public class TrackDeliveryManActivity extends Activity {
 
 
         if (location == null || dMan == null) {
-
+            location = null;
         } else {
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             myMarker =  map.addMarker(new MarkerOptions().position(myLocation).title("Your Location"));
@@ -348,11 +351,11 @@ public class TrackDeliveryManActivity extends Activity {
         numText = (TextView) findViewById(R.id.dManNumText);
         numText.setText("412-111-2222");
 
-        nameText = (TextView) findViewById(R.id.dManNameText);
+        TextView nameText = (TextView) findViewById(R.id.dManNameText);
         nameText.setText("Function Li");
     }
     protected Location updateLocation() {
-        mLocationListener = new LocationListener() {
+        LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
 
@@ -374,12 +377,14 @@ public class TrackDeliveryManActivity extends Activity {
             }
         };
 
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
 
         String bestProvider = mLocationManager.getBestProvider(criteria, false);
 
+        int LOCATION_REFRESH_TIME = 5;
+        int LOCATION_REFRESH_DISTANCE = 100;
         mLocationManager.requestLocationUpdates(bestProvider, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
         location = mLocationManager
@@ -387,15 +392,6 @@ public class TrackDeliveryManActivity extends Activity {
 
         return location;
 
-//        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//
-//        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-//                LOCATION_REFRESH_DISTANCE, mLocationListener);
-//
-//        Location customerLocation = mLocationManager
-//                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//        return customerLocation;
     }
     protected void zoomToLocation() {
         LatLng myLocation;
@@ -406,7 +402,7 @@ public class TrackDeliveryManActivity extends Activity {
         }
 
         if (location == null) {
-
+            location = updateLocation();
         } else {
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
@@ -430,16 +426,14 @@ public class TrackDeliveryManActivity extends Activity {
         // Output format
         String output = "json";
 
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
-
-        return url;
+        return "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
     }
 
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
-        InputStream iStream = null;
+        InputStream iStream;
         HttpURLConnection urlConnection = null;
-        try{
+        try {
             URL url = new URL(strUrl);
 
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -450,12 +444,14 @@ public class TrackDeliveryManActivity extends Activity {
             // Reading data from url
             iStream = urlConnection.getInputStream();
 
+            // Reading data from url
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
 
-            StringBuffer sb  = new StringBuffer();
+            StringBuilder sb;
+            sb = new StringBuilder();
 
-            String line = "";
-            while( ( line = br.readLine())  != null){
+            String line;
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
 
@@ -463,11 +459,12 @@ public class TrackDeliveryManActivity extends Activity {
 
             br.close();
 
-        }catch(Exception e){
+        } catch (IOException e) {
             Log.d("Exception url", e.toString());
-        }finally{
-            iStream.close();
-            urlConnection.disconnect();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return data;
     }
@@ -529,14 +526,12 @@ public class TrackDeliveryManActivity extends Activity {
         }
 
         protected String toDistance(double dis) {
-            String d = String.format("%.1f", dis/1600);
-            return d;
+            return String.format("%.1f", dis/1600);
         }
 
         protected String toTime(double t) {
-            double stringTime = t;
-            int min = 0;
-            int hour = 0;
+            int min;
+            int hour;
 
             if (t < 60) {
                 return "1 min";
@@ -554,13 +549,12 @@ public class TrackDeliveryManActivity extends Activity {
 
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
+            ArrayList<LatLng> points;
             PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
 
             // Traversing through all the routes
             for(int i=0;i<result.size();i++){
-                points = new ArrayList<LatLng>();
+                points = new ArrayList<>();
                 lineOptions = new PolylineOptions();
 
                 // Fetching i-th route
