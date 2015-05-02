@@ -105,6 +105,7 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
 
         if(userID != -1) {
             User.setName(userName);
+
             if (mode.equals("user")) {
                 HomePageActivity.isDeliveryman = false;
                 UserTypeService.setUserType("Signed user");

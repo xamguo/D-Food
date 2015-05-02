@@ -7,6 +7,8 @@ public class User {
 
     private static String address;
     private static int id;
+    private static int deliverymanID = -1;
+    private static boolean beepSign;
     private static String name;
     private static double longitude;
     private static double latitude;
@@ -48,6 +50,22 @@ public class User {
 
     public static String getName() {
         return name;
+    }
+
+    public static int getDeliverymanID() {
+        return deliverymanID;
+    }
+
+    public static void setDeliverymanID(int deliverymanID) {
+        User.deliverymanID = deliverymanID;
+    }
+
+    public static boolean isBeepSign() {
+        return beepSign;
+    }
+
+    public static void setBeepSign(boolean beepSign) {
+        User.beepSign = beepSign;
     }
 
     public static void setName(String name) {

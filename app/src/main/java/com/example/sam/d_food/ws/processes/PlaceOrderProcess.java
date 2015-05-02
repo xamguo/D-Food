@@ -86,8 +86,9 @@ public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         activity.finish();
+        User.setDeliverymanID(deliverymanID);
         IntentToUserMap intent = new IntentToUserMap(activity);
-        intent.putExtra("deliverymanID",deliverymanID);
+        //intent.putExtra("deliverymanID",deliverymanID);
         Log.v("PlaceOrderProcess xiao", String.valueOf(deliverymanID));
         activity.startActivity(intent);
     }
