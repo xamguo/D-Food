@@ -16,15 +16,17 @@ public class DeliverymanLocation {
     private double longitude;
     private Location mLocation;
     private LatLng mLatLng;
+    private int dManID;
 
     public DeliverymanLocation() {
         latitude = 40.442027;
         longitude = -79.943080;
     }
 
-    public DeliverymanLocation(double la, double lo) {
-        latitude = la;
-        longitude = lo;
+    public DeliverymanLocation(LatLng dManLL, int id) {
+        latitude = dManLL.latitude;
+        longitude = dManLL.longitude;
+        dManID = id;
     }
 
     public LatLng getLatLag() {

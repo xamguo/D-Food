@@ -79,6 +79,8 @@ public class TrackDeliveryManActivity extends Activity {
     private Button tractButton;
     private Button ringButton;
     private Context TD_Context;
+    private Timer shareLocTimer;
+    private Timer trackLocTimer;
     private int flag = 0;
 
     private int locTest = 0;
@@ -105,7 +107,7 @@ public class TrackDeliveryManActivity extends Activity {
 
         MyPost locMyPost = new MyPost();
         locMyPost.execute((Integer)null);
-        uploadLocation();
+        updateDmanLocation();
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,26 +239,25 @@ public class TrackDeliveryManActivity extends Activity {
         return true;
     }
 
-    protected void uploadLocation() {
+    protected void updateDmanLocation() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
                 Log.v("Counter", "ggg");
-                postData();
-                updateDmanLocation("http://guoxiao113.oicp.net/D_Food_Server/user_track?id=1\n");
-//                try {
-//                    zoomToDeliveryman();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                freshDmanLocation("http://guoxiao113.oicp.net/D_Food_Server/user_track?id=1\n");
+                try {
+                    zoomToDeliveryman();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
         }, 0, interval);
     }
 
-    protected void updateDmanLocation(String url) {
+    protected void freshDmanLocation(String url) {
         try {
             dManLocData = downloadUrl(url);
             try {
@@ -663,4 +664,8 @@ public class TrackDeliveryManActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }
