@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.intents.IntentToUserMap;
 
 import org.apache.http.HttpEntity;
@@ -46,10 +47,12 @@ public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
         try {
             // Add your data
             Log.v("order placing", "...");
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
             nameValuePairs.add(new BasicNameValuePair("user_id", params[2]));
             nameValuePairs.add(new BasicNameValuePair("dish_id", params[0]));
             nameValuePairs.add(new BasicNameValuePair("dish_quantity", params[1]));
+            nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(User.getLatitude())));
+            nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(User.getLongitude())));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             // Execute HTTP Post Request

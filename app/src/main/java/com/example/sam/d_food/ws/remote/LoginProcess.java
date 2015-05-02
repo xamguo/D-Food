@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
+import com.example.sam.d_food.presentation.main_page.HomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 import org.apache.http.HttpEntity;
@@ -59,6 +60,7 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
             //Log.v("params[0]", params[0]);
             //Log.v("params[1]", params[1]);
             //Log.v("params[2]", params[2]);
+
             mode = params[0];
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("mode", params[0]));
@@ -103,9 +105,11 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
 
         if(userID != -1) {
             if (mode.equals("user")) {
+                HomePageActivity.isDeliveryman = false;
                 Intent intenet = new Intent(activity, UserHomePageActivity.class);
                 activity.startActivity(intenet);
             } else if (mode.equals("deliveryman")) {
+                HomePageActivity.isDeliveryman = true;
                 Intent intenet = new Intent(activity, DeliveryHomePageActivity.class);
                 activity.startActivity(intenet);
             }

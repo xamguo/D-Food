@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
@@ -14,16 +15,27 @@ import com.example.sam.d_food.presentation.intents.IntentToDeliverymanMap;
 
 public class DeliveryHomePageActivity extends Activity {
 
+    Button startDeliveryButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_delivery_home_page);
+
+        startDeliveryButton = (Button)findViewById(R.id.startDeliverybutton);
 
         String[] itemsArray = {"Pizza, Arlington Ave", "Cake1, CMU", "Cake2, Downtown", "Cake3, S Aiken, Hurry"};
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.layout_listview, itemsArray);
         ListView listView = (ListView) findViewById(R.id.deliveryList);
         listView.setAdapter(adapter);
+
+        startDeliveryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deliveryMap();
+            }
+        });
     }
 
 
@@ -49,9 +61,8 @@ public class DeliveryHomePageActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void deliverymap(View view) {
-        IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);
+    public void deliveryMap() {
+        IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);   //what data is needed
         startActivity(intent);
     }
-
 }

@@ -25,7 +25,11 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.user.Cart;
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
+import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
+import com.example.sam.d_food.presentation.intents.IntentToUserHome;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 import com.example.sam.d_food.ws.remote.SearchProgress;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
@@ -34,7 +38,7 @@ import com.example.sam.d_food.presentation.main_flow_pages.FragmentContainerActi
 
 public class HomePageActivity extends Activity {
 
-    public static boolean receiverSign = false;
+    public static boolean isDeliveryman = false;
 
     private String price;
     private EditText textView_location;
@@ -43,7 +47,6 @@ public class HomePageActivity extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button searchButton;
-    //public ProgressDialog dialog;
 
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
@@ -56,6 +59,8 @@ public class HomePageActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //submission Test
         setContentView(R.layout.layout_home_page);
+
+        setLocation(-80.003079,40.440320);
 
         //dialog = new ProgressDialog(this);
         shakeFlag = 0;
@@ -87,8 +92,6 @@ public class HomePageActivity extends Activity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-//        startService();
 
         /* SeekBar settings */
         SeekBar seekBar = (SeekBar)findViewById(R.id.homeSeekBar);
@@ -185,8 +188,13 @@ public class HomePageActivity extends Activity {
                 IntentToCheck intentToCheck = new IntentToCheck(HomePageActivity.this);
                 startActivity(intentToCheck);
             } else if(position == 3) {
-                Intent intenet = new Intent(HomePageActivity.this, UserHomePageActivity.class);
-                startActivity(intenet);
+                if( isDeliveryman ) {
+                    Intent intent = new IntentToDeliverymanHome(HomePageActivity.this);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new IntentToUserHome(HomePageActivity.this);
+                    startActivity(intent);
+                }
             }
             mDrawerList.setItemChecked(position, false);
             mDrawerLayout.closeDrawer(mDrawerList);
@@ -204,30 +212,6 @@ public class HomePageActivity extends Activity {
     }
 
     public void search(){
-        //dialog.setMessage("Searching");
-        //dialog.show();
-
-//        String location = textView_location.getText().toString();
-//        location = "CMU";
-//        Log.v("location", location);
-//
-//        if(location == null){
-//            location = "CMU";
-//        }
-//
-//        if(s != null) {
-//            s.unbindService();
-//        }
-//
-//        if(receiverSign == true){
-//            unReceiver();
-//        }
-//        receiver();
-//        s = new Search(HomePageActivity.this);
-//        double x,y;
-//        x=1.1;
-//        y=2.2;      //value for simulation
-//        s.search(x,y,price,location);
         try {
             /* Go to the next page from dataProgress */
             SearchProgress searchProgress = new SearchProgress(this);
@@ -235,7 +219,6 @@ public class HomePageActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //dialog.dismiss();
     }
 
     @Override
@@ -247,14 +230,6 @@ public class HomePageActivity extends Activity {
 
     @Override
     protected void onPause() {
-//        if(s != null) {
-//            //unReceiver();
-//            s.unbindService();
-//            Log.v("unbindService","here");
-//        }
-//        if(receiverSign == true){
-//            unReceiver();
-//        }
         super.onPause();
         mSensorManager.unregisterListener(mSensorListener);
     }
@@ -269,5 +244,10 @@ public class HomePageActivity extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private void setLocation(double longitude,double latitude) {
+        User.setLatitude(latitude);
+        User.setLongitude(longitude);
     }
 }

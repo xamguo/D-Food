@@ -52,7 +52,6 @@
         android:id="@+id/startDeliverybutton"
         android:background="@drawable/custom_btn"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="deliverymap"/>
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

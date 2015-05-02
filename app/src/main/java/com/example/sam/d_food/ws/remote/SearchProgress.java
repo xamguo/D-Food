@@ -105,7 +105,6 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
             Log.v("Search", result);
             saveRestaurants(result);
         }
-
         //activity.dialog.dismiss();
         return null;
     }
