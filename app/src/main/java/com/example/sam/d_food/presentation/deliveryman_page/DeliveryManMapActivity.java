@@ -2,6 +2,7 @@ package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.presentation.user_page.TrackDeliveryManActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -30,7 +33,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DeliveryManMapActivity extends Activity {
+public class DeliveryManMapActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private GoogleMap map;
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
@@ -53,6 +55,7 @@ public class DeliveryManMapActivity extends Activity {
     private String dManID;
     private Timer t;
     private Activity activity;
+    private GoogleApiClient mGoogleApiClient;
 
     private int count;
     private int locFlag = 0;
@@ -65,10 +68,44 @@ public class DeliveryManMapActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_man_map);
         activity = DeliveryManMapActivity.this;
+
+        final Bundle myB = savedInstanceState;
+        buildGoogleApiClient();
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        onConnected(savedInstanceState);
+
+
+
         Intent intent = getIntent();
         dManID = intent.getStringExtra("deliverymanID");
         initial();
-        uploadLocation();
+
+        MyPost updateLoc = new MyPost();
+        updateLoc.execute();
+
+        Timer uploadTimer = new Timer();
+        uploadTimer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        onConnected(myB);
+                        String dName = "Deliveryman";
+                        if (dManLocation != null) {
+                            dManLL = new LatLng(dManLocation.getLatitude(),dManLocation.getLongitude());
+                            dManMarker = map.addMarker(new MarkerOptions()
+                                    .position(dManLL)
+                                    .title(dName)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
+                            zoomToLocation(dManLocation, dManMarker);
+                            Log.v("lat", Double.toString(dManLocation.getLatitude()));
+                            Log.v("lon", Double.toString(dManLocation.getLongitude()));
+                        }
+                    }
+                });
+            }
+        }, 0, interval);
         Button saveButton = (Button) this.findViewById(R.id.ringButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,35 +116,63 @@ public class DeliveryManMapActivity extends Activity {
 
     }
 
-    protected void uploadLocation() {
-        if (dManLocation == null) {
-            dManLocation = updateLocation();
-        }
-        dManLL = new LatLng(dManLocation.getLatitude(), dManLocation.getLongitude());
-        Timer uploadTimer = new Timer();
-        uploadTimer.scheduleAtFixedRate(new TimerTask() {
+    public void onConnected(Bundle b) {
+        Log.v("Connection Test", Boolean.toString(mGoogleApiClient.isConnected()));
+        dManLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+    }
 
-            @Override
-            public void run() {
-                ShareLocationProcess shareLoc = new ShareLocationProcess();
-                shareLoc.execute(dManLL);
-//                Log.v("Counter", "ggg");
-//                postData();
-//                updateDmanLocation("http://guoxiao113.oicp.net/D_Food_Server/user_track?id=1\n");
-//                try {
-//                    zoomToDeliveryman();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    public class MyPost extends AsyncTask {
+
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            if (dManLL != null) {
+                postData(dManLL);
             }
 
-        }, 0, interval);
+            return null;
+        }
     }
 
     protected boolean initial() {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
                 .getMap();
-        FindLocation();
         if (map != null) {
             map.setMyLocationEnabled(true);
             dManLocation = map.getMyLocation();
@@ -122,7 +187,7 @@ public class DeliveryManMapActivity extends Activity {
                         .title(dName)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
 
-                zoomToLocation(dManLocation);
+                zoomToLocation(dManLocation, dManMarker);
             }
 
 
@@ -132,66 +197,17 @@ public class DeliveryManMapActivity extends Activity {
         return true;
     }
 
-    protected void FindLocation() {
-        count = 5000;
-        t = new Timer();
-
-        dialog = new ProgressDialog(activity);
-        dialog.setMessage("Progress start");
-        dialog.show();
-        Log.v("start", "ssssssssss");
-        t.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable()
-                {
-                    public void run()
-                    {
-                        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-                                .getMap();
-                        dManLocation = map.getMyLocation();
-                        if (dManLocation != null) {
-                            locFlag = 1;
-                            t.cancel();
-                        } else if (count == 0) {
-                            locFlag = 0;
-                            t.cancel();
-                        }
-                        count = count - 1000;
-                        Log.v("count", "cc");
-                    }
-                });
-            }
-        }, 0, interval);
-
-        if (dialog.isShowing()) {
-            dialog.cancel();
-        }
-
-    }
-
-    protected void zoomToLocation(Location loc) {
-
-        if (loc == null) {
-            loc = updateLocation();
-        }
-
-        if (loc == null) {
-
-        } else {
+    protected void zoomToLocation(Location loc, Marker mk) {
+        if (loc != null) {
             LatLng myLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
+            if (mk.isInfoWindowShown()) {
+                mk.hideInfoWindow();
+            }
+            mk.showInfoWindow();
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
         }
     }
 
-    protected void trackDeliveryMan(Location loc) {
-//        Uri gmmIntentUri = Uri.parse(uri);
-//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//        mapIntent.setPackage("com.google.android.apps.maps");
-        Intent locationIntent = new Intent(this, TrackDeliveryManActivity.class);
-        locationIntent.putExtra("location", loc);
-        startActivity(locationIntent);
-    }
 
 //    protected void showTaskLocation(Location currentLocation) {
 //        location = currentLocation;
@@ -237,44 +253,26 @@ public class DeliveryManMapActivity extends Activity {
 //        map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
 //    }
 
-    private class ShareLocationProcess extends AsyncTask<LatLng, Void, String> {
+    public void postData(LatLng location) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/track?");
 
-//    public ShareLocationProcess(Activity act) {
-//        super();
-//        activity = act;
-//    }
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            nameValuePairs.add(new BasicNameValuePair("id", dManID));
+            nameValuePairs.add(new BasicNameValuePair("latitude", Double.toString(location.latitude)));
+            nameValuePairs.add(new BasicNameValuePair("longitude", Double.toString(location.longitude)));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-        protected String doInBackground(LatLng... location) {
-            postData(location[0]);
-            return null;
-        }
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
 
-        protected void onPostExecute(String result) {
-
-        }
-
-
-        public void postData(LatLng location) {
-            // Create a new HttpClient and Post Header
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/track?");
-
-            try {
-                // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-                nameValuePairs.add(new BasicNameValuePair("id", dManID));
-                nameValuePairs.add(new BasicNameValuePair("latitude", Double.toString(location.latitude)));
-                nameValuePairs.add(new BasicNameValuePair("longitude", Double.toString(location.longitude)));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httppost);
-
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-            }
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
         }
     }
 

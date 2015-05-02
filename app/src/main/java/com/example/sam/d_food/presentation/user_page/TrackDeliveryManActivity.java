@@ -73,14 +73,12 @@ public class TrackDeliveryManActivity extends Activity {
     private LatLng aLL;
     private LatLng dMan;
     private Marker myMarker;
-    private int interval = 5500;
+    private int interval = 1500;
     private String dManLocData;
     private JSONObject dManJObject;
     private Button tractButton;
     private Button ringButton;
     private Context TD_Context;
-    private Timer shareLocTimer;
-    private Timer trackLocTimer;
     private int flag = 0;
 
     private int locTest = 0;
@@ -105,8 +103,6 @@ public class TrackDeliveryManActivity extends Activity {
             trackMyLocation();
         }
 
-        MyPost locMyPost = new MyPost();
-        locMyPost.execute((Integer)null);
         updateDmanLocation();
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,14 +132,6 @@ public class TrackDeliveryManActivity extends Activity {
                                     trackDeliveryMan();
                                 }
                             });
-//
-//                            ringButton.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    notifyCustomer(savedInstanceState);
-//                                    Log.v("Ring","hi");
-//                                }
-//                            });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -247,11 +235,11 @@ public class TrackDeliveryManActivity extends Activity {
             public void run() {
                 Log.v("Counter", "ggg");
                 freshDmanLocation("http://guoxiao113.oicp.net/D_Food_Server/user_track?id=1\n");
-                try {
-                    zoomToDeliveryman();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    zoomToDeliveryman();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
 
         }, 0, interval);
@@ -273,11 +261,10 @@ public class TrackDeliveryManActivity extends Activity {
 
     protected void zoomToDeliveryman() throws JSONException {
         if (dManJObject != null) {
-            locTest++;
             Double lat = 40.440320;
             Double lng = -80.003079;
-            lat = Double.parseDouble(dManJObject.getString("latitude")) + locTest*0.0003;
-            lng = Double.parseDouble(dManJObject.getString("longitude"))+ locTest*0.0003;
+            lat = Double.parseDouble(dManJObject.getString("latitude"));
+            lng = Double.parseDouble(dManJObject.getString("longitude"));
             dMan = new LatLng(lat,lng);
             Log.v("log", lat.toString());
             Log.v("lng", lng.toString());
@@ -311,14 +298,13 @@ public class TrackDeliveryManActivity extends Activity {
     protected void trackDeliveryMan() {
         LatLng newLoc = null;
         LatLng myLocation = null;
-        Location location = null;
 
 
         map.setMyLocationEnabled(true);
         location = map.getMyLocation();
 
 
-        if (location == null) {
+        if (location == null || dMan == null) {
 
         } else {
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -326,7 +312,7 @@ public class TrackDeliveryManActivity extends Activity {
 
 //            dInfo = totalDistance + " mile away";
 
-            String url = getDirectionsUrl(myLocation, aLL);
+            String url = getDirectionsUrl(myLocation, dMan);
 
             DownloadTask downloadTask = new DownloadTask();
 

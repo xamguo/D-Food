@@ -18,11 +18,7 @@ import java.util.List;
 public class DirectionsJSONParser {
     private double totalTime = 0;
     private double distance = 0;
-
-    public double getTotalTime() {
-        return totalTime;
-    }
-
+    
     public double getDistance() {
         return distance;
     }
