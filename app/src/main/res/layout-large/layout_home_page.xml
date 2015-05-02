@@ -29,7 +29,7 @@
             android:layout_below="@id/logo"
             android:selectAllOnFocus="true"
             android:layout_centerHorizontal="true"
-            android:hint="Your Location"/>
+            android:hint="@string/myLocationHint"/>
 
         <include
             android:id="@+id/seekbar_index"
@@ -48,13 +48,12 @@
             android:thumb="@drawable/thumb"
             android:background="@drawable/row"
             android:progressDrawable="@drawable/seekbar"
-            style="@style/my_padding_left_and_right"
-            android:indeterminate="false" />
+            android:indeterminate="false"
+            style="@style/my_padding_left_and_right"/>
 
         <Button
-            android:layout_width="270dp"
-            android:layout_height="70dp"
-            android:text="Search"
+            style="@style/my_big_button"
+            android:text="@string/mySearch"
             android:id="@+id/searchRestaurant"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"

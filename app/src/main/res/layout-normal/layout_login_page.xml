@@ -60,7 +60,7 @@
         android:id="@+id/switchUser"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:checked="false" />
 
     <Button
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/login"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:layout_marginTop="@dimen/my_padding_from_logo"
         android:layout_below="@+id/switchUser"
         android:layout_centerHorizontal="true" />
@@ -79,7 +79,7 @@
         android:layout_marginTop="@dimen/my_padding_small"
         android:text="Sign Up"
         android:id="@+id/register"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:layout_below="@+id/login"
         android:layout_alignStart="@+id/login" />
 

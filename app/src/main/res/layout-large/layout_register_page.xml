@@ -21,7 +21,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:inputType="textPersonName"
         android:text="Account ID"
         android:selectAllOnFocus="true"
@@ -34,7 +34,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:id="@+id/password"
         android:selectAllOnFocus="true"
         android:layout_below="@+id/accountID"
@@ -46,7 +46,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:id="@+id/rePassword"
         android:selectAllOnFocus="true"
         android:layout_below="@+id/password"
@@ -58,7 +58,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/my_background"
+        android:background="@color/my_background_white"
         android:inputType="phone"
         android:ems="10"
         android:selectAllOnFocus="true"

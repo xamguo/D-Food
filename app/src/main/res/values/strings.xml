@@ -17,20 +17,22 @@
     <string name="taskName">Task Name</string>
     <string name="dManName">Name</string>
 
-    <color name="my_background">#FFFFFFFF</color>
+    <color name="my_background_white">#FFFFFFFF</color>
     <color name="my_background_dark">#ff000000</color>
-    <color name="my_list">#FFFFFFFF</color>
+    <color name="my_white">#FFFFFFFF</color>
     <color name="my_green">#ff10971a</color>
     <color name="my_red">#ffff0000</color>
     <color name="my_dark_red">#ffc60300</color>
-    <string name="title_activity_dish_info">DishInfo</string>
+
+    <string name="myLocationHint">Your Location</string>
+    <string name="mySearch">Search</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="gps_network_not_enabled">Please Enable WiFi or GPS to Use Map Service</string>
     <string name="open_location_settings">Go to Enable GPS</string>
     <string name="Cancel">Cancel</string>
 
-    <string-array name="array_name">
+    <string-array name="quantities">
         <item>1</item>
         <item>2</item>
         <item>3</item>
