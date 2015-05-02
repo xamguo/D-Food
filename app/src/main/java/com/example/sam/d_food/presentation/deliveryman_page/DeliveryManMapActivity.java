@@ -123,7 +123,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     private void putToList(Task t) {
         int flag = 0;
         for (int i = 0; i < userList.size(); i++) {
-            if (t.getUserName() == userList.get(i).getUserName()) {
+            if (t.getUserName().equals(userList.get(i).getUserName()) ) {
                 flag = 1;
             }
         }
@@ -206,7 +206,9 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                         .position(dManLL)
                         .title(dName)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
-
+                if (dManMarker.isInfoWindowShown()) {
+                    dManMarker.hideInfoWindow();
+                }
                 zoomToLocation(dManLocation, dManMarker);
             }
 
@@ -218,6 +220,9 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     }
 
     protected void zoomToLocation(Location loc, Marker mk) {
+        if (mk.isInfoWindowShown()) {
+            mk.hideInfoWindow();
+        }
         if (loc != null) {
             LatLng myLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
             if (mk.isInfoWindowShown()) {

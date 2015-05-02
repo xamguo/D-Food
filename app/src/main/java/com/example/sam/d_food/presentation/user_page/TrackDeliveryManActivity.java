@@ -73,7 +73,7 @@ public class TrackDeliveryManActivity extends Activity {
     private LatLng aLL;
     private LatLng dMan;
     private Marker myMarker;
-    private int interval = 1500;
+    private int interval = 4000;
     private String dManLocData;
     private JSONObject dManJObject;
     private Button tractButton;
@@ -91,8 +91,9 @@ public class TrackDeliveryManActivity extends Activity {
         setContentView(R.layout.layout_track_delivery_man);
 
         TD_Context = TrackDeliveryManActivity.this;
-        Bundle extras = getIntent().getExtras();
-        deliverymanID = String.valueOf(extras.getInt("deliverymanID"));
+//        Bundle extras = getIntent().getExtras();
+        deliverymanID = "2";
+//        deliverymanID = String.valueOf(extras.getInt("deliverymanID"));
         Log.v("Track deliverymanID",deliverymanID);
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
@@ -234,7 +235,8 @@ public class TrackDeliveryManActivity extends Activity {
             @Override
             public void run() {
                 Log.v("Counter", "ggg");
-                freshDmanLocation("http://guoxiao113.oicp.net/D_Food_Server/user_track?id=1\n");
+                String dManUrl = "http://guoxiao113.oicp.net/D_Food_Server/user_track?id=" + deliverymanID;
+                freshDmanLocation(dManUrl);
 //                try {
 //                    zoomToDeliveryman();
 //                } catch (JSONException e) {
@@ -274,26 +276,6 @@ public class TrackDeliveryManActivity extends Activity {
         }
     }
 
-    public void getDmanLocation() {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/user_track?");
-
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            nameValuePairs.add(new BasicNameValuePair("id", "1"));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-    }
 
     protected void trackDeliveryMan() {
         LatLng newLoc = null;
@@ -366,38 +348,6 @@ public class TrackDeliveryManActivity extends Activity {
         }
     }
 
-    public class MyPost extends AsyncTask {
-
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            postData();
-            return null;
-        }
-    }
-
-    public void postData() {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/track?");
-
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            nameValuePairs.add(new BasicNameValuePair("id", deliverymanID));
-            nameValuePairs.add(new BasicNameValuePair("latitude", "40.440320"));
-            nameValuePairs.add(new BasicNameValuePair("longitude", "-80.003079"));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-    }
 
     protected void trackMyLocation() {
 
