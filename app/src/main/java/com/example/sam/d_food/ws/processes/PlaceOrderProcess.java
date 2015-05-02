@@ -91,5 +91,4 @@ public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
         Log.v("PlaceOrderProcess xiao", String.valueOf(deliverymanID));
         activity.startActivity(intent);
     }
-
 }

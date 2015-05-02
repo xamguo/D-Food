@@ -14,6 +14,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
@@ -38,26 +39,32 @@ import com.example.sam.d_food.presentation.intents.IntentToUserHome;
 import com.example.sam.d_food.ws.processes.SearchProgress;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
 import com.example.sam.d_food.ws.processes.services.UserTypeService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 
-public class HomePageActivity extends Activity {
+public class HomePageActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static boolean isDeliveryman = false;
     boolean isBound;                            //service indicator
     private ServiceConnection myConnection;     //service connector
     private String price;                       //price level sign
 
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
+
     private EditText textView_location;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Button searchButton;
 
     private SensorManager mSensorManager;
     private float mAccel;           // acceleration apart from gravity
     private float mAccelCurrent;    // current acceleration including gravity
     private float mAccelLast;       // last acceleration including gravity
     private int shakeFlag = 0;
+    private String myLocationText;
 
 
     @Override
@@ -69,9 +76,15 @@ public class HomePageActivity extends Activity {
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
-        searchButton = (Button) findViewById(R.id.searchRestaurant);
+        Button searchButton = (Button) findViewById(R.id.searchRestaurant);
 
-        setLocation(-80.003079,40.440320);      //hard-coded location
+        buildGoogleApiClient();
+        mGoogleApiClient.connect();
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (myLocationText != null)
+            setLocation(mLastLocation.getLongitude(),mLastLocation.getLatitude());
+
         startService(new Intent(this, UserTypeService.class));
 
         /* set the default user type and define the service connector */
@@ -250,10 +263,33 @@ public class HomePageActivity extends Activity {
      * The new thread is created for the internet visiting.
      */
     public void search(){
+        myLocationText = textView_location.getText().toString();
+        mGoogleApiClient.connect();
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
         try {
             /* Go to the next page from dataProgress */
             SearchProgress searchProgress = new SearchProgress(this);
-            searchProgress.execute(" ");
+            setLocation(mLastLocation.getLongitude(),mLastLocation.getLatitude());
+            switch (myLocationText) {
+                case "CMU":
+                    searchProgress.execute(" ");
+                    break;
+                case "cmu":
+                    searchProgress.execute(" ");
+                    break;
+                default:
+                    Double lat = mLastLocation.getLatitude();
+                    //Log.v("myLocation",String.valueOf(lat));
+                    Double lon = mLastLocation.getLongitude();
+                    //Log.v("myLocation",String.valueOf(lon));
+                    if (lat == null || lon == null) {
+                        lon = (-79.9436244);
+                        lat = (40.4409227);
+                    }
+                    searchProgress.execute("restaurant", String.valueOf(lon), String.valueOf(lat), String.valueOf(10), price);
+                    break;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -298,9 +334,32 @@ public class HomePageActivity extends Activity {
             Log.v("myService","Connected");
         }
 
-    public void onServiceDisconnected(ComponentName className) {
-        Log.v("myService","Disconnected");
-        isBound = false;
+        public void onServiceDisconnected(ComponentName className) {
+            Log.v("myService","Disconnected");
+            isBound = false;
+        }
     }
-}
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        setLocation(mLastLocation.getLongitude(),mLastLocation.getLatitude());
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 }
