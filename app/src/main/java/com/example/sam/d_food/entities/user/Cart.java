@@ -2,9 +2,6 @@ package com.example.sam.d_food.entities.user;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sam on 4/11/2015.
- */
 public class Cart {
     static public ArrayList<Order> myOrders = new ArrayList<Order>();
 
