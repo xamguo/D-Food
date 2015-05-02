@@ -80,6 +80,8 @@ public class TrackDeliveryManActivity extends Activity {
     private Button ringButton;
     private Context TD_Context;
     private int flag = 0;
+    private Timer updateDmanTimer;
+    private Timer t;
 
     private int locTest = 0;
     private final int LOCATION_REFRESH_TIME = 5;
@@ -113,7 +115,7 @@ public class TrackDeliveryManActivity extends Activity {
             }
         });
 
-        Timer t = new Timer();
+        t = new Timer();
         t.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -229,8 +231,8 @@ public class TrackDeliveryManActivity extends Activity {
     }
 
     protected void updateDmanLocation() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        updateDmanTimer = new Timer();
+        updateDmanTimer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
@@ -602,6 +604,19 @@ public class TrackDeliveryManActivity extends Activity {
 
     @Override
     protected void onPause() {
+        Log.v("activity ", "paused");
+        t.cancel();
+        updateDmanTimer.cancel();
         super.onPause();
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        Log.v("activity ", "stopped");
+        t.cancel();
+        updateDmanTimer.cancel();
+        super.onDestroy();
     }
 }

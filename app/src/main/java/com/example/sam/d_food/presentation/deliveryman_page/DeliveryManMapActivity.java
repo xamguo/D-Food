@@ -59,9 +59,12 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     private Activity activity;
     private ArrayList<Task> userList = new ArrayList<>();
     private GoogleApiClient mGoogleApiClient;
+    private Timer upLoadTimer;
 
+    private Timer updateTimer;
     private int count;
     private int locFlag = 0;
+    private boolean stop = false;
     private final int interval = 4000;
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
@@ -71,6 +74,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_man_map);
         activity = DeliveryManMapActivity.this;
+        stop = false;
 
         final Bundle myB = savedInstanceState;
         buildGoogleApiClient();
@@ -86,25 +90,33 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         MyPost updateLoc = new MyPost();
         updateLoc.execute();
 
-        Timer uploadTimer = new Timer();
-        uploadTimer.scheduleAtFixedRate(new TimerTask() {
+        updateTimer = new Timer();
+        updateTimer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        onConnected(myB);
-                        String dName = "Deliveryman";
-                        if (dManLocation != null) {
-                            uploadLocation();
-                            dManLL = new LatLng(dManLocation.getLatitude(),dManLocation.getLongitude());
-                            dManMarker = map.addMarker(new MarkerOptions()
-                                    .position(dManLL)
-                                    .title(dName)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
-//                            zoomToLocation(dManLocation, dManMarker);
-                            Log.v("lat", Double.toString(dManLocation.getLatitude()));
-                            Log.v("lon", Double.toString(dManLocation.getLongitude()));
+                        if(!stop) {
+                            onConnected(myB);
+                            String dName = "Deliveryman";
+                            if (dManLocation != null) {
+                                uploadLocation();
+                                dManLL = new LatLng(dManLocation.getLatitude(), dManLocation.getLongitude());
+                                if (map != null) {
+                                    map.clear();
+                                }
+                                dManMarker = map.addMarker(new MarkerOptions()
+                                        .position(dManLL)
+                                        .title(dName)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
+                                //                            zoomToLocation(dManLocation, dManMarker);
+                                Log.v("lat", Double.toString(dManLocation.getLatitude()));
+                                Log.v("lon", Double.toString(dManLocation.getLongitude()));
+                            }
+                        } else {
+                            Log.v("stop indicator", "stopped now");
+                            updateTimer.cancel();
                         }
                     }
                 });
@@ -228,7 +240,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
             if (mk.isInfoWindowShown()) {
                 mk.hideInfoWindow();
             }
-            mk.showInfoWindow();
+//            mk.showInfoWindow();
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
         }
     }
@@ -278,14 +290,16 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
 //        map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
     }
 
+
     protected void uploadLocation() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        upLoadTimer = new Timer();
+        upLoadTimer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
                 Log.v("Counter", "ggg");
                 postData(dManLL);
+                upLoadTimer.cancel();
             }
 
         }, 0, interval);
@@ -346,5 +360,27 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
 
         return dManLocation;
     }
+
+    @Override
+    protected void onPause() {
+        stop = true;
+        Log.v("activity ", "paused");
+        upLoadTimer.cancel();
+        updateTimer.cancel();
+        super.onPause();
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        stop = true;
+        Log.v("activity ", "stopped");
+        upLoadTimer.cancel();
+        updateTimer.cancel();
+        super.onDestroy();
+    }
+
+
 
 }
