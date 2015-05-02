@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.user_page.json_parser.DirectionsJSONParser;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -82,19 +83,23 @@ public class TrackDeliveryManActivity extends Activity {
     private int flag = 0;
     private Timer updateDmanTimer;
     private Timer t;
+    private String bpSign = "false";
 
+    private Bundle trackBundle;
     private int locTest = 0;
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_track_delivery_man);
+        trackBundle = savedInstanceState;
 
         TD_Context = TrackDeliveryManActivity.this;
+
 //        Bundle extras = getIntent().getExtras();
-        deliverymanID = "2";
+        deliverymanID = Integer.toString(User.getDeliverymanID());
 //        deliverymanID = String.valueOf(extras.getInt("deliverymanID"));
         Log.v("Track deliverymanID",deliverymanID);
 
@@ -110,8 +115,8 @@ public class TrackDeliveryManActivity extends Activity {
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notifyCustomer(savedInstanceState);
-                Log.v("Ring","hi");
+                notifyCustomer(trackBundle);
+                Log.v("Ring", "hi");
             }
         });
 
@@ -238,7 +243,12 @@ public class TrackDeliveryManActivity extends Activity {
             public void run() {
                 Log.v("Counter", "ggg");
                 String dManUrl = "http://guoxiao113.oicp.net/D_Food_Server/user_track?id=" + deliverymanID;
-                freshDmanLocation(dManUrl);
+                if (!deliverymanID.equals("-1")) {
+                    freshDmanLocation(dManUrl);
+                }
+                if (bpSign.equals("true")) {
+                    notifyCustomer(trackBundle);
+                }
 //                try {
 //                    zoomToDeliveryman();
 //                } catch (JSONException e) {
@@ -269,6 +279,7 @@ public class TrackDeliveryManActivity extends Activity {
             Double lng = -80.003079;
             lat = Double.parseDouble(dManJObject.getString("latitude"));
             lng = Double.parseDouble(dManJObject.getString("longitude"));
+            bpSign = dManJObject.getString("beepSign");
             dMan = new LatLng(lat,lng);
             Log.v("log", lat.toString());
             Log.v("lng", lng.toString());

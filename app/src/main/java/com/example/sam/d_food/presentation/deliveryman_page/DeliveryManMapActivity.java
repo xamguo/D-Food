@@ -61,6 +61,8 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private Timer upLoadTimer;
 
+    private Thread thread;
+    private String bpSign;
     private Timer updateTimer;
     private int count;
     private int locFlag = 0;
@@ -85,6 +87,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
 
         Intent intent = getIntent();
         dManID = intent.getStringExtra("deliverymanID");
+        Button ringButton = (Button) this.findViewById(R.id.ringButton);
         initial();
 
         MyPost updateLoc = new MyPost();
@@ -122,11 +125,24 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                 });
             }
         }, 0, interval);
-        Button saveButton = (Button) this.findViewById(R.id.ringButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+
+        ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (dManLL != null) {
+                    bpSign = "true";
+                    if (bpSign.equals("true")) {
+                        thread = new Thread() {
+                            @Override
+                            public void run() {
+                                postData(dManLL);
+                            }
+                        };
+                        thread.start();
+                    } else {
+                        thread.stop();
+                    }
+                }
             }
         });
 
@@ -316,11 +332,12 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
             nameValuePairs.add(new BasicNameValuePair("id", dManID));
             nameValuePairs.add(new BasicNameValuePair("latitude", Double.toString(location.latitude)));
             nameValuePairs.add(new BasicNameValuePair("longitude", Double.toString(location.longitude)));
+            nameValuePairs.add(new BasicNameValuePair("beepSign", bpSign));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
             // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
 
+            bpSign = "false";
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
         } catch (IOException e) {
