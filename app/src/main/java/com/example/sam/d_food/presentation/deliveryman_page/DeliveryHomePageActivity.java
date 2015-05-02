@@ -15,7 +15,7 @@ import com.example.sam.d_food.ws.processes.GetTasksProcess;
 
 
 public class DeliveryHomePageActivity extends Activity {
-
+    private String dManID;
     Button startDeliveryButton;
 
     @Override
@@ -67,6 +67,8 @@ public class DeliveryHomePageActivity extends Activity {
 
     public void deliveryMap() {
         IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);   //what data is needed
+        dManID = "1";
+        intent.putExtra("deliverymanID", dManID);
         startActivity(intent);
     }
 }
