@@ -76,6 +76,7 @@ public class LoginPageActivity extends Activity {
             Intent launchRegister=new Intent(LoginPageActivity.this, RegisterPageActivity.class);
             launchRegister.putExtra("toggle", user);
             startActivity(launchRegister);
+            finish();
         }
     };
 

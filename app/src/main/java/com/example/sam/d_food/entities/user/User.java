@@ -6,6 +6,8 @@ package com.example.sam.d_food.entities.user;
 public class User {
 
     private static String address;
+    private static int id;
+    private static String name;
     private static double longitude;
     private static double latitude;
 
@@ -34,5 +36,21 @@ public class User {
 
     public static void setLatitude(double latitude) {
         User.latitude = latitude;
+    }
+
+    public static int getId() {
+        return id;
+    }
+
+    public static void setId(int id) {
+        User.id = id;
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        User.name = name;
     }
 }

@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
+import com.example.sam.d_food.ws.processes.RegisterProcess;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class RegisterPageActivity extends Activity {
@@ -41,14 +44,32 @@ public class RegisterPageActivity extends Activity {
                     toggle=intent.getStringExtra("toggle");
                     if(toggle.equals("Deliveryman")){
                         Toast.makeText(getApplicationContext(), toggle, Toast.LENGTH_SHORT).show();
+                        try {
+                            RegisterProcess registerProcess = new RegisterProcess(RegisterPageActivity.this);
+                            registerProcess.execute("deliveryman", userName.getText().toString(), password.getText().toString()).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         Intent launchDeliveryHome=new Intent(RegisterPageActivity.this, DeliveryHomePageActivity.class);
                         launchDeliveryHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchDeliveryHome);
+                        finish();
                     }else {
                         Toast.makeText(getApplicationContext(), toggle, Toast.LENGTH_SHORT).show();
+                        try {
+                            RegisterProcess registerProcess = new RegisterProcess(RegisterPageActivity.this);
+                            registerProcess.execute("user", userName.getText().toString(), password.getText().toString()).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         Intent launchCustomerHome=new Intent(RegisterPageActivity.this, UserHomePageActivity.class);
                         launchCustomerHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchCustomerHome);
+                        finish();
                     }
 
                 }else{

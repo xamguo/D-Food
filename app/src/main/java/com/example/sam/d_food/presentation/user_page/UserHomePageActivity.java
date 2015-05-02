@@ -6,8 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 import com.example.sam.d_food.presentation.intents.IntentToUserMap;
 
@@ -16,6 +18,7 @@ public class UserHomePageActivity extends Activity {
     Button orderButton;
     Button trackButton;
     Button infoButton;
+    TextView name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class UserHomePageActivity extends Activity {
         orderButton = (Button)findViewById(R.id.orders);
         trackButton = (Button)findViewById(R.id.track);
         infoButton = (Button)findViewById(R.id.info);
+        name = (TextView)findViewById(R.id.userName);
 
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +41,8 @@ public class UserHomePageActivity extends Activity {
                 userMap();
             }
         });
+        if(User.getName() != null)
+            name.setText(User.getName());
     }
 
 

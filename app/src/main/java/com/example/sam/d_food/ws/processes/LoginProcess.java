@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.main_page.HomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
@@ -32,6 +33,7 @@ import java.util.List;
 
 public class LoginProcess extends AsyncTask<String, Void, Integer> {
     Integer userID;
+    String userName;
     String mode;
     Activity activity;
     private ProgressDialog dialog;
@@ -59,6 +61,7 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
             //Log.v("params[2]", params[2]);
 
             mode = params[0];
+            userName = params[1];
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("mode", params[0]));
             nameValuePairs.add(new BasicNameValuePair("user_name", params[1]));
@@ -98,7 +101,10 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
             dialog.dismiss();
         }
 
+        User.setId(result);
+
         if(userID != -1) {
+            User.setName(userName);
             if (mode.equals("user")) {
                 HomePageActivity.isDeliveryman = false;
                 UserTypeService.setUserType("Signed user");

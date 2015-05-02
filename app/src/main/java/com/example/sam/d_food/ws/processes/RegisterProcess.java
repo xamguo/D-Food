@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
@@ -33,6 +34,7 @@ import java.util.List;
  */
 public class RegisterProcess extends AsyncTask<String, Void, Integer> {
     Integer userID;
+    String userName;
     String mode;
     Activity activity;
     private ProgressDialog dialog;
@@ -59,6 +61,7 @@ public class RegisterProcess extends AsyncTask<String, Void, Integer> {
             //Log.v("params[1]", params[1]);
             //Log.v("params[2]", params[2]);
             mode = params[0];
+            userName = params[1];
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("mode", params[0]));
             nameValuePairs.add(new BasicNameValuePair("user_name", params[1]));
@@ -100,7 +103,9 @@ public class RegisterProcess extends AsyncTask<String, Void, Integer> {
             dialog.dismiss();
         }
 
+        User.setId(userID);
         if(userID != -1) {
+            User.setName(userName);
             if (mode.equals("user")) {
                 Intent intent = new Intent(activity, UserHomePageActivity.class);
                 activity.startActivity(intent);
