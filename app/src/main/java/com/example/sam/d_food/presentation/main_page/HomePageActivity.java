@@ -1,15 +1,21 @@
+/*
+* This activity is the starter of the APP.
+* */
 package com.example.sam.d_food.presentation.main_page;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;    //changed to v7
@@ -25,58 +31,65 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 
 import com.example.sam.d_food.R;
-import com.example.sam.d_food.entities.user.Cart;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.intents.IntentToCheck;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanHome;
 import com.example.sam.d_food.presentation.intents.IntentToUserHome;
-import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
-import com.example.sam.d_food.ws.remote.SearchProgress;
+import com.example.sam.d_food.ws.processes.SearchProgress;
 import com.example.sam.d_food.presentation.intents.IntentToLogin;
-import com.example.sam.d_food.presentation.main_flow_pages.FragmentContainerActivity;
+import com.example.sam.d_food.ws.processes.services.UserTypeService;
 
 
 public class HomePageActivity extends Activity {
 
     public static boolean isDeliveryman = false;
+    boolean isBound;                            //service indicator
+    private ServiceConnection myConnection;     //service connector
+    private String price;                       //price level sign
 
-    private String price;
     private EditText textView_location;
-
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Button searchButton;
 
     private SensorManager mSensorManager;
-    private float mAccel; // acceleration apart from gravity
-    private float mAccelCurrent; // current acceleration including gravity
-    private float mAccelLast; // last acceleration including gravity
+    private float mAccel;           // acceleration apart from gravity
+    private float mAccelCurrent;    // current acceleration including gravity
+    private float mAccelLast;       // last acceleration including gravity
     private int shakeFlag = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); //submission Test
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_home_page);
 
-        setLocation(-80.003079,40.440320);
-
-        //dialog = new ProgressDialog(this);
-        shakeFlag = 0;
+        /* View settings */
         textView_location = (EditText) findViewById(R.id.locationField);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_homepage);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
         searchButton = (Button) findViewById(R.id.searchRestaurant);
 
+        setLocation(-80.003079,40.440320);      //hard-coded location
+        startService(new Intent(this, UserTypeService.class));
+
+        /* set the default user type and define the service connector */
+        UserTypeService.setUserType("Unsigned user");
+        myConnection = new myServiceConnection();
+
+        shakeFlag = 0;  //shake function flag
+
         /* Drawer settings */
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+        mDrawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.layout_list_item, getResources().getStringArray(R.array.drawer_items)));
-
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+        }
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -149,8 +162,8 @@ public class HomePageActivity extends Activity {
         });
     }
 
+    /* shake to start searching */
     private final SensorEventListener mSensorListener = new SensorEventListener() {
-
         public void onSensorChanged(SensorEvent se) {
             float x = se.values[0];
             float y = se.values[1];
@@ -162,12 +175,10 @@ public class HomePageActivity extends Activity {
             if (mAccel > 8) {
                 if (shakeFlag == 0) {
                     shakeFlag = 1;
-                    Log.v("shake++++++++++++++++++", Integer.toString(shakeFlag));
                     search();
                 }
             }
         }
-
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
@@ -178,26 +189,49 @@ public class HomePageActivity extends Activity {
         return true;
     }
 
+    /* Drawer listener */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(position == 1){
+                /* goto login */
                 IntentToLogin intent = new IntentToLogin(HomePageActivity.this);
                 startActivity(intent);
             } else if(position == 2) {
+                /* goto check page */
                 IntentToCheck intentToCheck = new IntentToCheck(HomePageActivity.this);
                 startActivity(intentToCheck);
             } else if(position == 3) {
                 if( isDeliveryman ) {
+                    /* goto deliveryman home for deliveryman */
                     Intent intent = new IntentToDeliverymanHome(HomePageActivity.this);
                     startActivity(intent);
                 } else {
+                    /* goto user home for user */
                     Intent intent = new IntentToUserHome(HomePageActivity.this);
                     startActivity(intent);
                 }
+            } else if (position == 4) {
+                /* bind the service and check the user type: signed user; unsigned user; deliveryman */
+                unbindService();
+                bindService();
             }
             mDrawerList.setItemChecked(position, false);
-            mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerLayout.closeDrawer(mDrawerList); //close drawer
+        }
+    }
+
+    private void bindService() {
+        Intent intent = new Intent(HomePageActivity.this, UserTypeService.class);
+        bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
+        isBound = true;
+    }
+
+    private void unbindService() {
+        if (isBound) {
+            Log.v("myService","try to unbind");
+            unbindService(myConnection);
+            isBound = false;
         }
     }
 
@@ -211,6 +245,10 @@ public class HomePageActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * Search restaurants function - start a new thread and the activity is changed inside the progress thread.
+     * The new thread is created for the internet visiting.
+     */
     public void search(){
         try {
             /* Go to the next page from dataProgress */
@@ -246,8 +284,23 @@ public class HomePageActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /* helper function */
     private void setLocation(double longitude,double latitude) {
         User.setLatitude(latitude);
         User.setLongitude(longitude);
     }
+
+    /* Self-defined service connector */
+    private class myServiceConnection implements ServiceConnection {
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+            isBound = true;
+            Log.v("myService","Connected");
+        }
+
+    public void onServiceDisconnected(ComponentName className) {
+        Log.v("myService","Disconnected");
+        isBound = false;
+    }
+}
 }

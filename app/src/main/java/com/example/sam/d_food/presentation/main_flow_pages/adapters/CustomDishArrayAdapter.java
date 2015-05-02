@@ -12,16 +12,13 @@ import com.example.sam.d_food.entities.data.Dish;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sam on 4/25/2015.
- */
 public class CustomDishArrayAdapter extends ArrayAdapter {
     ArrayList<Dish> dishes;
     Activity activity;
     TextView name;
     TextView price;
 
-    public CustomDishArrayAdapter(Activity a, ArrayList list) {
+    public CustomDishArrayAdapter(Activity a, ArrayList<Dish> list) {
         super(a, R.layout.support_restaurant_list, list);
         dishes = list;
         activity = a;
@@ -33,10 +30,8 @@ public class CustomDishArrayAdapter extends ArrayAdapter {
 
         LayoutInflater inflater=activity.getLayoutInflater();
         row=inflater.inflate(R.layout.support_dish_list, parent, false);
-
         name = (TextView)row.findViewById(R.id.dishName);
         price = (TextView)row.findViewById(R.id.dishPrice);
-
         name.setText(dishes.get(position).getName());
         price.setText(String.valueOf(dishes.get(position).getPrice()));
 

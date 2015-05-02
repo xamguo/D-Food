@@ -1,4 +1,4 @@
-package com.example.sam.d_food.ws.remote;
+package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -32,9 +32,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Sam on 4/19/2015.
- */
 public class SearchProgress extends AsyncTask<String, Void, Boolean> {
     String restaurantName;
     String longitude;
@@ -82,30 +79,33 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
         String Mode = strings[0];
         String result;
 
-        if(Mode.equals("restaurant")) {
-            mode = "restaurant";
-            restaurantEditor.clearProxy();       //clear the proxy
-            result = searchRestaurant(Mode);
-            longitude = strings[1];
-            latitude = strings[2];
-            distance = strings[3];
-            Log.v("Search", result);
-            saveRestaurants(result);
-        } else if(Mode.equals("dish")) {
-            mode = "dish";
-            restaurantName = strings[1];
-            result = searchDishes(restaurantName);
-            Log.v("Search", result);
-            saveDish(result);
-        } else {
-            mode = "restaurant";
-            restaurantEditor.clearProxy();
-            //Mode.equals(" ");
-            result = searchRestaurant(" ");
-            Log.v("Search", result);
-            saveRestaurants(result);
+        switch (Mode) {
+            case "restaurant":
+                mode = "restaurant";
+                restaurantEditor.clearProxy();       //clear the proxy
+
+                result = searchRestaurant(Mode);
+                longitude = strings[1];
+                latitude = strings[2];
+                distance = strings[3];
+                Log.v("Search", result);
+                saveRestaurants(result);
+                break;
+            case "dish":
+                mode = "dish";
+                restaurantName = strings[1];
+                result = searchDishes(restaurantName);
+                Log.v("Search", result);
+                saveDish(result);
+                break;
+            default:
+                mode = "restaurant";
+                restaurantEditor.clearProxy();
+                result = searchRestaurant(" ");
+                Log.v("Search", result);
+                saveRestaurants(result);
+                break;
         }
-        //activity.dialog.dismiss();
         return null;
     }
 
@@ -127,7 +127,6 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
             String paramString = URLEncodedUtils.format(params, "utf-8");
             url += paramString;
         }
-        Log.v("URL",url);
         httpGet = new HttpGet(url);
 
         try {
@@ -188,12 +187,11 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
             }
         } catch (IOException e) {
         }
-        String resp = builder.toString();
-        return resp;
+        return builder.toString();
     }
 
     private void saveDish(String result) {
-        ArrayList<Dish> dishes = new ArrayList<Dish>();
+        ArrayList<Dish> dishes = new ArrayList<>();
         try {
             JSONTokener tokener = new JSONTokener(result);
             JSONObject responseObject = (JSONObject) tokener.nextValue();

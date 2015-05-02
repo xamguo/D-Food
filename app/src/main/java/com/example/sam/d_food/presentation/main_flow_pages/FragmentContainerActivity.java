@@ -1,10 +1,16 @@
+/*
+* This activity is a fragment container, for the restaurant list, dish list
+* and dish info pages. The fragment is put in the container, and this class
+* is the controller of them.
+* */
 package com.example.sam.d_food.presentation.main_flow_pages;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Color;
+
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,11 +28,8 @@ import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 
 public class FragmentContainerActivity extends Activity {
 
-    View justview;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
-
     static Fragment restaurantListFragment;
     static Fragment dishListFragment;
     static int pageNum;
@@ -36,9 +39,7 @@ public class FragmentContainerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_resaurant__result);
 
-//        mData = getData();
-//        MyAdapter adapter = new MyAdapter(this);
-//        setListAdapter(adapter);
+        /* Fragment container set up */
         restaurantListFragment = new RestaurantListFragment();
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction()
@@ -46,17 +47,21 @@ public class FragmentContainerActivity extends Activity {
                 .commit();
         FragmentContainerActivity.pageNum = 1;
 
+        /* drawer settings */
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_restaurant);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_restaurant);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+        mDrawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.layout_list_item, getResources().getStringArray(R.array.drawer_items)));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        mDrawerToggle = new ActionBarDrawerToggle(
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+        }
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 R.string.drawer_open,  /* "open drawer" support_home_page_description for accessibility */
@@ -82,11 +87,10 @@ public class FragmentContainerActivity extends Activity {
 
     @Override
     protected void onResume() {
-        if (justview != null)
-            justview.setBackgroundColor(Color.WHITE);
         super.onResume();
     }
 
+    /* The reaction of back key press, to quit fragment instead of finishing the activity */
     @Override
     public void onBackPressed() {
         if(pageNum == 1){
@@ -112,23 +116,28 @@ public class FragmentContainerActivity extends Activity {
         }
     }
 
+    /* drawer listener */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(position == 1){
+                /* go to login page */
                 IntentToLogin intent = new IntentToLogin(FragmentContainerActivity.this);
                 startActivity(intent);
                 mDrawerList.setItemChecked(position, false);
                 mDrawerLayout.closeDrawer(mDrawerList);
             } else if(position == 0) {
+                /* go to main page */
                 finish();
             } else if(position == 2) {
+                /* go to check page */
                 IntentToCheck intentToCheck = new IntentToCheck(FragmentContainerActivity.this);
                 startActivity(intentToCheck);
                 finish();
             } else if(position == 3) {
-                Intent intenet = new Intent(FragmentContainerActivity.this, UserHomePageActivity.class);
-                startActivity(intenet);
+                /* go to Home page */
+                Intent intent = new Intent(FragmentContainerActivity.this, UserHomePageActivity.class);
+                startActivity(intent);
                 finish();
             }
         }

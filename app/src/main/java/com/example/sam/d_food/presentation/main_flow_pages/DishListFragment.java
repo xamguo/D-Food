@@ -14,9 +14,6 @@ import com.example.sam.d_food.entities.data.DishesEditor;
 import com.example.sam.d_food.entities.data.RestaurantEditor;
 import com.example.sam.d_food.presentation.main_flow_pages.adapters.CustomDishArrayAdapter;
 
-/**
- * Created by Sam on 4/16/2015.
- */
 public class DishListFragment extends ListFragment
 {
     private int restaurantIndex;

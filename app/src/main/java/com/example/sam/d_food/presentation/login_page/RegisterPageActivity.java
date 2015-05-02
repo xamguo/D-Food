@@ -20,7 +20,6 @@ public class RegisterPageActivity extends Activity {
     private EditText userName;
     private EditText password;
     private EditText re_password;
-    private EditText address;
     private String toggle;
 
     @Override
@@ -31,8 +30,7 @@ public class RegisterPageActivity extends Activity {
         userName=(EditText)findViewById(R.id.accountID);
         password=(EditText)findViewById(R.id.password);
         re_password=(EditText)findViewById(R.id.rePassword);
-        address=(EditText)findViewById(R.id.address);
-
+        EditText address = (EditText) findViewById(R.id.address);
 
         Button register = (Button) findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {

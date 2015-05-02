@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanMap;
-import com.example.sam.d_food.ws.remote.GetTasksProcess;
+import com.example.sam.d_food.ws.processes.GetTasksProcess;
 
 
 public class DeliveryHomePageActivity extends Activity {
@@ -30,7 +30,7 @@ public class DeliveryHomePageActivity extends Activity {
 
         String[] itemsArray = {"Pizza, Arlington Ave", "Cake1, CMU", "Cake2, Downtown", "Cake3, S Aiken, Hurry"};
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.layout_listview, itemsArray);
+        ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.layout_listview, itemsArray);
         ListView listView = (ListView) findViewById(R.id.deliveryList);
         listView.setAdapter(adapter);
 

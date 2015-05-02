@@ -3,15 +3,15 @@ package com.example.sam.d_food.entities.deliveryman;
 /**
  * Created by Sam on 4/11/2015.
  */
-public class DeliverymanInfo {
+public class Deliveryman {
     private String userName;
     private String password;
     private String address;
 
-    public DeliverymanInfo() {
+    public Deliveryman() {
     }
 
-    public DeliverymanInfo(String userName, String password, String address) {
+    public Deliveryman(String userName, String password, String address) {
         this.userName = userName;
         this.password = password;
         this.address = address;
