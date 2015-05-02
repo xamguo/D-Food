@@ -10,8 +10,13 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.sam.d_food.R;
+import com.example.sam.d_food.entities.deliveryman.Task;
+import com.example.sam.d_food.entities.deliveryman.TaskProxy;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanMap;
 import com.example.sam.d_food.ws.processes.GetTasksProcess;
+
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 public class DeliveryHomePageActivity extends Activity {
@@ -22,13 +27,23 @@ public class DeliveryHomePageActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_delivery_home_page);
-
-        GetTasksProcess getTasksProcess = new GetTasksProcess(2,DeliveryHomePageActivity.this);
-        getTasksProcess.execute();
-
         startDeliveryButton = (Button)findViewById(R.id.startDeliverybutton);
 
-        String[] itemsArray = {"Pizza, Arlington Ave", "Cake1, CMU", "Cake2, Downtown", "Cake3, S Aiken, Hurry"};
+        try {
+            GetTasksProcess getTasksProcess = new GetTasksProcess(2, DeliveryHomePageActivity.this);
+            getTasksProcess.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> itemsArray = new ArrayList<>();
+
+        ArrayList<Task> myTasks = TaskProxy.getTaskList();
+        for(int i = 0; i < myTasks.size(); i++) {
+            itemsArray.add(myTasks.get(i).getUserName() + "  " + myTasks.get(i).getName());
+        }
 
         ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.layout_listview, itemsArray);
         ListView listView = (ListView) findViewById(R.id.deliveryList);
@@ -66,9 +81,7 @@ public class DeliveryHomePageActivity extends Activity {
     }
 
     public void deliveryMap() {
-        IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);   //what data is needed
-        dManID = "1";
-        intent.putExtra("deliverymanID", dManID);
+        IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);
         startActivity(intent);
     }
 }

@@ -66,7 +66,7 @@ public class GetTasksProcess extends AsyncTask<String, Void, Void> {
                 JSONObject task = taskList.getJSONObject(i);
 
                 TaskProxy taskProxy = new TaskProxy();
-                taskProxy.addTask(task.getString("UserName"), task.getDouble("latitude"), task.getDouble("longitude"));
+                taskProxy.addTask(task.getString("UserName"), task.getDouble("latitude"), task.getDouble("longitude"), task.getString("dishname"));
                 Log.v("name", task.getString("UserName"));
             }
 

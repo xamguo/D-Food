@@ -7,11 +7,13 @@ public class Task {
     String UserName;
     double latitude;
     double longitude;
+    String name;
 
-    public Task(String userName, double latitude, double longitude) {
+    public Task(String userName, double latitude, double longitude, String name) {
         UserName = userName;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.name = name;
     }
 
     public String getUserName() {
@@ -36,5 +38,13 @@ public class Task {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

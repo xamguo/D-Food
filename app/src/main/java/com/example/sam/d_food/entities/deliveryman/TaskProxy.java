@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class TaskProxy {
     public static ArrayList<Task> taskList = new ArrayList<Task>();
 
-    public void addTask(String userName, double latitude, double longitude) {
-        Task task = new Task(userName, latitude, longitude);
+    public void addTask(String userName, double latitude, double longitude, String name) {
+        Task task = new Task(userName, latitude, longitude, name);
         taskList.add(task);
     }
 
