@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanMap;
+import com.example.sam.d_food.ws.remote.GetTasksProcess;
 
 
 public class DeliveryHomePageActivity extends Activity {
@@ -21,6 +22,9 @@ public class DeliveryHomePageActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_delivery_home_page);
+
+        GetTasksProcess getTasksProcess = new GetTasksProcess(2,DeliveryHomePageActivity.this);
+        getTasksProcess.execute();
 
         startDeliveryButton = (Button)findViewById(R.id.startDeliverybutton);
 
