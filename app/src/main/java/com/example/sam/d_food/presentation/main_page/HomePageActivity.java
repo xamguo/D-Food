@@ -350,7 +350,7 @@ public class HomePageActivity extends Activity implements GoogleApiClient.Connec
 
     @Override
     public void onConnected(Bundle bundle) {
-        setLocation(mLastLocation.getLongitude(),mLastLocation.getLatitude());
+        //setLocation(mLastLocation.getLongitude(),mLastLocation.getLatitude());
     }
 
     @Override
