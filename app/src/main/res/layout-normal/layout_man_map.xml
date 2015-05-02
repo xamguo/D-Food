@@ -55,13 +55,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Call"
+        android:text="@string/call"
         android:id="@+id/callButton"
         android:layout_weight="0.36" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ring"
+        android:text="@string/ring"
         android:id="@+id/ringButton"
         android:layout_weight="0.36" />
     </LinearLayout>

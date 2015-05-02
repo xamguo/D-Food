@@ -28,7 +28,6 @@
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:text="@string/deliverymanNum"
             android:id="@+id/deliverymanNumTextView"
             android:textColor="#ff000000"
             style="@style/my_font_medium"
@@ -55,7 +54,6 @@
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:text="@string/dManName"
             android:id="@+id/dManNameTextView"
             style="@style/my_font_medium"
             android:width="200dp" />
@@ -96,7 +94,6 @@
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:text="Esitmated Delivery Time   "
             android:id="@+id/deliveryTimeTextView"
             android:textSize="30dp"
             android:layout_above="@+id/tableRow"

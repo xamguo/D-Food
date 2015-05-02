@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".presentation.login_page.LoginPageActivity"
-            android:label="@string/app_name" >
+            android:label="@string/myLoginButton" >
         </activity>
         <activity
             android:name=".presentation.user_page.UserHomePageActivity"

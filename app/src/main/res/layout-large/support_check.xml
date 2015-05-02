@@ -6,7 +6,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:text="name"
         android:textColor="#ff000000"
         android:textSize="30dp"
         android:maxWidth="200dp"
@@ -16,7 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="200dp"
-        android:text="check_restaurant"
         android:textColor="#ff000000"
         android:textSize="30dp"
         android:layout_weight="0.5"/>
@@ -26,7 +24,6 @@
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
         android:gravity="right"
-        android:text="quantity"
         android:textColor="#ff000000"
         android:textSize="30dp"
         android:layout_weight="0.15"/>
@@ -36,7 +33,6 @@
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
         android:gravity="right"
-        android:text="price"
         android:textColor="#ff000000"
         android:textSize="30dp"
         android:layout_weight="0.15"/>
