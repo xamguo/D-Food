@@ -32,6 +32,7 @@
     <string name="open_location_settings">Go to Enable GPS</string>
     <string name="Cancel">Cancel</string>
     <string name="gps_error">Error</string>
+    <string name="dManTag">My Location</string>
 
     <string-array name="quantities">
         <item>1</item>

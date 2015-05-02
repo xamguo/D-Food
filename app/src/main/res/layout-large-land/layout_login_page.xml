@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/my_dark_red"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".LoginPageActivity"
+    android:id="@+id/loginPage">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="D-Food"
+        android:id="@+id/textView"
+        android:layout_marginTop="72dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        style="@style/my_font_medium" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/textView"
+        android:src="@drawable/logo4"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="175dp"
+        android:id="@+id/accountID"
+        style="@style/my_font_medium"
+        android:background="@drawable/border_white"
+        android:layout_marginTop="42dp"
+        android:selectAllOnFocus="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView"
+        android:hint="user name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_padding_small"
+        android:minWidth="175dp"
+        style="@style/my_font_medium"
+        android:background="@drawable/border_white"
+        android:selectAllOnFocus="true"
+        android:id="@+id/password"
+        android:layout_below="@+id/accountID"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword"
+        android:hint="password"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_padding_small"
+        android:text="I am a delivery man"
+        style="@style/my_font_small"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchUser"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:background="@color/my_background_white"
+        android:checked="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/login"
+        android:background="@color/my_background_white"
+        android:layout_marginTop="@dimen/my_padding_from_logo"
+        android:layout_below="@+id/switchUser"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_padding_small"
+        android:text="Sign Up"
+        android:id="@+id/register"
+        android:background="@color/my_background_white"
+        android:layout_below="@+id/login"
+        android:layout_alignStart="@+id/login" />
+
+
+
+</RelativeLayout>

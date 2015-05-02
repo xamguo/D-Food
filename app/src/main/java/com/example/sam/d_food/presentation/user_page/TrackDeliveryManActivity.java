@@ -35,14 +35,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +56,6 @@ public class TrackDeliveryManActivity extends Activity {
     private GoogleMap map;
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
-    private Marker deliveryMarker;
     private Marker dManMarker;
     private String totalDuration;
     private String totalDistance = "";
@@ -78,14 +69,12 @@ public class TrackDeliveryManActivity extends Activity {
     private String dManLocData;
     private JSONObject dManJObject;
     private Button tractButton;
-    private Button ringButton;
     private Context TD_Context;
     private Timer updateDmanTimer;
     private Timer t;
     private String bpSign = "false";
 
     private Bundle trackBundle;
-    private int locTest = 0;
     private final int LOCATION_REFRESH_TIME = 5;
     private final int LOCATION_REFRESH_DISTANCE = 100;
 
@@ -104,7 +93,6 @@ public class TrackDeliveryManActivity extends Activity {
 
         numText = (TextView) findViewById(R.id.deliverymanNumTextView);
         tractButton = (Button) findViewById(R.id.tractButton);
-        ringButton = (Button) findViewById(R.id.customCallButton);
         checkLocServiceEnabled();
 
         //Initial the map fragment.

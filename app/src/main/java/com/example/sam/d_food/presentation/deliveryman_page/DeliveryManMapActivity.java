@@ -116,6 +116,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                                 //                            zoomToLocation(dManLocation, dManMarker);
                                 Log.v("lat", Double.toString(dManLocation.getLatitude()));
                                 Log.v("lon", Double.toString(dManLocation.getLongitude()));
+                                showTaskLocation();
                             }
                         } else {
                             Log.v("stop indicator", "stopped now");
@@ -228,7 +229,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                 dManLocation = updateLocation();
             }
             if (dManLocation != null) {
-                String dName = "Deliveryman";
+                String dName = "My Location";
                 dManLL = new LatLng(dManLocation.getLatitude(), dManLocation.getLongitude());
                 dManMarker = map.addMarker(new MarkerOptions()
                         .position(dManLL)
@@ -237,6 +238,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                 if (dManMarker.isInfoWindowShown()) {
                     dManMarker.hideInfoWindow();
                 }
+                dManMarker.showInfoWindow();
                 zoomToLocation(dManLocation, dManMarker);
             }
 
@@ -246,6 +248,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         }
         return true;
     }
+
 
     protected void zoomToLocation(Location loc, Marker mk) {
         if (mk.isInfoWindowShown()) {
@@ -274,28 +277,6 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
             map.addMarker(new MarkerOptions().position(userLL).title(taskName)).showInfoWindow();
         }
 
-//        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker arg0) {
-//                TextView taskName = (TextView) findViewById(R.id.taskNameTextView);
-//                TextView phone = (TextView) findViewById(R.id.phoneNumTextView);
-//                if (arg0.getTitle().equals("Task 1")) {
-//                    task1Marker.showInfoWindow();
-//                    taskName.setText("Task 1");
-//                    phone.setText("412-667-888");
-//
-//                } else if (arg0.getTitle().equals("Task 2")) {
-//                    task2Marker.showInfoWindow();
-//                    taskName.setText("Task 2");
-//                    phone.setText("412-667-999");
-//                } else if (arg0.getTitle().equals("Task 3")) {
-//                    task3Marker.showInfoWindow();
-//                    taskName.setText("Task 3");
-//                    phone.setText("412-555-888");
-//                }
-//                return false;
-//            }
-//        });
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {

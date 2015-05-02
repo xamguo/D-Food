@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView android:id="@+id/check_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="name"
+        android:textColor="#ff000000"
+        android:textSize="30dp"
+        android:maxWidth="200dp"
+        android:layout_weight="0.2"/>
+
+    <TextView android:id="@+id/check_restaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:text="check_restaurant"
+        android:textColor="#ff000000"
+        android:textSize="30dp"
+        android:layout_weight="0.5"/>
+
+    <TextView android:id="@+id/check_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:gravity="right"
+        android:text="quantity"
+        android:textColor="#ff000000"
+        android:textSize="30dp"
+        android:layout_weight="0.15"/>
+
+    <TextView android:id="@+id/check_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:gravity="right"
+        android:text="price"
+        android:textColor="#ff000000"
+        android:textSize="30dp"
+        android:layout_weight="0.15"/>
+</LinearLayout>
