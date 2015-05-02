@@ -80,7 +80,6 @@ public class TrackDeliveryManActivity extends Activity {
     private Button tractButton;
     private Button ringButton;
     private Context TD_Context;
-    private int flag = 0;
     private Timer updateDmanTimer;
     private Timer t;
     private String bpSign = "false";
@@ -107,18 +106,15 @@ public class TrackDeliveryManActivity extends Activity {
         tractButton = (Button) findViewById(R.id.tractButton);
         ringButton = (Button) findViewById(R.id.customCallButton);
         checkLocServiceEnabled();
+
+        //Initial the map fragment.
         if (initial()) {
+            // Focus on my own location.
             trackMyLocation();
         }
 
+        //Update the deliveryman location every 4 seconds.
         updateDmanLocation();
-        ringButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifyCustomer(trackBundle);
-                Log.v("Ring", "hi");
-            }
-        });
 
         t = new Timer();
         t.scheduleAtFixedRate(new TimerTask() {
@@ -130,9 +126,6 @@ public class TrackDeliveryManActivity extends Activity {
                     public void run()
                     {
                         try {
-                            if (flag != 1) {
-                                zoomToLocation();
-                            }
                             zoomToDeliveryman();
                             tractButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -235,6 +228,7 @@ public class TrackDeliveryManActivity extends Activity {
         return true;
     }
 
+    // Update the deliveryman location
     protected void updateDmanLocation() {
         updateDmanTimer = new Timer();
         updateDmanTimer.scheduleAtFixedRate(new TimerTask() {
@@ -249,16 +243,12 @@ public class TrackDeliveryManActivity extends Activity {
                 if (bpSign.equals("true")) {
                     notifyCustomer(trackBundle);
                 }
-//                try {
-//                    zoomToDeliveryman();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
             }
 
         }, 0, interval);
     }
 
+    //Get the deliveryman location info from the server
     protected void freshDmanLocation(String url) {
         try {
             dManLocData = downloadUrl(url);
@@ -273,10 +263,11 @@ public class TrackDeliveryManActivity extends Activity {
         }
     }
 
+    //Show the deliveryman location
     protected void zoomToDeliveryman() throws JSONException {
         if (dManJObject != null) {
-            Double lat = 40.440320;
-            Double lng = -80.003079;
+            Double lat;
+            Double lng;
             lat = Double.parseDouble(dManJObject.getString("latitude"));
             lng = Double.parseDouble(dManJObject.getString("longitude"));
             bpSign = dManJObject.getString("beepSign");
@@ -292,10 +283,11 @@ public class TrackDeliveryManActivity extends Activity {
 
     protected void trackDeliveryMan() {
         LatLng newLoc = null;
-        LatLng myLocation = null;
-
+        LatLng myLocation;
+        String dName = "Deliveryman";
 
         map.setMyLocationEnabled(true);
+        map.clear();
         location = map.getMyLocation();
 
 
@@ -304,11 +296,12 @@ public class TrackDeliveryManActivity extends Activity {
         } else {
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             myMarker =  map.addMarker(new MarkerOptions().position(myLocation).title("Your Location"));
-
+            dManMarker = map.addMarker(new MarkerOptions()
+                    .position(dMan)
+                    .title(dName)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliveryman)));
 //            dInfo = totalDistance + " mile away";
-
             String url = getDirectionsUrl(myLocation, dMan);
-
             DownloadTask downloadTask = new DownloadTask();
 
             downloadTask.execute(url);
@@ -329,7 +322,7 @@ public class TrackDeliveryManActivity extends Activity {
                 dManMarker.hideInfoWindow();
             }
             dManMarker.showInfoWindow();
-
+            myMarker.showInfoWindow();
 
             map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
@@ -363,10 +356,6 @@ public class TrackDeliveryManActivity extends Activity {
 
 
     protected void trackMyLocation() {
-
-        LatLng myLocation;
-
-        myLocation = new LatLng(40.446650, -79.951912);
         zoomToLocation();
         numText = (TextView) findViewById(R.id.dManNumText);
         numText.setText("412-111-2222");
@@ -421,8 +410,7 @@ public class TrackDeliveryManActivity extends Activity {
 //        return customerLocation;
     }
     protected void zoomToLocation() {
-        LatLng newLoc = null;
-        LatLng myLocation = null;
+        LatLng myLocation;
 
         location = map.getMyLocation();
         if (location == null) {
@@ -432,7 +420,6 @@ public class TrackDeliveryManActivity extends Activity {
         if (location == null) {
 
         } else {
-            flag = 1;
             myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));
         }
