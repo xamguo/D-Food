@@ -1,7 +1,6 @@
 package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.deliveryman.Task;
 import com.example.sam.d_food.entities.deliveryman.TaskProxy;
+import com.example.sam.d_food.ws.processes.ShareLocationProcess;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -27,36 +27,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class DeliveryManMapActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private GoogleMap map;
-    private LocationListener mLocationListener;
     private LocationManager mLocationManager;
-    private Marker task1Marker;
-    private Marker task2Marker;
-    private Marker task3Marker;
     private Marker dManMarker;
-    private String uri;
-    private ProgressDialog dialog;
     private Location dManLocation;
     private LatLng dManLL;
     private String dManID;
-    private Timer t;
-    private Activity activity;
     private ArrayList<Task> userList = new ArrayList<>();
     private GoogleApiClient mGoogleApiClient;
     private Timer upLoadTimer;
@@ -64,18 +45,13 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
     private Thread thread;
     private String bpSign;
     private Timer updateTimer;
-    private int count;
-    private int locFlag = 0;
     private boolean stop = false;
     private final int interval = 4000;
-    private final int LOCATION_REFRESH_TIME = 5;
-    private final int LOCATION_REFRESH_DISTANCE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_man_map);
-        activity = DeliveryManMapActivity.this;
         stop = false;
 
         final Bundle myB = savedInstanceState;
@@ -136,7 +112,9 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                         thread = new Thread() {
                             @Override
                             public void run() {
-                                postData(dManLL);
+                                ShareLocationProcess dShare = new ShareLocationProcess(dManLL);
+                                dShare.shareLoc(dManID, bpSign);
+                                bpSign = "false";
                             }
                         };
                         thread.start();
@@ -208,7 +186,9 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         @Override
         protected Object doInBackground(Object[] params) {
             if (dManLL != null) {
-                postData(dManLL);
+                ShareLocationProcess dShare = new ShareLocationProcess(dManLL);
+                dShare.shareLoc(dManID, bpSign);
+                bpSign = "false";
             }
 
             return null;
@@ -270,7 +250,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
                 .getMap();
 
         for (int i = 0; i < userList.size(); i++) {
-            String taskName = null;
+            String taskName;
             LatLng userLL = new LatLng(userList.get(i).getLatitude(),userList.get(i).getLongitude());
             taskName = "Task" + Integer.toString(i);
             Log.v("userLocation", Double.toString(userList.get(i).getLatitude()));
@@ -295,39 +275,18 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
             @Override
             public void run() {
                 Log.v("Counter", "ggg");
-                postData(dManLL);
+                ShareLocationProcess dShare = new ShareLocationProcess(dManLL);
+                dShare.shareLoc(dManID, bpSign);
+                bpSign = "false";
                 upLoadTimer.cancel();
             }
 
         }, 0, interval);
     }
 
-    public void postData(LatLng location) {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/track?");
-
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            nameValuePairs.add(new BasicNameValuePair("id", dManID));
-            nameValuePairs.add(new BasicNameValuePair("latitude", Double.toString(location.latitude)));
-            nameValuePairs.add(new BasicNameValuePair("longitude", Double.toString(location.longitude)));
-            nameValuePairs.add(new BasicNameValuePair("beepSign", bpSign));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-
-            bpSign = "false";
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-    }
 
     protected Location updateLocation() {
-        mLocationListener = new LocationListener() {
+        LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
 
@@ -350,6 +309,8 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         };
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        int LOCATION_REFRESH_DISTANCE = 100;
+        int LOCATION_REFRESH_TIME = 5;
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
 
