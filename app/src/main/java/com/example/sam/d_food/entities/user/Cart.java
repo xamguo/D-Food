@@ -3,7 +3,7 @@ package com.example.sam.d_food.entities.user;
 import java.util.ArrayList;
 
 public class Cart {
-    static public ArrayList<Order> myOrders = new ArrayList<Order>();
+    static public ArrayList<Order> myOrders = new ArrayList<>();
 
     static public void addOrder(String name, String restaurantName, int id, int quantity, double wholePrice) {
            myOrders.add(new Order(name, restaurantName, id, quantity, wholePrice));
