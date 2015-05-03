@@ -26,9 +26,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.sam.d_food.exceptionHandler.DownloadDataException;
-import com.example.sam.d_food.exceptionHandler.GPSServiceException;
-import com.example.sam.d_food.exceptionHandler.WiFiServiceException;
+import com.example.sam.d_food.ExceptionHandler.DownloadDataException;
+import com.example.sam.d_food.ExceptionHandler.GPSServiceException;
+import com.example.sam.d_food.ExceptionHandler.WiFiServiceException;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.user_page.json_parser.DirectionsJSONParser;

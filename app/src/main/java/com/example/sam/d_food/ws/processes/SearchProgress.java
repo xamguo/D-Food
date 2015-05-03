@@ -19,7 +19,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.sam.d_food.exceptionHandler.SearchException;
+import com.example.sam.d_food.ExceptionHandler.SearchException;
 import com.example.sam.d_food.entities.data.BuildRestaurant;
 import com.example.sam.d_food.entities.data.Dish;
 import com.example.sam.d_food.entities.data.DishesEditor;

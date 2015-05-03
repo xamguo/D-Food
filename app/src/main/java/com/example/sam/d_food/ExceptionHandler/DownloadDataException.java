@@ -1,12 +1,12 @@
+/*
+* URL downloading fail exception
+* */
 package com.example.sam.d_food.ExceptionHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-/**
- * Created by Weiwei on 5/2/2015.
- */
 public class DownloadDataException extends Exception{
     public void print (Activity act) {
         AlertDialog alertDialog = new AlertDialog.Builder(act).create();

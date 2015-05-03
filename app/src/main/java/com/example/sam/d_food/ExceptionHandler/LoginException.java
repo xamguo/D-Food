@@ -1,6 +1,11 @@
+/*
+* Login Exception, called when login fail
+* */
 package com.example.sam.d_food.ExceptionHandler;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,9 +24,11 @@ public class LoginException extends Exception {
         this.errorCode = errorCode;
     }
 
-    public LoginException(String message) {
+    public LoginException(String message, Activity activity) {
         super(message);
         this.errorMessage = message;
+        Toast.makeText(activity,
+                "Login Failed", Toast.LENGTH_SHORT).show();
     }
 
     public LoginException(Throwable cause) {

@@ -12,7 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.example.sam.d_food.exceptionHandler.RegisterException;
+import com.example.sam.d_food.ExceptionHandler.RegisterException;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
