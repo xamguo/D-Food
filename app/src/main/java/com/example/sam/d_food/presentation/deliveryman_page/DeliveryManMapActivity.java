@@ -20,6 +20,7 @@ import android.widget.Button;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.deliveryman.Task;
 import com.example.sam.d_food.entities.deliveryman.TaskProxy;
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.ws.processes.ShareLocationProcess;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -74,6 +75,8 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
 
         Intent intent = getIntent();
         dManID = intent.getStringExtra("deliverymanID");
+        //dManID = String.valueOf(User.getId());
+        Log.v("dManID",dManID);
         Button ringButton = (Button) this.findViewById(R.id.ringButton);
         initial();
 

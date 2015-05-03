@@ -5,6 +5,7 @@ package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +35,7 @@ public class DeliveryHomePageActivity extends Activity {
         startDeliveryButton = (Button)findViewById(R.id.startDeliverybutton);
 
         try {
-            GetTasksProcess getTasksProcess = new GetTasksProcess(User.getDeliverymanID(), DeliveryHomePageActivity.this);
+            GetTasksProcess getTasksProcess = new GetTasksProcess(User.getId(), DeliveryHomePageActivity.this);
             getTasksProcess.execute().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -85,7 +86,7 @@ public class DeliveryHomePageActivity extends Activity {
     /* go to the deliveryman map to see task map */
     public void deliveryMap() {
         IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);
-        intent.putExtra("deliverymanID", User.getId());
+        intent.putExtra("deliverymanID", String.valueOf(User.getId()));
         startActivity(intent);
     }
 }

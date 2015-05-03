@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.sam.d_food.ExceptionHandler.LoginException;
 import com.example.sam.d_food.entities.user.User;
@@ -108,7 +109,6 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
         try {
             if (userID != -1) {
                 User.setName(userName);
-
                 if (mode.equals("user")) {
                     HomePageActivity.isDeliveryman = false;
                     UserTypeService.setUserType("Signed user");
