@@ -34,7 +34,7 @@ public class DeliveryHomePageActivity extends Activity {
         startDeliveryButton = (Button)findViewById(R.id.startDeliverybutton);
 
         try {
-            GetTasksProcess getTasksProcess = new GetTasksProcess(2, DeliveryHomePageActivity.this);
+            GetTasksProcess getTasksProcess = new GetTasksProcess(User.getDeliverymanID(), DeliveryHomePageActivity.this);
             getTasksProcess.execute().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
