@@ -1,3 +1,4 @@
+/* restaurant list fragment to show the restaurants */
 package com.example.sam.d_food.presentation.main_flow_pages;
 
 import android.app.FragmentManager;
@@ -19,7 +20,7 @@ import com.example.sam.d_food.ws.processes.SearchProgress;
 
 public class RestaurantListFragment extends ListFragment
 {
-    RestaurantEditor restaurantEditor;
+    RestaurantEditor restaurantEditor;  //restaurant editor
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

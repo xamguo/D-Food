@@ -1,3 +1,6 @@
+/*
+* Register page activity, used to create the account
+* */
 package com.example.sam.d_food.presentation.login_page;
 
 import android.app.Activity;
@@ -8,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sam.d_food.R;
@@ -20,10 +24,10 @@ import java.util.concurrent.ExecutionException;
 
 public class RegisterPageActivity extends Activity {
 
-    private EditText userName;
-    private EditText password;
+    private EditText userName; //user id
+    private EditText password; //user password
     private EditText re_password;
-    private String toggle;
+    private String toggle;      //user kind - customer or deliveryman
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class RegisterPageActivity extends Activity {
         re_password=(EditText)findViewById(R.id.rePassword);
         //EditText address = (EditText) findViewById(R.id.address);
 
+        /* register button setting */
         Button register = (Button) findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -42,32 +47,35 @@ public class RegisterPageActivity extends Activity {
                 if(password.getText().toString().equals(re_password.getText().toString())){
                     Intent intent=getIntent();
                     toggle=intent.getStringExtra("toggle");
-                    if(toggle.equals("Deliveryman")){
+                    if(toggle.equals("Deliveryman")){   //if is deliveryman
                         Toast.makeText(getApplicationContext(), toggle, Toast.LENGTH_SHORT).show();
                         try {
+                            /* start a new thread to register */
                             RegisterProcess registerProcess = new RegisterProcess(RegisterPageActivity.this);
                             registerProcess.execute("deliveryman", userName.getText().toString(), password.getText().toString()).get();
                         } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
+                        /* success, go to the deliveryman home */
                         Intent launchDeliveryHome=new Intent(RegisterPageActivity.this, DeliveryHomePageActivity.class);
                         launchDeliveryHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchDeliveryHome);
                         finish();
-                    }else {
+                    }else {     //if is ordinary user
                         Toast.makeText(getApplicationContext(), toggle, Toast.LENGTH_SHORT).show();
                         try {
+                            /* start a new thread to register */
                             RegisterProcess registerProcess = new RegisterProcess(RegisterPageActivity.this);
                             registerProcess.execute("user", userName.getText().toString(), password.getText().toString()).get();
                         } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
+                        /* success, go to the customre home */
                         Intent launchCustomerHome=new Intent(RegisterPageActivity.this, UserHomePageActivity.class);
                         launchCustomerHome.putExtra("userName",userName.getText().toString());
                         startActivity(launchCustomerHome);
                         finish();
                     }
-
                 }else{
                     Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }

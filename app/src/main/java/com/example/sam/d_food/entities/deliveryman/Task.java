@@ -1,5 +1,6 @@
 /*
 * Task means the deliveryman task
+* The tasks for deliveryman is here
 * */
 package com.example.sam.d_food.entities.deliveryman;
 

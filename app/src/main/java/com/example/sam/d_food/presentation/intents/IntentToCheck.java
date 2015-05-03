@@ -1,3 +1,4 @@
+/* intent to check page */
 package com.example.sam.d_food.presentation.intents;
 
 import android.app.Activity;

@@ -51,6 +51,7 @@ public class HomePageActivity extends Activity implements GoogleApiClient.Connec
     private ServiceConnection myConnection;     //service connector
     private String price;                       //price level sign
 
+    /* location helpers */
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
 
@@ -78,6 +79,7 @@ public class HomePageActivity extends Activity implements GoogleApiClient.Connec
         mDrawerList = (ListView) findViewById(R.id.left_drawer_home_page);
         Button searchButton = (Button) findViewById(R.id.searchRestaurant);
 
+        /* get the location */
         buildGoogleApiClient();
         mGoogleApiClient.connect();
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -85,6 +87,7 @@ public class HomePageActivity extends Activity implements GoogleApiClient.Connec
         if (myLocationText != null)
             setLocation(mLastLocation.getLongitude(),mLastLocation.getLatitude());
 
+        /* start a service */
         startService(new Intent(this, UserTypeService.class));
 
         /* set the default user type and define the service connector */

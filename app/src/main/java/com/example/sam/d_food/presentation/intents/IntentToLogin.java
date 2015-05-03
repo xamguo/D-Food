@@ -1,3 +1,4 @@
+/* intent to login page */
 package com.example.sam.d_food.presentation.intents;
 
 import android.app.Activity;

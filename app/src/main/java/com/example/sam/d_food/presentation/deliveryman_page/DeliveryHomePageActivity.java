@@ -1,3 +1,6 @@
+/*
+* Activity for deliveryman home, display all the tasks for a deliveryman
+* */
 package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
@@ -12,6 +15,7 @@ import android.widget.ListView;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.deliveryman.Task;
 import com.example.sam.d_food.entities.deliveryman.TaskProxy;
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.intents.IntentToDeliverymanMap;
 import com.example.sam.d_food.ws.processes.GetTasksProcess;
 
@@ -20,12 +24,13 @@ import java.util.concurrent.ExecutionException;
 
 
 public class DeliveryHomePageActivity extends Activity {
-    Button startDeliveryButton;
+    Button startDeliveryButton;     //button to start delivery
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_delivery_home_page);
+
         startDeliveryButton = (Button)findViewById(R.id.startDeliverybutton);
 
         try {
@@ -38,9 +43,11 @@ public class DeliveryHomePageActivity extends Activity {
         ArrayList<String> itemsArray = new ArrayList<>();
         ArrayList<Task> myTasks = TaskProxy.getTaskList();
         for(int i = 0; i < myTasks.size(); i++) {
+            /* Prepare the deliveryman task list */
             itemsArray.add(myTasks.get(i).getUserName() + "  " + myTasks.get(i).getName());
         }
 
+        /* set a simple array adapter to show the tasks of one deliveryman */
         ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.layout_listview, itemsArray);
         ListView listView = (ListView) findViewById(R.id.deliveryList);
         listView.setAdapter(adapter);
@@ -52,8 +59,6 @@ public class DeliveryHomePageActivity extends Activity {
             }
         });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,9 +82,10 @@ public class DeliveryHomePageActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /* go to the deliveryman map to see task map */
     public void deliveryMap() {
         IntentToDeliverymanMap intent = new IntentToDeliverymanMap(this);
-        intent.putExtra("deliverymanID", "1");
+        intent.putExtra("deliverymanID", User.getId());
         startActivity(intent);
     }
 }

@@ -1,3 +1,8 @@
+/*
+* DeliveryManMapActivity - activity to guide the deliveryman find the user
+* and notify the user. This activity is responsible to continue contact with
+* server and send the beep signal to server.
+* */
 package com.example.sam.d_food.presentation.deliveryman_page;
 
 import android.app.Activity;
@@ -32,18 +37,24 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DeliveryManMapActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    /* location support modules */
     private GoogleMap map;
     private LocationManager mLocationManager;
     private Marker dManMarker;
     private Location dManLocation;
+    private GoogleApiClient mGoogleApiClient;
+
+    /* user and deliveryman info */
     private LatLng dManLL;
     private String dManID;
     private ArrayList<Task> userList = new ArrayList<>();
-    private GoogleApiClient mGoogleApiClient;
-    private Timer upLoadTimer;
 
-    private Thread thread;
+    /* beep signal */
     private String bpSign;
+
+    /* Update timers */
+    private Thread thread;
+    private Timer upLoadTimer;
     private Timer updateTimer;
     private boolean stop = false;
     private final int interval = 4000;
@@ -53,12 +64,12 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_man_map);
         stop = false;
-
         final Bundle myB = savedInstanceState;
+
+        /* location setting */
         buildGoogleApiClient();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         onConnected(savedInstanceState);
-
 
 
         Intent intent = getIntent();
@@ -66,12 +77,11 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         Button ringButton = (Button) this.findViewById(R.id.ringButton);
         initial();
 
+        /* update process settings */
         MyPost updateLoc = new MyPost();
         updateLoc.execute();
-
         updateTimer = new Timer();
         updateTimer.scheduleAtFixedRate(new TimerTask() {
-
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -103,6 +113,7 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
             }
         }, 0, interval);
 
+        /* ringButton settings */
         ringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -329,8 +340,6 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         super.onPause();
     }
 
-
-
     @Override
     public void onDestroy() {
         stop = true;
@@ -339,7 +348,4 @@ public class DeliveryManMapActivity extends Activity implements GoogleApiClient.
         updateTimer.cancel();
         super.onDestroy();
     }
-
-
-
 }

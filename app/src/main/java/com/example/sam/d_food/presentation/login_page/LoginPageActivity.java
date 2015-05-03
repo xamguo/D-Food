@@ -1,3 +1,6 @@
+/*
+* Login page activity, used to login the account
+* */
 package com.example.sam.d_food.presentation.login_page;
 
 import android.app.Activity;
@@ -17,10 +20,10 @@ import com.example.sam.d_food.ws.processes.LoginProcess;
 
 public class LoginPageActivity extends Activity {
 
-    private TextView accountID;
-    private TextView password;
-    private boolean toggle;
-    private String mode;
+    private TextView accountID; //user id
+    private TextView password;  //user password
+    private boolean toggle;    //user kind - customer or deliveryman
+    private String mode;        //user kind
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class LoginPageActivity extends Activity {
         accountID=(TextView)findViewById(R.id.accountID);
         password=(TextView)findViewById(R.id.password);
 
+        /* switch and mode setting */
         mode = "user";
         Switch userSwitch = (Switch) findViewById(R.id.switchUser);
         userSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -44,9 +48,9 @@ public class LoginPageActivity extends Activity {
             }
         });
 
+        /* button settings */
         Button login = (Button) findViewById(R.id.login);
         Button register = (Button) findViewById(R.id.register);
-
         login.setOnClickListener(loginClicked);
         register.setOnClickListener(registerClicked);
 
@@ -57,6 +61,7 @@ public class LoginPageActivity extends Activity {
         @Override
         public void onClick(View v)
         {
+            /* start another thread to login */
             LoginProcess loginProcess = new LoginProcess(LoginPageActivity.this);
             loginProcess.execute(mode, accountID.getText().toString(), password.getText().toString());
         } // end method onClick
@@ -73,10 +78,11 @@ public class LoginPageActivity extends Activity {
             }else{
                 user="Customer";
             }
+            /* go to the register page */
             Intent launchRegister=new Intent(LoginPageActivity.this, RegisterPageActivity.class);
             launchRegister.putExtra("toggle", user);
             startActivity(launchRegister);
-            finish();
+            finish();   // end the login activity
         }
     };
 

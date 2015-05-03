@@ -29,10 +29,10 @@ import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
 public class FragmentContainerActivity extends Activity {
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    static Fragment restaurantListFragment;
-    static Fragment dishListFragment;
-    static int pageNum;
+    private ListView mDrawerList;       //drawer
+    static Fragment restaurantListFragment;//fragment for restauarnt list
+    static Fragment dishListFragment;   //fragment for dish list
+    static int pageNum;                 //indicate with page is now showing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

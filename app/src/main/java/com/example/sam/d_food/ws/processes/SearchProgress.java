@@ -1,3 +1,16 @@
+/*
+* SearchProgress, a process thread to search the restaurants or dishes
+* Mode - " "
+*       search all restaurants
+* Mode - "restaurant"
+*       search based on location
+*       latitude, longitude, length
+* Mode - "dish"
+*       search dishes
+*       restaurant name
+*
+* This process will start restaurant list automatically if is first two kind of mode
+* */
 package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
@@ -6,6 +19,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.sam.d_food.exceptionHandler.SearchException;
 import com.example.sam.d_food.entities.data.BuildRestaurant;
 import com.example.sam.d_food.entities.data.Dish;
 import com.example.sam.d_food.entities.data.DishesEditor;
@@ -32,14 +46,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SearchProgress extends AsyncTask<String, Void, Boolean> {
+public class SearchProgress extends AsyncTask<String, Void, Boolean>  {
+
     String restaurantName;
     String longitude;
     String latitude;
     String distance;
     Activity activity;
+
     private String mode;
     private ProgressDialog dialog;
+    private boolean searchError = false;
     RestaurantEditor restaurantEditor;
     DishesEditor dishesEditor;
 
@@ -63,55 +80,62 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-        if(mode.equals("restaurant")) {
+        if (!searchError) {
+            if (mode.equals("restaurant")) {
             /* Go to the next page from here */
-            Intent intent = new Intent(activity, FragmentContainerActivity.class);
-            activity.startActivity(intent);
-            super.onPostExecute(aBoolean);
-        } else if(mode.equals("dish")){
-            super.onPostExecute(aBoolean);
+                Intent intent = new Intent(activity, FragmentContainerActivity.class);
+                activity.startActivity(intent);
+                super.onPostExecute(aBoolean);
+            } else if (mode.equals("dish")) {
+                super.onPostExecute(aBoolean);
+            }
         }
     }
 
     @Override
-    protected Boolean doInBackground(String... strings) {
+    protected Boolean doInBackground(String... strings)  {
 
         String Mode = strings[0];
         String result;
 
         Log.v("myMode",Mode);
-        switch (Mode) {
-            case "restaurant":
-                mode = "restaurant";
-                restaurantEditor.clearProxy();       //clear the proxy
-                longitude = strings[1];
-                //longitude =  String.valueOf(-79.9436244);
-                latitude = strings[2];
-                //latitude =  String.valueOf(40.4409227);
-                distance = strings[3];
-                //distance =  String.valueOf(10);
-                result = searchRestaurant(Mode);
-                Log.v("Search", result);
-                saveRestaurants(result);
-                break;
-            case "dish":
-                mode = "dish";
-                restaurantName = strings[1];
-                result = searchDishes(restaurantName);
-                Log.v("Search", result);
-                saveDish(result);
-                break;
-            default:
-                mode = "restaurant";
-                restaurantEditor.clearProxy();
-                result = searchRestaurant(" ");
-                Log.v("Search", result);
-                saveRestaurants(result);
-                break;
+        try {
+            switch (Mode) {
+                case "restaurant":
+                    mode = "restaurant";
+                    restaurantEditor.clearProxy();       //clear the proxy
+                    longitude = strings[1];
+                    //longitude =  String.valueOf(-79.9436244);
+                    latitude = strings[2];
+                    //latitude =  String.valueOf(40.4409227);
+                    distance = strings[3];
+                    //distance =  String.valueOf(10);
+                    result = searchRestaurant(Mode);
+                    Log.v("Search", result);
+                    saveRestaurants(result);
+                    break;
+                case "dish":
+                    mode = "dish";
+                    restaurantName = strings[1];
+                    result = searchDishes(restaurantName);
+                    Log.v("Search", result);
+                    saveDish(result);
+                    break;
+                default:
+                    mode = "restaurant";
+                    restaurantEditor.clearProxy();
+                    result = searchRestaurant(" ");
+                    Log.v("Search", result);
+                    saveRestaurants(result);
+                    break;
+            }
+        } catch( SearchException e ) {
+            searchError = true;
         }
         return null;
     }
 
+    /* search restaurants */
     private String searchRestaurant(String mode) {
         String url;
         StringBuilder builder = new StringBuilder();
@@ -148,7 +172,8 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
         return resp;
     }
 
-    private void saveRestaurants(String result) {
+    /* save restaurants into proxy */
+    private void saveRestaurants(String result) throws SearchException  {
         try {
             JSONTokener tokener = new JSONTokener(result);
             JSONObject responseObject = (JSONObject) tokener.nextValue();
@@ -160,10 +185,11 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
                 Log.v("rating", restaurant.getString("rating"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SearchException("Search Failed", activity);
         }
     }
 
+    /* search dishes */
     private String searchDishes(String restaurantName) {
         String url;
         StringBuilder builder = new StringBuilder();
@@ -194,7 +220,8 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
         return builder.toString();
     }
 
-    private void saveDish(String result) {
+    /* save dishes into proxy */
+    private void saveDish(String result)  throws SearchException {
         ArrayList<Dish> dishes = new ArrayList<>();
         try {
             JSONTokener tokener = new JSONTokener(result);
@@ -215,7 +242,7 @@ public class SearchProgress extends AsyncTask<String, Void, Boolean> {
             }
             dishesEditor.setDishList(restaurantName,dishes);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SearchException("Search Failed", activity);
         }
     }
 }

@@ -25,7 +25,7 @@ public class DishInfoFragment extends Fragment{
     TextView comment;
     TextView restName;
 
-    Dish dish;
+    Dish dish;      //the dish that is now visiting
     String restaurantName;
 
     @Nullable
@@ -40,7 +40,6 @@ public class DishInfoFragment extends Fragment{
         /* Set the restaurant information */
         restName.setText(restaurantName);
         info.setText(dish.getName() + "\r\n" + "$" + dish.getPrice());
-        comment.setText("Good dish");
 
         /* Set up the go for check-out button */
         checkButton = (Button)v.findViewById(R.id.addToCart);
@@ -53,6 +52,7 @@ public class DishInfoFragment extends Fragment{
                 checkout();
             }
         });
+        comment.setText("Good dish");
         return v;
     }
 

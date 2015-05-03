@@ -1,8 +1,15 @@
+/*
+* PlaceOrderProcess, a process thread to upload the order to server
+* user_id, dish_id, dish_quantity, latitude, longitude
+* a deliveryman id is returned.
+* This process will start user map activity automatically
+* */
 package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.intents.IntentToUserMap;
@@ -27,9 +34,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sam on 5/1/2015.
- */
 public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
 
     int deliverymanID;
@@ -57,7 +61,6 @@ public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
 
             // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
-            Log.v("place order", "success");
 
             StringBuilder builder = new StringBuilder();
             HttpEntity entity = response.getEntity();
@@ -87,9 +90,10 @@ public class PlaceOrderProcess extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         activity.finish();
         User.setDeliverymanID(deliverymanID);
+        Toast.makeText(activity,"deliveryman: " + String.valueOf(deliverymanID),Toast.LENGTH_LONG).show();
         IntentToUserMap intent = new IntentToUserMap(activity);
         //intent.putExtra("deliverymanID",deliverymanID);
-        Log.v("PlaceOrderProcess xiao", String.valueOf(deliverymanID));
+        //Log.v("PlaceOrderProcess xiao", String.valueOf(deliverymanID));
         activity.startActivity(intent);
     }
 }

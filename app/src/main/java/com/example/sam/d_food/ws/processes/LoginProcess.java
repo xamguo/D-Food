@@ -1,3 +1,10 @@
+/*
+* LoginProcess, a process thread to login and get user id
+* mode - user or deliveryman
+* user_name
+* user_password
+* this process will close the login page automatically
+* */
 package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
@@ -5,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.sam.d_food.exceptionHandler.LoginException;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.main_page.HomePageActivity;
@@ -55,11 +63,6 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost("http://guoxiao113.oicp.net/D_Food_Server/login?");
         try {
-            // Add your data
-            //Log.v("params[0]", params[0]);
-            //Log.v("params[1]", params[1]);
-            //Log.v("params[2]", params[2]);
-
             mode = params[0];
             userName = params[1];
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
@@ -102,22 +105,27 @@ public class LoginProcess extends AsyncTask<String, Void, Integer> {
         }
 
         User.setId(result);
+        try {
+            if (userID != -1) {
+                User.setName(userName);
 
-        if(userID != -1) {
-            User.setName(userName);
-
-            if (mode.equals("user")) {
-                HomePageActivity.isDeliveryman = false;
-                UserTypeService.setUserType("Signed user");
-                Intent intent = new Intent(activity, UserHomePageActivity.class);
-                activity.startActivity(intent);
-            } else if (mode.equals("deliveryman")) {
-                UserTypeService.setUserType("deliveryman");
-                HomePageActivity.isDeliveryman = true;
-                Intent intent = new Intent(activity, DeliveryHomePageActivity.class);
-                activity.startActivity(intent);
+                if (mode.equals("user")) {
+                    HomePageActivity.isDeliveryman = false;
+                    UserTypeService.setUserType("Signed user");
+                    Intent intent = new Intent(activity, UserHomePageActivity.class);
+                    activity.startActivity(intent);
+                } else if (mode.equals("deliveryman")) {
+                    UserTypeService.setUserType("deliveryman");
+                    HomePageActivity.isDeliveryman = true;
+                    Intent intent = new Intent(activity, DeliveryHomePageActivity.class);
+                    activity.startActivity(intent);
+                }
+                activity.finish();
+            } else {
+                throw new LoginException("failed login", activity);
             }
-            activity.finish();
+        } catch (Exception e) {
+            User.setId(-1);
         }
     }
 

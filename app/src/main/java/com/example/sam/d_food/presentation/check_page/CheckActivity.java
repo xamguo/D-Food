@@ -1,3 +1,6 @@
+/*
+* Activity to show the orders and order prices
+* */
 package com.example.sam.d_food.presentation.check_page;
 
 import android.app.Activity;
@@ -12,6 +15,7 @@ import android.widget.SimpleAdapter;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.user.CartBuilder;
 import com.example.sam.d_food.entities.user.CartEditor;
+import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.ws.processes.PlaceOrderProcess;
 
 import java.util.ArrayList;
@@ -22,14 +26,20 @@ import java.util.Map;
 
 public class CheckActivity extends Activity {
 
-    ListView listView;
-    Button checkoutButton;
-    int userID = 1;
+    ListView listView;      //The list to show orders
+    Button checkoutButton; //button to check out
+    int userID;             //user id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_check);
+
+        /* user id detection */
+        userID = User.getId();
+        if(userID == -1) {
+            userID = 123;
+        }
 
         /* Set the check-out list */
         listView = (ListView)findViewById(R.id.checklistView);
@@ -50,7 +60,7 @@ public class CheckActivity extends Activity {
 
     /* Get the order info */
     private List<Map<String, String>> getCheckData() {
-        CartEditor cartEditor = new CartBuilder();
+        CartEditor cartEditor = new CartBuilder();  //use cart to get the stored items
         List<Map<String, String>> list = new ArrayList<>();
         if(cartEditor.getOrderNum() != 0) {
             Map<String, String> map_total = new HashMap<>();

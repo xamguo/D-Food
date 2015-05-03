@@ -1,3 +1,7 @@
+/*
+* GetTasksProcess, a process thread to get the tasks of given deliveryman
+* Only id is needed.
+* */
 package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;

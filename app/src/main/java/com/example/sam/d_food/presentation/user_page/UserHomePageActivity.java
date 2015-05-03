@@ -1,3 +1,4 @@
+/* User home activity, just a guide page */
 package com.example.sam.d_food.presentation.user_page;
 
 import android.app.Activity;

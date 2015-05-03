@@ -1,3 +1,4 @@
+/* This process is to upload the deliveryman location to server */
 package com.example.sam.d_food.ws.processes;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -15,9 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Weiwei on 5/2/2015.
- */
 public class ShareLocationProcess {
     LatLng location;
     public ShareLocationProcess(LatLng loc) {
@@ -41,9 +39,9 @@ public class ShareLocationProcess {
             // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
         } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
+
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+
         }
     }
 }

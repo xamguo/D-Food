@@ -1,3 +1,4 @@
+/* dish list fragment to show the dishes */
 package com.example.sam.d_food.presentation.main_flow_pages;
 
 import android.app.FragmentManager;
@@ -17,7 +18,7 @@ import com.example.sam.d_food.presentation.main_flow_pages.adapters.CustomDishAr
 
 public class DishListFragment extends ListFragment
 {
-    private int restaurantIndex;
+    private int restaurantIndex;    //index to which restaurant is now seeing
     DishesEditor dishesEditor;
     RestaurantEditor restaurantEditor;
 
@@ -39,7 +40,6 @@ public class DishListFragment extends ListFragment
         setListAdapter(new CustomDishArrayAdapter(getActivity(), dishesEditor.getDishList(restaurantIndex)));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {

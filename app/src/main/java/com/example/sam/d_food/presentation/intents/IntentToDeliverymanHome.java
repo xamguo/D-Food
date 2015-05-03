@@ -1,3 +1,4 @@
+/* intent to deliveryman home page */
 package com.example.sam.d_food.presentation.intents;
 
 import android.app.Activity;

@@ -1,3 +1,10 @@
+/*
+* RegisterProcess, a process thread to register and get user id
+* mode - user or deliveryman
+* user_name
+* user_password
+* this process will close the register page automatically
+* */
 package com.example.sam.d_food.ws.processes;
 
 import android.app.Activity;
@@ -5,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.sam.d_food.exceptionHandler.RegisterException;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.deliveryman_page.DeliveryHomePageActivity;
 import com.example.sam.d_food.presentation.user_page.UserHomePageActivity;
@@ -29,9 +37,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sam on 5/1/2015.
- */
 public class RegisterProcess extends AsyncTask<String, Void, Integer> {
     Integer userID;
     String userName;
@@ -102,19 +107,25 @@ public class RegisterProcess extends AsyncTask<String, Void, Integer> {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-
-        User.setId(userID);
-        if(userID != -1) {
-            User.setName(userName);
-            if (mode.equals("user")) {
-                Intent intent = new Intent(activity, UserHomePageActivity.class);
-                activity.startActivity(intent);
-            } else if (mode.equals("deliveryman")) {
-                Intent intent = new Intent(activity, DeliveryHomePageActivity.class);
-                activity.startActivity(intent);
+        try {
+            User.setId(userID);
+            if (userID > 0) {
+                User.setName(userName);
+                if (mode.equals("user")) {
+                    Intent intent = new Intent(activity, UserHomePageActivity.class);
+                    activity.startActivity(intent);
+                } else if (mode.equals("deliveryman")) {
+                    Intent intent = new Intent(activity, DeliveryHomePageActivity.class);
+                    activity.startActivity(intent);
+                }
+                activity.finish();
+            } else if (userID == -2) {
+                throw new RegisterException("The user name is already taken", activity);
+            } else {
+                throw new RegisterException("Regiter Failed", activity);
             }
-            activity.finish();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
 }

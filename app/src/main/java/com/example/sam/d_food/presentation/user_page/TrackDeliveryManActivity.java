@@ -1,3 +1,8 @@
+/*
+* Track deliveryman activity - this activity is to show the deliveryman's location
+* to user. The user can get real time location of deliveryman through server in
+* every 4 seconds.
+* */
 package com.example.sam.d_food.presentation.user_page;
 
 import android.app.Activity;
@@ -21,9 +26,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.sam.d_food.ExceptionHandler.DownloadDataException;
-import com.example.sam.d_food.ExceptionHandler.GPSServiceException;
-import com.example.sam.d_food.ExceptionHandler.WiFiServiceException;
+import com.example.sam.d_food.exceptionHandler.DownloadDataException;
+import com.example.sam.d_food.exceptionHandler.GPSServiceException;
+import com.example.sam.d_food.exceptionHandler.WiFiServiceException;
 import com.example.sam.d_food.R;
 import com.example.sam.d_food.entities.user.User;
 import com.example.sam.d_food.presentation.user_page.json_parser.DirectionsJSONParser;
@@ -576,7 +581,6 @@ public class TrackDeliveryManActivity extends Activity {
                 lineOptions.width(10);
                 lineOptions.color(Color.parseColor("#FF419AFF"));
             }
-
             // Drawing polyline in the Google Map for the i-th route
             map.addPolyline(lineOptions);
         }
